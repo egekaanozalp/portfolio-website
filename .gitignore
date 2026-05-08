@@ -1,0 +1,12 @@
+venv/
+__pycache__/
+*.pyc
+*.pyo
+db.sqlite3
+.env
+staticfiles/
+media/
+*.log
+.DS_Store
+frontend/assets/vendor/
+images_hidden/

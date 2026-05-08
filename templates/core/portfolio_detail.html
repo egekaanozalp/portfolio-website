@@ -1,0 +1,47 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>{{ project.title }} - Portfolio</title>
+
+  <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+  <link href="{% static 'vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet">
+  <link href="{% static 'css/main.css' %}" rel="stylesheet">
+</head>
+<body>
+
+  <main class="main">
+    <section class="portfolio-details section">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8">
+            <img src="{{ project.image.url }}" class="img-fluid" alt="{{ project.title }}">
+          </div>
+          <div class="col-lg-4">
+            <div class="portfolio-info">
+              <h3>Project Information</h3>
+              <ul>
+                <li><strong>Category:</strong> {{ project.category }}</li>
+                {% if project.url %}
+                <li><strong>Project URL:</strong> <a href="{{ project.url }}" target="_blank">{{ project.url }}</a></li>
+                {% endif %}
+              </ul>
+            </div>
+            <div class="portfolio-description">
+              <h2>{{ project.title }}</h2>
+              <p>{{ project.description }}</p>
+            </div>
+            <a href="{% url 'home' %}#portfolio" class="btn btn-primary mt-3">
+              <i class="bi bi-arrow-left"></i> Back to Portfolio
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+</body>
+</html>
