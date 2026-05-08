@@ -166,6 +166,15 @@
         { yMin: -2, yMax: -1, color: '#e86040' },
       ],
     },
+    // Purple planet — lower left
+    {
+      xf: 0.25, yf: 0.82, r: 8,
+      colors: { light: '#d4a8ff', mid: '#7c3abf', dark: '#2e0d5c' },
+      bands: [
+        { yMin: -3, yMax: -2, color: '#b07aee' },
+        { yMin:  2, yMax:  4, color: '#5a1fa0' },
+      ],
+    },
   ];
 
   let planetImages = [];
@@ -187,8 +196,8 @@
   // ── Galaxies ───────────────────────────────────────────────────────────────
 
   const GALAXY_DEFS = [
-    { xf: 0.50, yf: 0.28, arms: 3, dots: 75, maxR: 28, hue: 210, tilt: 0.5 },
-    { xf: 0.68, yf: 0.78, arms: 2, dots: 48, maxR: 17, hue: 270, tilt: 1.1 },
+    { xf: 0.50, yf: 0.1, arms: 3, dots: 75, maxR: 28, hue: 210, tilt: 0.5 },
+    { xf: 0.58, yf: 0.78, arms: 2, dots: 48, maxR: 17, hue: 270, tilt: 1.1 },
   ];
 
   let galaxyImg = null;
@@ -262,6 +271,54 @@
     nebulaImg = oc;
   }
 
+  // ── Shooting Stars ─────────────────────────────────────────────────────────
+
+  let shootingStars = [];
+  let nextSpawnAt = 2;
+
+  function spawnShootingStar() {
+    const x = Math.random() * vW * 0.85;
+    const y = Math.random() * vH * 0.35;
+    const angle = 0.35 + Math.random() * 0.35;
+    const speed = 5 + Math.random() * 5;
+    shootingStars.push({
+      x, y,
+      vx: Math.cos(angle) * speed,
+      vy: Math.sin(angle) * speed,
+      trailLen: 9 + Math.floor(Math.random() * 7),
+      life: 0,
+      maxLife: 0.7 + Math.random() * 0.6,
+    });
+    nextSpawnAt = animT + 4 + Math.random() * 4;
+  }
+
+  function drawShootingStars() {
+    if (animT >= nextSpawnAt) spawnShootingStar();
+
+    for (let i = shootingStars.length - 1; i >= 0; i--) {
+      const s = shootingStars[i];
+      s.life += 0.016;
+      s.x += s.vx * 0.016;
+      s.y += s.vy * 0.016;
+
+      const fade = Math.max(0, 1 - s.life / s.maxLife);
+      const mag  = Math.hypot(s.vx, s.vy);
+      const nx = s.vx / mag;
+      const ny = s.vy / mag;
+
+      for (let t = 0; t < s.trailLen; t++) {
+        const a = fade * (1 - t / s.trailLen);
+        if (a < 0.02) break;
+        ctx.fillStyle = `rgba(255,255,220,${a.toFixed(2)})`;
+        ctx.fillRect(Math.round(s.x - nx * t) * PX, Math.round(s.y - ny * t) * PX, PX, PX);
+      }
+
+      if (s.life >= s.maxLife || s.x >= vW || s.y >= vH) {
+        shootingStars.splice(i, 1);
+      }
+    }
+  }
+
   // ── Render loop ────────────────────────────────────────────────────────────
 
   let animT = 0;
@@ -273,6 +330,7 @@
     if (galaxyImg)  ctx.drawImage(galaxyImg, 0, 0);
     drawStars(animT);
     drawPlanets();
+    drawShootingStars();
     animT += 0.016;
     rafId = requestAnimationFrame(draw);
   }
@@ -283,6 +341,8 @@
     H  = canvas.height = canvas.offsetHeight;
     vW = Math.ceil(W / PX);
     vH = Math.ceil(H / PX);
+    shootingStars = [];
+    nextSpawnAt   = animT + 2;
     initStars();
     buildPlanets();
     buildGalaxies();

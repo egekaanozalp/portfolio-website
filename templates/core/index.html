@@ -65,6 +65,26 @@
     <section id="home" class="hero section">
       <canvas id="space-canvas"></canvas>
 
+      <div class="bh-space-wrap">
+        <canvas class="bh-space-img" id="bh-img-canvas" data-src="{% static 'img/bh-final.png' %}"></canvas>
+      </div>
+      <script>
+        (function () {
+          var ic = document.getElementById('bh-img-canvas');
+          if (!ic) return;
+          var ictx = ic.getContext('2d');
+          ictx.imageSmoothingEnabled = false;
+          var img = new Image();
+          img.onload = function () {
+            var vsize = 26;
+            ic.width  = vsize;
+            ic.height = Math.round(vsize * img.naturalHeight / img.naturalWidth);
+            ictx.drawImage(img, 0, 0, ic.width, ic.height);
+          };
+          img.src = ic.dataset.src;
+        })();
+      </script>
+
       <div class="hero-content">
         <div class="container">
           <div class="row justify-content-center">
