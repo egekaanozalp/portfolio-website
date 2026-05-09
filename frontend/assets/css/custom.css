@@ -1,0 +1,250 @@
+/* ================================================================
+   HERO — neural-network redesign overrides
+   ================================================================ */
+
+/* Dark stage */
+.hero {
+  background: #08080f !important;
+  overflow: hidden;
+}
+
+/* Kill the default floating circles */
+.hero .background-elements {
+  display: none !important;
+}
+
+/* ── Neural-network canvas ────────────────────────────────────── */
+.nn-canvas-wrap {
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 62%;
+  height: 100%;
+  z-index: 1;
+  pointer-events: none;
+  /* Vignette: radial fade so the NN bleeds into the dark background */
+  -webkit-mask-image: radial-gradient(
+    ellipse 90% 82% at 58% 50%,
+    rgba(255,255,255,1)  10%,
+    rgba(255,255,255,0)  72%
+  );
+  mask-image: radial-gradient(
+    ellipse 90% 82% at 58% 50%,
+    rgba(255,255,255,1)  10%,
+    rgba(255,255,255,0)  72%
+  );
+}
+
+#nn-canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* ── Hero content sits above canvas ──────────────────────────── */
+.hero .hero-content {
+  position: relative;
+  z-index: 2;
+}
+
+/* ── Typography ──────────────────────────────────────────────── */
+
+/* h1 = home.title → small monospace eyebrow */
+.hero .hero-text h1 {
+  font-family: 'Courier New', 'Courier', monospace !important;
+  font-size: 0.80rem !important;
+  font-weight: 400 !important;
+  letter-spacing: 0.18em !important;
+  text-transform: uppercase !important;
+  color: #7c3aed !important;
+  margin-bottom: 1.1rem !important;
+  line-height: 1 !important;
+}
+
+/* Disable the underline pseudo-element on h1 accent-text */
+.hero .hero-text h1 .accent-text::after {
+  display: none !important;
+}
+
+/* h2 = home.name → large bold white heading */
+.hero .hero-text h2 {
+  font-size: clamp(2rem, 4.5vw, 3.4rem) !important;
+  font-weight: 700 !important;
+  color: #ffffff !important;
+  margin-bottom: 0.55rem !important;
+  line-height: 1.15 !important;
+  letter-spacing: -0.01em !important;
+}
+
+.hero .hero-text .lead {
+  font-size: 1.05rem !important;
+  color: rgba(255, 255, 255, 0.65) !important;
+  margin-bottom: 1rem !important;
+}
+
+.hero .hero-text .lead span {
+  color: #a78bfa !important;
+  font-weight: 600 !important;
+}
+
+.hero .hero-text .description {
+  font-size: 0.93rem !important;
+  color: rgba(255, 255, 255, 0.45) !important;
+  line-height: 1.75 !important;
+  max-width: 430px;
+  margin-bottom: 2rem !important;
+}
+
+/* ── CTA buttons ──────────────────────────────────────────────── */
+.hero .hero-actions .btn.btn-primary {
+  background: #7c3aed !important;
+  border-color: #7c3aed !important;
+  color: #fff !important;
+}
+
+.hero .hero-actions .btn.btn-primary:hover {
+  background: #6d28d9 !important;
+  border-color: #6d28d9 !important;
+}
+
+.hero .hero-actions .btn.btn-outline {
+  border-color: rgba(124, 58, 237, 0.55) !important;
+  color: #a78bfa !important;
+  background: transparent !important;
+}
+
+.hero .hero-actions .btn.btn-outline:hover {
+  background: rgba(124, 58, 237, 0.15) !important;
+  border-color: #7c3aed !important;
+  color: #fff !important;
+}
+
+/* ── Social links ─────────────────────────────────────────────── */
+.hero .social-links a {
+  border-color: rgba(124, 58, 237, 0.4) !important;
+  color: #a78bfa !important;
+}
+
+.hero .social-links a:hover {
+  background: #7c3aed !important;
+  border-color: #7c3aed !important;
+  color: #fff !important;
+}
+
+/* ── Navbar ───────────────────────────────────────────────────── */
+
+/* Remove card background */
+.header .header-container {
+  background: transparent !important;
+  border: none !important;
+}
+
+/* Stack circles vertically with a gap */
+.navmenu ul {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 10px !important;
+  padding: 0 !important;
+  list-style: none !important;
+  margin: 0 !important;
+}
+
+/* Base link: vibrant circle */
+.navmenu a,
+.navmenu a:focus {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  min-width: 46px !important;   /* force square — equal min/max = circle */
+  max-width: 46px !important;
+  width: 46px !important;
+  height: 46px !important;
+  padding: 0 !important;
+  border-radius: 50% !important;
+  overflow: hidden !important;
+  white-space: nowrap !important;
+  text-decoration: none !important;
+  transition:
+    max-width     0.35s cubic-bezier(0.4, 0, 0.2, 1),
+    width         0.35s cubic-bezier(0.4, 0, 0.2, 1),
+    border-radius 0.35s ease,
+    padding       0.35s ease,
+    background    0.25s ease !important;
+}
+
+/* Icon — visible by default */
+.navmenu a .navicon {
+  font-size: 1.05rem !important;
+  color: #fff !important;
+  flex-shrink: 0 !important;
+  margin: 0 !important;
+  transition: opacity 0.15s ease !important;
+}
+
+/* Label — hidden by default */
+.navmenu a .nav-label {
+  max-width: 0 !important;
+  opacity: 0 !important;
+  overflow: hidden !important;
+  white-space: nowrap !important;
+  font-size: 0.82rem !important;
+  font-weight: 500 !important;
+  color: #fff !important;
+  letter-spacing: 0.05em !important;
+  transition: max-width 0.3s ease, opacity 0.2s ease 0.12s !important;
+}
+
+/* Hover: expand to pill, hide icon, show label */
+.navmenu a:hover,
+.navmenu a:focus:hover {
+  width: 140px !important;
+  max-width: 160px !important;
+  min-width: unset !important;
+  padding: 0 20px !important;
+  border-radius: 23px !important;
+  background: rgba(8, 8, 20, 0.88) !important;
+  color: #fff !important;
+}
+
+.navmenu a:hover .navicon {
+  opacity: 0 !important;
+  /* collapses instantly so there's no overlap with the label */
+  max-width: 0 !important;
+  overflow: hidden !important;
+}
+
+.navmenu a:hover .nav-label {
+  max-width: 130px !important;
+  opacity: 1 !important;
+}
+
+/* Dark → night blue → vibrant purple progression */
+.navmenu ul li:nth-child(1) a { background: #0d0d2e; box-shadow: 0 0 14px rgba(13,  13,  46,  0.8); }
+.navmenu ul li:nth-child(2) a { background: #162460; box-shadow: 0 0 14px rgba(22,  36,  96,  0.8); }
+.navmenu ul li:nth-child(3) a { background: #1e3a8a; box-shadow: 0 0 14px rgba(30,  58,  138, 0.8); }
+.navmenu ul li:nth-child(4) a { background: #3730a3; box-shadow: 0 0 14px rgba(55,  48,  163, 0.8); }
+.navmenu ul li:nth-child(5) a { background: #5b21b6; box-shadow: 0 0 14px rgba(91,  33,  182, 0.8); }
+.navmenu ul li:nth-child(6) a { background: #7c3aed; box-shadow: 0 0 14px rgba(124, 58,  237, 0.8); }
+
+/* Active state stays as a circle (scrollspy) */
+.navmenu .active,
+.navmenu .active:focus {
+  color: #fff !important;
+}
+
+/* ── Page background — match hero dark so no grey strip shows ── */
+body,
+.index-page {
+  background-color: #08080f !important;
+}
+
+/* ── Responsive ──────────────────────────────────────────────── */
+@media (max-width: 991px) {
+  .nn-canvas-wrap {
+    display: none;   /* hide NN on smaller screens, no room */
+  }
+
+  .hero .hero-text h2 {
+    font-size: 2rem !important;
+  }
+}

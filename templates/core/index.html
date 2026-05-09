@@ -23,6 +23,13 @@
   <link href="{% static 'vendor/swiper/swiper-bundle.min.css' %}" rel="stylesheet">
 
   <link href="{% static 'css/main.css' %}" rel="stylesheet">
+  <link href="{% static 'css/custom.css' %}" rel="stylesheet">
+
+  <script>
+    if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+    if (window.location.hash) history.replaceState(null, '', window.location.pathname);
+    window.addEventListener('load', function () { window.scrollTo(0, 0); });
+  </script>
 </head>
 
 <body class="index-page">
@@ -33,22 +40,15 @@
     <div class="header-container d-flex flex-column align-items-start">
       <nav id="navmenu" class="navmenu">
         <ul>
-          <li><a href="#hero" class="active"><i class="bi bi-house navicon"></i>Home</a></li>
-          <li><a href="#about"><i class="bi bi-person navicon"></i> About</a></li>
-          <li><a href="#resume"><i class="bi bi-file-earmark-text navicon"></i> Resume</a></li>
-          <li><a href="#portfolio"><i class="bi bi-images navicon"></i> Portfolio</a></li>
-          <li><a href="#services"><i class="bi bi-hdd-stack navicon"></i> Services</a></li>
-          <li><a href="#contact"><i class="bi bi-envelope navicon"></i> Contact</a></li>
+          <li><a href="#hero" class="active"><i class="bi bi-house navicon"></i><span class="nav-label">Home</span></a></li>
+          <li><a href="#about"><i class="bi bi-person navicon"></i><span class="nav-label">About</span></a></li>
+          <li><a href="#resume"><i class="bi bi-file-earmark-text navicon"></i><span class="nav-label">Resume</span></a></li>
+          <li><a href="#portfolio"><i class="bi bi-images navicon"></i><span class="nav-label">Portfolio</span></a></li>
+          <li><a href="#services"><i class="bi bi-hdd-stack navicon"></i><span class="nav-label">Services</span></a></li>
+          <li><a href="#contact"><i class="bi bi-envelope navicon"></i><span class="nav-label">Contact</span></a></li>
         </ul>
       </nav>
 
-      <div class="social-links text-center">
-        {% if home.social_twitter %}<a href="{{ home.social_twitter }}" class="twitter" target="_blank"><i class="bi bi-twitter-x"></i></a>{% endif %}
-        {% if home.social_facebook %}<a href="{{ home.social_facebook }}" class="facebook" target="_blank"><i class="bi bi-facebook"></i></a>{% endif %}
-        {% if home.social_instagram %}<a href="{{ home.social_instagram }}" class="instagram" target="_blank"><i class="bi bi-instagram"></i></a>{% endif %}
-        {% if home.social_linkedin %}<a href="{{ home.social_linkedin }}" class="linkedin" target="_blank"><i class="bi bi-linkedin"></i></a>{% endif %}
-        {% if home.social_github %}<a href="{{ home.social_github }}" class="github" target="_blank"><i class="bi bi-github"></i></a>{% endif %}
-      </div>
     </div>
   </header>
 
@@ -56,18 +56,19 @@
 
     <!-- Hero Section -->
     <section id="hero" class="hero section">
-      <div class="background-elements">
-        <div class="bg-circle circle-1"></div>
-        <div class="bg-circle circle-2"></div>
+
+      <!-- Neural network canvas — absolutely positioned on the right -->
+      <div class="nn-canvas-wrap" aria-hidden="true">
+        <canvas id="nn-canvas"></canvas>
       </div>
 
       <div class="hero-content">
         <div class="container">
-          <div class="row align-items-center">
+          <div class="row align-items-center" style="min-height: 100vh;">
 
             <div class="col-lg-6" data-aos="fade-right" data-aos-delay="100">
               <div class="hero-text">
-                <h1>{{ home.title }}</h1>
+                {% if home.title %}<h1>{{ home.title }}</h1>{% endif %}
                 <h2>{{ home.name }}</h2>
                 <p class="lead">I'm a <span class="typed" data-typed-items="{{ home.typed_items }}"></span></p>
                 <p class="description">{{ home.description }}</p>
@@ -80,19 +81,6 @@
                   {% if home.social_linkedin %}<a href="{{ home.social_linkedin }}" target="_blank"><i class="bi bi-linkedin"></i></a>{% endif %}
                   {% if home.social_twitter %}<a href="{{ home.social_twitter }}" target="_blank"><i class="bi bi-twitter-x"></i></a>{% endif %}
                   {% if home.social_instagram %}<a href="{{ home.social_instagram }}" target="_blank"><i class="bi bi-instagram"></i></a>{% endif %}
-                </div>
-              </div>
-            </div>
-
-            <div class="col-lg-6" data-aos="fade-left" data-aos-delay="200">
-              <div class="hero-visual">
-                <div class="profile-container">
-                  <div class="profile-background"></div>
-                  {% if home.profile_image %}
-                  <img src="{{ home.profile_image.url }}" alt="{{ home.name }}" class="profile-image">
-                  {% else %}
-                  <img src="{% static 'img/profile/profile-2.webp' %}" alt="{{ home.name }}" class="profile-image">
-                  {% endif %}
                 </div>
               </div>
             </div>
@@ -421,6 +409,7 @@
   <script src="{% static 'vendor/glightbox/js/glightbox.min.js' %}"></script>
   <script src="{% static 'vendor/swiper/swiper-bundle.min.js' %}"></script>
   <script src="{% static 'js/main.js' %}"></script>
+  <script src="{% static 'js/hero-fx.js' %}"></script>
 
 </body>
 </html>
