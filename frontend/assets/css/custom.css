@@ -219,6 +219,8 @@
   border-left: 1px solid rgba(255, 255, 255, 0.20);
   border-right: 1px solid rgba(255, 255, 255, 0.08);
   border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  width: 305px;
+  box-sizing: border-box;
   padding: 4px 36px 26px;   /* reduced top — card-head is the top space */
   overflow: hidden;
   box-shadow:
@@ -278,11 +280,192 @@
   z-index: 1;
 }
 
-/* Keep h2 and lead above pseudo-elements */
-.nametag-glass h2,
-.nametag-glass .lead {
+/* Keep card content above pseudo-elements */
+.nametag-glass .card-org-row,
+.nametag-glass .card-identity,
+.nametag-glass .card-divider,
+.nametag-glass .card-fields,
+.nametag-glass .card-footer-row {
   position: relative;
   z-index: 1;
+}
+
+/* ── Card org row ─────────────────────────────────────── */
+.card-org-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 13px;
+}
+
+.card-org-row .nametag-eyebrow {
+  margin-bottom: 0 !important;
+}
+
+.card-chip {
+  font-size: 0.82rem;
+  color: rgba(167, 139, 250, 0.55);
+}
+
+/* ── Identity block ───────────────────────────────────── */
+.card-identity {
+  display: flex;
+  align-items: flex-start;
+  gap: 13px;
+  margin-bottom: 13px;
+}
+
+.card-avatar {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  background: linear-gradient(135deg, rgba(124, 58, 237, 0.35), rgba(6, 182, 212, 0.18));
+  border: 1px solid rgba(167, 139, 250, 0.28);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.35rem;
+  color: rgba(167, 139, 250, 0.85);
+}
+
+.card-name-block {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding-top: 2px;
+  min-width: 0;        /* allow flex child to shrink below content size */
+}
+
+.card-firstname {
+  font-size: 1.10rem;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: -0.01em;
+  line-height: 1.1;
+}
+
+.card-lastname {
+  font-size: 0.72rem;
+  font-weight: 300;
+  color: rgba(255, 255, 255, 0.48);
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  line-height: 1.2;
+  margin-bottom: 5px;
+}
+
+.card-role {
+  font-family: 'Courier New', monospace;
+  font-size: 0.67rem;
+  color: #a78bfa;
+  letter-spacing: 0.04em;
+  display: block;
+  white-space: normal;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  line-height: 1.5;
+  height: 3em;     /* 2 lines × 1.5 line-height — card never jumps */
+  overflow: hidden;
+}
+
+/* ── Thin separator ───────────────────────────────────── */
+.card-divider {
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    rgba(124, 58, 237, 0.45) 0%,
+    rgba(6, 182, 212, 0.22) 60%,
+    transparent 100%
+  );
+  margin-bottom: 11px;
+}
+
+/* ── Data fields ──────────────────────────────────────── */
+.card-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  margin-bottom: 13px;
+}
+
+.card-field {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+
+.field-label {
+  font-family: 'Courier New', monospace;
+  font-size: 0.54rem;
+  font-weight: 400;
+  letter-spacing: 0.16em;
+  color: rgba(167, 139, 250, 0.55);
+  text-transform: uppercase;
+  flex-shrink: 0;
+  min-width: 66px;
+}
+
+.field-value {
+  font-family: 'Courier New', monospace;
+  font-size: 0.67rem;
+  color: rgba(255, 255, 255, 0.72);
+  letter-spacing: 0.02em;
+  word-break: break-all;
+}
+
+.field-id {
+  color: #a78bfa;
+  font-weight: 600;
+}
+
+/* ── Card footer ──────────────────────────────────────── */
+.card-footer-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.card-status {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.status-dot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #4ade80;
+  box-shadow: 0 0 6px #4ade80;
+  animation: status-pulse 2.4s ease-in-out infinite;
+}
+
+.status-label {
+  font-family: 'Courier New', monospace;
+  font-size: 0.57rem;
+  letter-spacing: 0.16em;
+  color: #4ade80;
+  text-transform: uppercase;
+}
+
+@keyframes status-pulse {
+  0%, 100% { opacity: 1;   box-shadow: 0 0 6px #4ade80; }
+  50%        { opacity: 0.6; box-shadow: 0 0 14px #4ade80, 0 0 22px rgba(74, 222, 128, 0.30); }
+}
+
+/* Decorative grid QR */
+.card-qr {
+  width: 34px;
+  height: 34px;
+  background-image:
+    linear-gradient(rgba(167, 139, 250, 0.32) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(167, 139, 250, 0.32) 1px, transparent 1px);
+  background-size: 5.5px 5.5px;
+  border: 1px solid rgba(167, 139, 250, 0.22);
+  border-radius: 3px;
+  opacity: 0.52;
 }
 
 /* ── Blob drift keyframes ──────────────────────────────── */
@@ -457,5 +640,25 @@ body,
 
   .hero .hero-text h2 {
     font-size: 2rem !important;
+  }
+
+  /* Remove the desktop left-shift and tilt so card stays in flow */
+  .nametag-wrap {
+    margin: 0 0 1.4rem 0 !important;
+    transform: none !important;
+    padding: 16px 0 16px 0;
+    display: block;
+  }
+
+  /* Card fills the column width instead of being a fixed 305px */
+  .nametag-glass {
+    width: 100% !important;
+    max-width: 340px;
+    box-sizing: border-box;
+  }
+
+  /* Keep blobs from causing horizontal scroll */
+  .nametag-blob {
+    display: none;
   }
 }

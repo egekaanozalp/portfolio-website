@@ -125,9 +125,48 @@
                       </div>
                       <!-- Coloured divider strip -->
                       <div class="nametag-top-bar" aria-hidden="true"></div>
-                      {% if home.title %}<p class="nametag-eyebrow">{{ home.title }}</p>{% endif %}
-                      <h2>{{ home.name }}</h2>
-                      <p class="lead">I'm a <span class="typed" data-typed-items="{{ home.typed_items }}"></span></p>
+
+                      <!-- Org row: eyebrow label + chip icon -->
+                      <div class="card-org-row">
+                        {% if home.title %}<p class="nametag-eyebrow">{{ home.title }}</p>{% endif %}
+                        <span class="card-chip" aria-hidden="true"><i class="bi bi-cpu-fill"></i></span>
+                      </div>
+
+                      <!-- Identity: avatar + name block -->
+                      <div class="card-identity">
+                        <div class="card-avatar" aria-hidden="true">
+                          <i class="bi bi-person-fill"></i>
+                        </div>
+                        <div class="card-name-block">
+                          <span class="card-firstname">Ege Kaan</span>
+                          <span class="card-lastname">Özalp</span>
+                          <span class="card-role"><span class="typed" data-typed-items="{{ home.typed_items }}"></span></span>
+                        </div>
+                      </div>
+
+                      <!-- Thin separator -->
+                      <div class="card-divider" aria-hidden="true"></div>
+
+                      <!-- Data fields -->
+                      <div class="card-fields">
+                        <div class="card-field">
+                          <span class="field-label">Email</span>
+                          <span class="field-value">ozalp.egekaan@gmail.com</span>
+                        </div>
+                        <div class="card-field">
+                          <span class="field-label">Worker ID</span>
+                          <span class="field-value field-id">#22</span>
+                        </div>
+                      </div>
+
+                      <!-- Footer: live status + decorative QR grid -->
+                      <div class="card-footer-row">
+                        <div class="card-status">
+                          <span class="status-dot" aria-hidden="true"></span>
+                          <span class="status-label">Active</span>
+                        </div>
+                        <div class="card-qr" aria-hidden="true"></div>
+                      </div>
                     </div>
 
                   </div>
