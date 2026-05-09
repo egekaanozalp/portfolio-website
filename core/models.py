@@ -60,6 +60,56 @@ class Project(models.Model):
         return self.title
 
 
+class AboutSection(models.Model):
+    # Profile card (left column)
+    profile_image = models.ImageField(upload_to="about/", blank=True)
+    name = models.CharField(max_length=100, default="Your Name")
+    title = models.CharField(max_length=200, blank=True, default="", help_text="Subtitle shown below name, e.g. 'Creative Director & Developer'")
+    email = models.EmailField(blank=True, default="")
+    phone = models.CharField(max_length=50, blank=True, default="")
+    location = models.CharField(max_length=200, blank=True, default="")
+
+    # Right column content
+    badge_text = models.CharField(max_length=100, blank=True, default="Get to Know Me")
+    heading = models.CharField(max_length=300, blank=True, default="Passionate About Creating Digital Experiences")
+    description = models.TextField(blank=True, default="")
+    resume_url = models.CharField(max_length=200, blank=True, default="#", help_text="Link to downloadable CV/resume file")
+
+    # Stats — leave number blank to hide a stat
+    stat1_number = models.CharField(max_length=20, blank=True, default="")
+    stat1_label = models.CharField(max_length=100, blank=True, default="")
+    stat2_number = models.CharField(max_length=20, blank=True, default="")
+    stat2_label = models.CharField(max_length=100, blank=True, default="")
+    stat3_number = models.CharField(max_length=20, blank=True, default="")
+    stat3_label = models.CharField(max_length=100, blank=True, default="")
+
+    # Detail grid — leave label blank to hide a row
+    detail1_label = models.CharField(max_length=100, blank=True, default="")
+    detail1_value = models.CharField(max_length=200, blank=True, default="")
+    detail2_label = models.CharField(max_length=100, blank=True, default="")
+    detail2_value = models.CharField(max_length=200, blank=True, default="")
+    detail3_label = models.CharField(max_length=100, blank=True, default="")
+    detail3_value = models.CharField(max_length=200, blank=True, default="")
+    detail4_label = models.CharField(max_length=100, blank=True, default="")
+    detail4_value = models.CharField(max_length=200, blank=True, default="")
+
+    class Meta:
+        verbose_name = "About Section"
+        verbose_name_plural = "About Section"
+
+    def __str__(self):
+        return "About Section"
+
+    def save(self, *args, **kwargs):
+        self.pk = 1
+        super().save(*args, **kwargs)
+
+    @classmethod
+    def get(cls):
+        obj, _ = cls.objects.get_or_create(pk=1)
+        return obj
+
+
 class Skill(models.Model):
     name = models.CharField(max_length=100)
     percentage = models.PositiveIntegerField(default=0)

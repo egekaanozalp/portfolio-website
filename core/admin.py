@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.http import HttpResponseRedirect
 from django.urls import reverse
-from .models import HomeSection, Project, Skill, Service
+from .models import HomeSection, AboutSection, Project, Skill, Service
 
 
 @admin.register(HomeSection)
@@ -30,6 +30,47 @@ class HomeSectionAdmin(admin.ModelAdmin):
         obj = HomeSection.get()
         return HttpResponseRedirect(
             reverse("admin:core_homesection_change", args=[obj.pk])
+        )
+
+
+@admin.register(AboutSection)
+class AboutSectionAdmin(admin.ModelAdmin):
+    fieldsets = [
+        ("Profile Card", {
+            "fields": ["profile_image", "name", "title", "email", "phone", "location"],
+        }),
+        ("Content", {
+            "fields": ["badge_text", "heading", "description", "resume_url"],
+        }),
+        ("Stats", {
+            "description": "Leave a number blank to hide that stat.",
+            "fields": [
+                ("stat1_number", "stat1_label"),
+                ("stat2_number", "stat2_label"),
+                ("stat3_number", "stat3_label"),
+            ],
+        }),
+        ("Detail Grid", {
+            "description": "Leave a label blank to hide that row.",
+            "fields": [
+                ("detail1_label", "detail1_value"),
+                ("detail2_label", "detail2_value"),
+                ("detail3_label", "detail3_value"),
+                ("detail4_label", "detail4_value"),
+            ],
+        }),
+    ]
+
+    def has_add_permission(self, request):
+        return not AboutSection.objects.exists()
+
+    def has_delete_permission(self, request, obj=None):
+        return False
+
+    def changelist_view(self, request, extra_context=None):
+        obj = AboutSection.get()
+        return HttpResponseRedirect(
+            reverse("admin:core_aboutsection_change", args=[obj.pk])
         )
 
 

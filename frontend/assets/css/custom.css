@@ -73,6 +73,21 @@
   50%       { transform: translateY(-10px); }
 }
 
+/* ── About detail grid: 2-column layout ──────────────────────────────────── */
+
+.about .details-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem 2rem;
+  margin-bottom: 2.5rem;
+}
+
+@media (max-width: 576px) {
+  .about .details-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 /* ── Hero identity row: avatar + name/typed side by side ─────────────────── */
 
 .hero-identity {
