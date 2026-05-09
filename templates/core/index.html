@@ -68,9 +68,70 @@
 
             <div class="col-lg-6" data-aos="fade-right" data-aos-delay="100">
               <div class="hero-text">
-                {% if home.title %}<h1>{{ home.title }}</h1>{% endif %}
-                <h2>{{ home.name }}</h2>
-                <p class="lead">I'm a <span class="typed" data-typed-items="{{ home.typed_items }}"></span></p>
+                <!-- Glass name-tag -->
+                <div class="nametag-wrap">
+                  <span class="nametag-blob blob-purple" aria-hidden="true"></span>
+                  <span class="nametag-blob blob-cyan"   aria-hidden="true"></span>
+                  <span class="nametag-blob blob-pink"   aria-hidden="true"></span>
+
+                  <div class="nametag-column">
+
+                    <!-- Lanyard rope + metal clasp -->
+                    <div class="lanyard-assembly" aria-hidden="true">
+                      <svg class="lanyard-svg" viewBox="0 0 60 150" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                          <linearGradient id="ld-rope" x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="0%"   stop-color="#c4b5fd" stop-opacity="0.28"/>
+                            <stop offset="100%" stop-color="#6d28d9" stop-opacity="0.94"/>
+                          </linearGradient>
+                          <linearGradient id="ld-metal" x1="0" y1="0" x2="1" y2="1">
+                            <stop offset="0%"   stop-color="#94a3b8"/>
+                            <stop offset="28%"  stop-color="#f1f5f9"/>
+                            <stop offset="52%"  stop-color="#ffffff"/>
+                            <stop offset="76%"  stop-color="#cbd5e1"/>
+                            <stop offset="100%" stop-color="#64748b"/>
+                          </linearGradient>
+                        </defs>
+                        <!-- Rope drop-shadow -->
+                        <path d="M 30,133 C 16,107 45,78 29,50 C 13,23 35,8 28,0"
+                              stroke="rgba(0,0,0,0.38)" stroke-width="6.5" fill="none"
+                              stroke-linecap="round" transform="translate(2,3)"/>
+                        <!-- Main rope — eased S-curve wave -->
+                        <path d="M 30,133 C 16,107 45,78 29,50 C 13,23 35,8 28,0"
+                              stroke="url(#ld-rope)" stroke-width="4.8" fill="none"
+                              stroke-linecap="round"/>
+                        <!-- Rope surface sheen (dashed highlight) -->
+                        <path d="M 31,133 C 17,107 46,78 30,50 C 14,23 36,8 29,0"
+                              stroke="rgba(255,255,255,0.22)" stroke-width="1.6" fill="none"
+                              stroke-linecap="round" stroke-dasharray="5 13"/>
+                        <!-- Clasp shadow -->
+                        <ellipse cx="31.5" cy="139" rx="14.5" ry="9"
+                                 fill="rgba(0,0,0,0.45)" transform="translate(1,2)"/>
+                        <!-- Clasp outer ring -->
+                        <ellipse cx="30" cy="138" rx="14.5" ry="9"
+                                 stroke="url(#ld-metal)" stroke-width="4"
+                                 fill="rgba(12,12,28,0.72)"/>
+                        <!-- Clasp inner sheen -->
+                        <ellipse cx="28.5" cy="136.5" rx="9.5" ry="5.5"
+                                 stroke="rgba(255,255,255,0.32)" stroke-width="1.2" fill="none"/>
+                      </svg>
+                    </div>
+
+                    <!-- Glass card -->
+                    <div class="nametag-glass">
+                      <!-- Empty head area: the clasp visually threads here -->
+                      <div class="card-head" aria-hidden="true">
+                        <div class="card-hole"></div>
+                      </div>
+                      <!-- Coloured divider strip -->
+                      <div class="nametag-top-bar" aria-hidden="true"></div>
+                      {% if home.title %}<p class="nametag-eyebrow">{{ home.title }}</p>{% endif %}
+                      <h2>{{ home.name }}</h2>
+                      <p class="lead">I'm a <span class="typed" data-typed-items="{{ home.typed_items }}"></span></p>
+                    </div>
+
+                  </div>
+                </div>
                 <p class="description">{{ home.description }}</p>
                 <div class="hero-actions">
                   <a href="{{ home.cta_primary_url }}" class="btn btn-primary">{{ home.cta_primary_text }}</a>
