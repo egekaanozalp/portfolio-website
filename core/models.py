@@ -143,9 +143,32 @@ class Project(models.Model):
         return self.title
 
 
+class SkillCategory(models.Model):
+    name = models.CharField(max_length=200)
+    order = models.PositiveIntegerField(default=0)
+
+    class Meta:
+        ordering = ["order"]
+        verbose_name = "Skill Category"
+        verbose_name_plural = "Skill Categories"
+
+    def __str__(self):
+        return self.name
+
+
+RATING_CHOICES = [(i, str(i)) for i in range(1, 6)]
+
+
 class Skill(models.Model):
+    category = models.ForeignKey(
+        SkillCategory,
+        on_delete=models.CASCADE,
+        related_name="skills",
+        null=True,
+        blank=True,
+    )
     name = models.CharField(max_length=100)
-    percentage = models.PositiveIntegerField(default=0)
+    rating = models.PositiveSmallIntegerField(default=3, choices=RATING_CHOICES)
     order = models.PositiveIntegerField(default=0)
 
     class Meta:
