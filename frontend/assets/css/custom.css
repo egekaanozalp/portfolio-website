@@ -686,6 +686,12 @@
     width: calc(100% + 330px) !important;
     padding-left: 330px !important;
   }
+
+  .resume.section {
+    margin-left: -330px !important;
+    width: calc(100% + 330px) !important;
+    padding-left: 330px !important;
+  }
 }
 
 .navmenu ul {
@@ -1184,9 +1190,153 @@ body,
   }
 }
 
+/* ── Resume redesign ─────────────────────────────────────────── */
+
+/* Glass card per section */
+.resume .resume-section {
+  background: rgba(11, 7, 22, 0.55) !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  border: 1px solid rgba(124, 58, 237, 0.15) !important;
+  border-radius: 1rem !important;
+  padding: 1.75rem 2rem !important;
+  margin-bottom: 1.5rem !important;
+  position: relative !important;
+  overflow: hidden !important;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease !important;
+}
+
+.resume .resume-section:hover {
+  border-color: rgba(124, 58, 237, 0.32) !important;
+  box-shadow: 0 0 32px rgba(124, 58, 237, 0.08) !important;
+}
+
+/* Top accent shimmer line */
+.resume .resume-section::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(124, 58, 237, 0.7) 50%, transparent);
+  pointer-events: none;
+}
+
+/* Section heading */
+.resume .resume-section h3 {
+  font-size: 1.15rem !important;
+  font-weight: 700 !important;
+  color: #e8e0ff !important;
+  margin-bottom: 1.25rem !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.875rem !important;
+  letter-spacing: 0.01em !important;
+}
+
+/* Icon badge */
+.resume .resume-section h3 i {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 38px !important;
+  height: 38px !important;
+  border-radius: 10px !important;
+  background: linear-gradient(135deg, rgba(124, 58, 237, 0.28), rgba(99, 102, 241, 0.14)) !important;
+  border: 1px solid rgba(124, 58, 237, 0.42) !important;
+  box-shadow: 0 0 16px rgba(124, 58, 237, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.06) !important;
+  color: #c4b5fd !important;
+  font-size: 0.9rem !important;
+  flex-shrink: 0 !important;
+  margin-right: 0 !important;
+}
+
+/* Duration badge inline with period */
+.resume-duration {
+  display: inline-block;
+  margin-left: 0.5rem;
+  padding: 0.1rem 0.55rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: #a78bfa;
+  background: rgba(124, 58, 237, 0.12);
+  border: 1px solid rgba(124, 58, 237, 0.28);
+  border-radius: 20px;
+  vertical-align: middle;
+  letter-spacing: 0.02em;
+}
+
+/* Institution logo */
+.resume-item-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.875rem;
+  margin-bottom: 0.5rem;
+}
+
+.resume-institution-logo {
+  width: 44px;
+  height: 44px;
+  object-fit: contain;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(124, 58, 237, 0.2);
+  padding: 4px;
+  flex-shrink: 0;
+}
+
+/* Certificate button */
+.resume-cert-btn {
+  display: inline-flex;
+  align-items: center;
+  margin-top: 0.75rem;
+  padding: 0.45rem 1rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #c4b5fd;
+  background: rgba(124, 58, 237, 0.12);
+  border: 1px solid rgba(124, 58, 237, 0.35);
+  border-radius: 6px;
+  text-decoration: none;
+  transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+.resume-cert-btn:hover {
+  background: rgba(124, 58, 237, 0.25);
+  border-color: rgba(124, 58, 237, 0.65);
+  color: #fff;
+}
+
+/* Divider + column spacing */
+@media (min-width: 992px) {
+  .resume-left-col {
+    position: relative;
+    padding-right: 2.5rem !important;
+  }
+
+  .resume-left-col::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 4%;
+    bottom: 4%;
+    width: 1px;
+    background: linear-gradient(to bottom,
+      transparent,
+      rgba(124, 58, 237, 0.55) 15%,
+      rgba(124, 58, 237, 0.55) 85%,
+      transparent);
+    box-shadow: 0 0 10px rgba(124, 58, 237, 0.28);
+  }
+
+  .resume-right-col {
+    padding-left: 2.5rem !important;
+  }
+}
+
 /* ── Section backgrounds — keep everything on the same dark stage */
 .about.section,
-.skills.section {
+.skills.section,
+.resume.section {
   background-color: #08080f !important;
 }
 
@@ -1268,18 +1418,8 @@ body,
   background: linear-gradient(135deg, #c4b5fd, #7c3aed);
   border-color: rgba(167, 139, 250, 0.70);
   box-shadow:
-    0 0 7px rgba(124, 58, 237, 0.75),
-    0 0 16px rgba(124, 58, 237, 0.35);
-  animation: dot-pulse 2.4s ease-in-out infinite;
-}
-
-@keyframes dot-pulse {
-  0%, 100% {
-    box-shadow: 0 0 7px rgba(124, 58, 237, 0.75), 0 0 16px rgba(124, 58, 237, 0.35);
-  }
-  50% {
-    box-shadow: 0 0 12px rgba(167, 139, 250, 0.95), 0 0 26px rgba(124, 58, 237, 0.55);
-  }
+    0 0 12px rgba(167, 139, 250, 0.95),
+    0 0 26px rgba(124, 58, 237, 0.55);
 }
 
 /* ── Hero bottom fade — masks the hard overflow:hidden clip edge */

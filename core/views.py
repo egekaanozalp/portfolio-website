@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
 from django.core.mail import send_mail
 from django.conf import settings
-from .models import HomeSection, AboutSection, Project, Skill, SkillCategory, Service
+from .models import HomeSection, AboutSection, Project, Skill, SkillCategory, Service, Experience, Education, Certificate
 
 
 def home(request):
@@ -28,6 +28,9 @@ def home(request):
         "projects": Project.objects.all(),
         "skill_categories": SkillCategory.objects.prefetch_related("skills").all(),
         "services": Service.objects.all(),
+        "experiences": Experience.objects.all(),
+        "educations": Education.objects.all(),
+        "certificates": Certificate.objects.all(),
         "tech_chips": [c.strip() for c in home.tech_chips.split(",") if c.strip()],
     }
     return render(request, "core/index.html", context)

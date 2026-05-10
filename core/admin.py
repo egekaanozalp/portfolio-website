@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.http import HttpResponseRedirect
 from django.urls import reverse
-from .models import HomeSection, AboutSection, Project, Skill, SkillCategory, Service
+from .models import HomeSection, AboutSection, Project, Skill, SkillCategory, Service, Experience, Education, Certificate
 
 
 @admin.register(HomeSection)
@@ -117,3 +117,52 @@ class SkillAdmin(admin.ModelAdmin):
 class ServiceAdmin(admin.ModelAdmin):
     list_display = ["title", "order"]
     list_editable = ["order"]
+
+
+@admin.register(Experience)
+class ExperienceAdmin(admin.ModelAdmin):
+    list_display = ["title", "company", "order"]
+    list_editable = ["order"]
+    fieldsets = [
+        (None, {
+            "fields": ["title", "company", "image", "order"],
+        }),
+        ("Duration", {
+            "description": "Leave End year blank to show 'Present'. Duration is calculated automatically.",
+            "fields": [("start_month", "start_year"), ("end_month", "end_year")],
+        }),
+        ("Description", {
+            "description": "Optional details about the role.",
+            "fields": ["description"],
+        }),
+    ]
+
+
+@admin.register(Education)
+class EducationAdmin(admin.ModelAdmin):
+    list_display = ["degree", "institution", "order"]
+    list_editable = ["order"]
+    fieldsets = [
+        (None, {
+            "fields": ["degree", "institution", "image", "order"],
+        }),
+        ("Duration", {
+            "description": "Leave End year blank to show 'Present'. Duration is calculated automatically.",
+            "fields": [("start_month", "start_year"), ("end_month", "end_year")],
+        }),
+        ("Description", {
+            "description": "Optional notes about the program, thesis, honours, etc.",
+            "fields": ["description"],
+        }),
+    ]
+
+
+@admin.register(Certificate)
+class CertificateAdmin(admin.ModelAdmin):
+    list_display = ["name", "issuer", "order"]
+    list_editable = ["order"]
+    fieldsets = [
+        (None, {
+            "fields": ["name", "issuer", ("issue_month", "issue_year"), "url", "image", "order"],
+        }),
+    ]

@@ -371,48 +371,77 @@
       </div>
 
       <div class="container" data-aos="fade-up" data-aos-delay="100">
-        <div class="row gy-4">
-          <div class="col-lg-4">
-            <div class="resume-side" data-aos="fade-right" data-aos-delay="100">
-              <div class="profile-img mb-4">
-                <img src="{% static 'img/profile/profile-square-2.webp' %}" alt="Profile" class="img-fluid rounded">
-              </div>
-              <h3>Professional Summary</h3>
-              <p>Write your professional summary here.</p>
-
-              <h3 class="mt-4">Contact Information</h3>
-              <ul class="contact-info list-unstyled">
-                <li><i class="bi bi-envelope"></i> your@email.com</li>
-                <li><i class="bi bi-linkedin"></i> linkedin.com/in/yourprofile</li>
-                <li><i class="bi bi-github"></i> github.com/yourusername</li>
-              </ul>
-
-              <div class="skills-animation mt-4">
-                <h3>Technical Skills</h3>
-                {% for skill in skills %}
-                <div class="skill-item">
-                  <div class="d-flex justify-content-between">
-                    <span>{{ skill.name }}</span>
-                    <span>{{ skill.percentage }}%</span>
-                  </div>
-                  <div class="progress">
-                    <div class="progress-bar" role="progressbar" aria-valuenow="{{ skill.percentage }}" aria-valuemin="0" aria-valuemax="100"></div>
+        <div class="row gy-4 resume-columns">
+          <!-- Left: Experience -->
+          <div class="col-lg-6 resume-left-col">
+            <div class="resume-section" data-aos="fade-up">
+              <h3><i class="bi bi-briefcase me-2"></i>Professional Experience</h3>
+              {% for exp in experiences %}
+              <div class="resume-item">
+                <div class="resume-item-header">
+                  {% if exp.image %}
+                  <img src="{{ exp.image.url }}" alt="{{ exp.company }}" class="resume-institution-logo">
+                  {% endif %}
+                  <div>
+                    <h4>{{ exp.title }}</h4>
+                    <h5>{{ exp.period }} <span class="resume-duration">{{ exp.duration }}</span></h5>
+                    <p class="company"><i class="bi bi-building"></i> {{ exp.company }}</p>
                   </div>
                 </div>
-                {% endfor %}
+                {% if exp.description %}<p>{{ exp.description }}</p>{% endif %}
               </div>
+              {% empty %}
+              <p class="text-muted">Add your experience via the admin panel.</p>
+              {% endfor %}
             </div>
           </div>
 
-          <div class="col-lg-8 ps-4 ps-lg-5">
+          <!-- Right: Education + Certificates -->
+          <div class="col-lg-6 resume-right-col">
             <div class="resume-section" data-aos="fade-up">
-              <h3><i class="bi bi-briefcase me-2"></i>Professional Experience</h3>
-              <p class="text-muted">Add your experience via the admin panel or edit this template.</p>
+              <h3><i class="bi bi-mortarboard me-2"></i>Education</h3>
+              {% for edu in educations %}
+              <div class="resume-item">
+                <div class="resume-item-header">
+                  {% if edu.image %}
+                  <img src="{{ edu.image.url }}" alt="{{ edu.institution }}" class="resume-institution-logo">
+                  {% endif %}
+                  <div>
+                    <h4>{{ edu.degree }}</h4>
+                    <h5>{{ edu.period }} <span class="resume-duration">{{ edu.duration }}</span></h5>
+                    <p class="company"><i class="bi bi-building"></i> {{ edu.institution }}</p>
+                  </div>
+                </div>
+                {% if edu.description %}<p>{{ edu.description }}</p>{% endif %}
+              </div>
+              {% empty %}
+              <p class="text-muted">Add your education via the admin panel.</p>
+              {% endfor %}
             </div>
 
-            <div class="resume-section" data-aos="fade-up" data-aos-delay="100">
-              <h3><i class="bi bi-mortarboard me-2"></i>Education</h3>
-              <p class="text-muted">Add your education here.</p>
+            <div class="resume-section mt-4" data-aos="fade-up" data-aos-delay="100">
+              <h3><i class="bi bi-award me-2"></i>Certificates</h3>
+              {% for cert in certificates %}
+              <div class="resume-item">
+                <div class="resume-item-header">
+                  {% if cert.image %}
+                  <img src="{{ cert.image.url }}" alt="{{ cert.issuer }}" class="resume-institution-logo">
+                  {% endif %}
+                  <div>
+                    <h4>{{ cert.name }}</h4>
+                    <h5>{{ cert.date }}</h5>
+                    <p class="company"><i class="bi bi-building"></i> {{ cert.issuer }}</p>
+                  </div>
+                </div>
+                {% if cert.url %}
+                <a href="{{ cert.url }}" target="_blank" rel="noopener" class="resume-cert-btn">
+                  <i class="bi bi-box-arrow-up-right me-2"></i>View Certificate
+                </a>
+                {% endif %}
+              </div>
+              {% empty %}
+              <p class="text-muted">Add your certificates via the admin panel.</p>
+              {% endfor %}
             </div>
           </div>
         </div>

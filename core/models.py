@@ -1,4 +1,33 @@
+import datetime
 from django.db import models
+
+MONTH_CHOICES = [
+    (1, 'January'), (2, 'February'), (3, 'March'), (4, 'April'),
+    (5, 'May'), (6, 'June'), (7, 'July'), (8, 'August'),
+    (9, 'September'), (10, 'October'), (11, 'November'), (12, 'December'),
+]
+_MONTH_ABBR = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+               'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+
+def _current_year():
+    return datetime.date.today().year
+
+def _fmt_month_year(month, year):
+    return f"{_MONTH_ABBR[month - 1]} {year}"
+
+def _calc_duration(start_year, start_month, end_year, end_month):
+    start = datetime.date(start_year, start_month, 1)
+    end = datetime.date(end_year, end_month, 1) if (end_year and end_month) else datetime.date.today()
+    total_months = (end.year - start.year) * 12 + (end.month - start.month) + 1
+    if total_months < 1:
+        return "< 1 mo"
+    years, months = divmod(total_months, 12)
+    parts = []
+    if years:
+        parts.append(f"{years} yr{'s' if years > 1 else ''}")
+    if months:
+        parts.append(f"{months} mo")
+    return " · ".join(parts)
 
 
 class HomeSection(models.Model):
@@ -189,5 +218,87 @@ class Service(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class Experience(models.Model):
+    title = models.CharField(max_length=200, help_text="e.g. Software Engineer")
+    company = models.CharField(max_length=200)
+    start_month = models.PositiveSmallIntegerField(choices=MONTH_CHOICES, default=1, verbose_name="Start month")
+    start_year = models.PositiveIntegerField(default=_current_year, verbose_name="Start year")
+    end_month = models.PositiveSmallIntegerField(choices=MONTH_CHOICES, null=True, blank=True, verbose_name="End month")
+    end_year = models.PositiveIntegerField(null=True, blank=True, verbose_name="End year", help_text="Leave blank for 'Present'")
+    description = models.TextField(blank=True, default="")
+    image = models.ImageField(upload_to="resume/experience/", blank=True)
+    order = models.PositiveIntegerField(default=0)
+
+    @property
+    def period(self):
+        start = _fmt_month_year(self.start_month, self.start_year)
+        end = _fmt_month_year(self.end_month, self.end_year) if (self.end_year and self.end_month) else "Present"
+        return f"{start} – {end}"
+
+    @property
+    def duration(self):
+        return _calc_duration(self.start_year, self.start_month, self.end_year, self.end_month)
+
+    class Meta:
+        ordering = ["order"]
+        verbose_name = "Experience"
+        verbose_name_plural = "Experience"
+
+    def __str__(self):
+        return f"{self.title} @ {self.company}"
+
+
+class Education(models.Model):
+    degree = models.CharField(max_length=200, help_text="e.g. B.Sc. Computer Science")
+    institution = models.CharField(max_length=200)
+    start_month = models.PositiveSmallIntegerField(choices=MONTH_CHOICES, default=9, verbose_name="Start month")
+    start_year = models.PositiveIntegerField(default=_current_year, verbose_name="Start year")
+    end_month = models.PositiveSmallIntegerField(choices=MONTH_CHOICES, null=True, blank=True, verbose_name="End month")
+    end_year = models.PositiveIntegerField(null=True, blank=True, verbose_name="End year", help_text="Leave blank for 'Present'")
+    description = models.TextField(blank=True, default="")
+    image = models.ImageField(upload_to="resume/education/", blank=True)
+    order = models.PositiveIntegerField(default=0)
+
+    @property
+    def period(self):
+        start = _fmt_month_year(self.start_month, self.start_year)
+        end = _fmt_month_year(self.end_month, self.end_year) if (self.end_year and self.end_month) else "Present"
+        return f"{start} – {end}"
+
+    @property
+    def duration(self):
+        return _calc_duration(self.start_year, self.start_month, self.end_year, self.end_month)
+
+    class Meta:
+        ordering = ["order"]
+        verbose_name = "Education"
+        verbose_name_plural = "Education"
+
+    def __str__(self):
+        return f"{self.degree} – {self.institution}"
+
+
+class Certificate(models.Model):
+    name = models.CharField(max_length=200)
+    issuer = models.CharField(max_length=200)
+    issue_month = models.PositiveSmallIntegerField(choices=MONTH_CHOICES, default=1, verbose_name="Issue month")
+    issue_year = models.PositiveIntegerField(default=_current_year, verbose_name="Issue year")
+    url = models.URLField(blank=True, help_text="Link to the certificate (optional)")
+    image = models.ImageField(upload_to="resume/certificates/", blank=True)
+    order = models.PositiveIntegerField(default=0)
+
+    @property
+    def date(self):
+        return _fmt_month_year(self.issue_month, self.issue_year)
+
+    class Meta:
+        ordering = ["order"]
+        verbose_name = "Certificate"
+        verbose_name_plural = "Certificates"
+
+    def __str__(self):
+        return f"{self.name} – {self.issuer}"
 
 
