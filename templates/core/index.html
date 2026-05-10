@@ -247,6 +247,15 @@
                   </a>
                   {% endif %}
                 </div>
+
+                {% if home.social_github or home.social_linkedin or home.social_twitter or home.social_instagram %}
+                <div class="profile-socials">
+                  {% if home.social_github %}<a href="{{ home.social_github }}" target="_blank" rel="noopener"><i class="bi bi-github"></i></a>{% endif %}
+                  {% if home.social_linkedin %}<a href="{{ home.social_linkedin }}" target="_blank" rel="noopener"><i class="bi bi-linkedin"></i></a>{% endif %}
+                  {% if home.social_twitter %}<a href="{{ home.social_twitter }}" target="_blank" rel="noopener"><i class="bi bi-twitter-x"></i></a>{% endif %}
+                  {% if home.social_instagram %}<a href="{{ home.social_instagram }}" target="_blank" rel="noopener"><i class="bi bi-instagram"></i></a>{% endif %}
+                </div>
+                {% endif %}
               </div>
             </div>
           </div>
