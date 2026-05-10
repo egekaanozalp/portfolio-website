@@ -59,6 +59,74 @@ class HomeSection(models.Model):
         return obj
 
 
+class AboutSection(models.Model):
+    # Profile card
+    profile_image = models.ImageField(upload_to="about/", blank=True)
+    name = models.CharField(max_length=100, blank=True, default="")
+    title = models.CharField(max_length=100, blank=True, default="", verbose_name="Title / Role")
+    email = models.EmailField(blank=True, default="")
+    phone = models.CharField(max_length=30, blank=True, default="")
+    location = models.CharField(max_length=100, blank=True, default="")
+
+    # About text
+    badge_text = models.CharField(max_length=60, blank=True, default="Get to Know Me")
+    heading = models.CharField(max_length=200, blank=True, default="")
+    description = models.TextField(blank=True, default="")
+
+    # Stats — leave number blank to hide
+    stat1_number = models.CharField(max_length=20, blank=True, default="", verbose_name="Stat 1 number", help_text="e.g. 10+")
+    stat1_label  = models.CharField(max_length=50,  blank=True, default="", verbose_name="Stat 1 label",  help_text="e.g. Projects Completed")
+    stat2_number = models.CharField(max_length=20, blank=True, default="", verbose_name="Stat 2 number")
+    stat2_label  = models.CharField(max_length=50,  blank=True, default="", verbose_name="Stat 2 label")
+    stat3_number = models.CharField(max_length=20, blank=True, default="", verbose_name="Stat 3 number")
+    stat3_label  = models.CharField(max_length=50,  blank=True, default="", verbose_name="Stat 3 label")
+
+    # Info grid — up to 6 custom label/value pairs; leave both blank to hide a row
+    info1_label = models.CharField(max_length=100, blank=True, default="", verbose_name="Item 1 label")
+    info1_value = models.CharField(max_length=200, blank=True, default="", verbose_name="Item 1 value")
+    info2_label = models.CharField(max_length=100, blank=True, default="", verbose_name="Item 2 label")
+    info2_value = models.CharField(max_length=200, blank=True, default="", verbose_name="Item 2 value")
+    info3_label = models.CharField(max_length=100, blank=True, default="", verbose_name="Item 3 label")
+    info3_value = models.CharField(max_length=200, blank=True, default="", verbose_name="Item 3 value")
+    info4_label = models.CharField(max_length=100, blank=True, default="", verbose_name="Item 4 label")
+    info4_value = models.CharField(max_length=200, blank=True, default="", verbose_name="Item 4 value")
+    info5_label = models.CharField(max_length=100, blank=True, default="", verbose_name="Item 5 label")
+    info5_value = models.CharField(max_length=200, blank=True, default="", verbose_name="Item 5 value")
+    info6_label = models.CharField(max_length=100, blank=True, default="", verbose_name="Item 6 label")
+    info6_value = models.CharField(max_length=200, blank=True, default="", verbose_name="Item 6 value")
+
+    @property
+    def info_items(self):
+        pairs = [
+            (self.info1_label, self.info1_value),
+            (self.info2_label, self.info2_value),
+            (self.info3_label, self.info3_value),
+            (self.info4_label, self.info4_value),
+            (self.info5_label, self.info5_value),
+            (self.info6_label, self.info6_value),
+        ]
+        return [(l, v) for l, v in pairs if l and v]
+
+    # Resume download
+    resume_url = models.CharField(max_length=200, blank=True, default="#", verbose_name="Resume URL", help_text="URL or path to downloadable resume file")
+
+    class Meta:
+        verbose_name = "About Section"
+        verbose_name_plural = "About Section"
+
+    def __str__(self):
+        return "About Section"
+
+    def save(self, *args, **kwargs):
+        self.pk = 1
+        super().save(*args, **kwargs)
+
+    @classmethod
+    def get(cls):
+        obj, _ = cls.objects.get_or_create(pk=1)
+        return obj
+
+
 class Project(models.Model):
     title = models.CharField(max_length=200)
     description = models.TextField()

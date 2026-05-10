@@ -736,11 +736,12 @@
 }
 
 .navmenu ul li:nth-child(1) a { background: #0d0d2e; box-shadow: 0 0 14px rgba(13,  13,  46,  0.8); }
-.navmenu ul li:nth-child(2) a { background: #162460; box-shadow: 0 0 14px rgba(22,  36,  96,  0.8); }
-.navmenu ul li:nth-child(3) a { background: #1e3a8a; box-shadow: 0 0 14px rgba(30,  58, 138,  0.8); }
-.navmenu ul li:nth-child(4) a { background: #3730a3; box-shadow: 0 0 14px rgba(55,  48, 163,  0.8); }
-.navmenu ul li:nth-child(5) a { background: #5b21b6; box-shadow: 0 0 14px rgba(91,  33, 182,  0.8); }
-.navmenu ul li:nth-child(6) a { background: #7c3aed; box-shadow: 0 0 14px rgba(124, 58, 237,  0.8); }
+.navmenu ul li:nth-child(2) a { background: #111245; box-shadow: 0 0 14px rgba(17,  18,  69,  0.8); }
+.navmenu ul li:nth-child(3) a { background: #162460; box-shadow: 0 0 14px rgba(22,  36,  96,  0.8); }
+.navmenu ul li:nth-child(4) a { background: #1e3a8a; box-shadow: 0 0 14px rgba(30,  58, 138,  0.8); }
+.navmenu ul li:nth-child(5) a { background: #3730a3; box-shadow: 0 0 14px rgba(55,  48, 163,  0.8); }
+.navmenu ul li:nth-child(6) a { background: #5b21b6; box-shadow: 0 0 14px rgba(91,  33, 182,  0.8); }
+.navmenu ul li:nth-child(7) a { background: #7c3aed; box-shadow: 0 0 14px rgba(124, 58, 237,  0.8); }
 
 .navmenu .active,
 .navmenu .active:focus {
@@ -751,6 +752,250 @@
 body,
 .index-page {
   background-color: #08080f !important;
+}
+
+/* ── About section — ambient atmosphere ──────────────────────── */
+.about.section {
+  position: relative;
+  overflow: hidden;
+}
+
+.about.section::before {
+  content: '';
+  position: absolute;
+  top: -120px;
+  right: -60px;
+  width: 520px;
+  height: 520px;
+  background: radial-gradient(circle, rgba(109, 40, 217, 0.07) 0%, transparent 65%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── Profile card — glassmorphism panel ──────────────────────── */
+.about .profile-card {
+  background: rgba(11, 7, 22, 0.78) !important;
+  backdrop-filter: blur(28px) !important;
+  -webkit-backdrop-filter: blur(28px) !important;
+  border: 1px solid rgba(124, 58, 237, 0.24) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.05),
+    0 0 70px rgba(124, 58, 237, 0.10),
+    0 32px 64px rgba(0, 0, 0, 0.50) !important;
+}
+
+.about .profile-card::before {
+  content: '' !important;
+  position: absolute !important;
+  top: -90px !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  width: 300px !important;
+  height: 300px !important;
+  background: radial-gradient(circle, rgba(124, 58, 237, 0.16) 0%, transparent 65%) !important;
+  pointer-events: none !important;
+  z-index: 0 !important;
+}
+
+/* Profile image — glowing ring */
+.about .profile-header .profile-image {
+  box-shadow:
+    0 0 0 3px rgba(124, 58, 237, 0.35),
+    0 0 32px rgba(124, 58, 237, 0.22) !important;
+}
+
+/* Verified badge — purple glow */
+.about .profile-header .profile-badge {
+  background: linear-gradient(135deg, #7c3aed, #5b21b6) !important;
+  border-color: rgba(12, 8, 24, 0.9) !important;
+  box-shadow: 0 0 14px rgba(124, 58, 237, 0.55) !important;
+}
+
+/* ── Contact pills (email / phone / location) ─────────────────── */
+.about .contact-links .contact-item {
+  background: rgba(124, 58, 237, 0.07) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  border: 1px solid rgba(124, 58, 237, 0.22) !important;
+  border-radius: 12px !important;
+  color: rgba(210, 195, 255, 0.85) !important;
+  transition: all 0.25s ease !important;
+  position: relative !important;
+  overflow: hidden !important;
+}
+
+.about .contact-links .contact-item::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(120deg, rgba(124, 58, 237, 0.13) 0%, rgba(99, 102, 241, 0.06) 100%);
+  opacity: 0;
+  transition: opacity 0.25s ease;
+  pointer-events: none;
+}
+
+.about .contact-links .contact-item:hover {
+  border-color: rgba(124, 58, 237, 0.50) !important;
+  box-shadow: 0 0 24px rgba(124, 58, 237, 0.24), 0 4px 18px rgba(0, 0, 0, 0.35) !important;
+  transform: translateY(-2px) !important;
+  color: #fff !important;
+  background: rgba(124, 58, 237, 0.13) !important;
+}
+
+.about .contact-links .contact-item:hover::after {
+  opacity: 1;
+}
+
+.about .contact-links .contact-item i {
+  color: #a78bfa !important;
+  flex-shrink: 0;
+}
+
+/* ── Stats glass panel ───────────────────────────────────────── */
+.about .stats-grid {
+  background: rgba(11, 7, 22, 0.65) !important;
+  backdrop-filter: blur(22px) !important;
+  -webkit-backdrop-filter: blur(22px) !important;
+  border: 1px solid rgba(124, 58, 237, 0.22) !important;
+  border-radius: 1.25rem !important;
+  padding: 1.6rem 2rem !important;
+  box-shadow:
+    0 0 48px rgba(124, 58, 237, 0.09),
+    0 16px 48px rgba(0, 0, 0, 0.40) !important;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Top edge glow line */
+.about .stats-grid::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    rgba(124, 58, 237, 0.80) 25%,
+    rgba(99, 102, 241, 0.55) 65%,
+    transparent 100%);
+  pointer-events: none;
+}
+
+/* Bottom ambient bloom */
+.about .stats-grid::after {
+  content: '';
+  position: absolute;
+  bottom: -50px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 55%;
+  height: 90px;
+  background: radial-gradient(ellipse, rgba(124, 58, 237, 0.13) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+/* Vertical divider between stat items */
+.about .stats-grid .stat-item {
+  position: relative;
+}
+
+.about .stats-grid .stat-item:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  right: 0; top: 12%; bottom: 12%;
+  width: 1px;
+  background: linear-gradient(to bottom,
+    transparent,
+    rgba(124, 58, 237, 0.40),
+    transparent);
+}
+
+/* Gradient numbers with glow */
+.about .stats-grid .stat-item .stat-number {
+  background: linear-gradient(135deg, #ddd6fe 0%, #a78bfa 45%, #7c3aed 100%) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  background-clip: text !important;
+  filter: drop-shadow(0 0 14px rgba(124, 58, 237, 0.50));
+  font-size: 2.2rem !important;
+  font-weight: 800 !important;
+}
+
+.about .stats-grid .stat-item .stat-label {
+  color: rgba(167, 139, 250, 0.72) !important;
+  font-size: 0.82rem !important;
+  letter-spacing: 0.04em;
+}
+
+/* ── About info grid — glassmorphism enhanced ─────────────────── */
+.about-info-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px 32px;
+  margin-bottom: 1.8rem;
+  padding: 22px 26px;
+  background: rgba(11, 7, 22, 0.58) !important;
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border: 1px solid rgba(124, 58, 237, 0.22) !important;
+  border-radius: 14px;
+  box-shadow: 0 0 32px rgba(124, 58, 237, 0.07), 0 8px 32px rgba(0, 0, 0, 0.28);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Top edge glow line on info grid */
+.about-info-grid::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(124, 58, 237, 0.55), transparent);
+  pointer-events: none;
+}
+
+.about-info-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.about-info-item .info-label {
+  font-size: 0.68rem;
+  font-weight: 500;
+  color: rgba(167, 139, 250, 0.65);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
+.about-info-item .info-value {
+  font-size: 0.93rem;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+@media (max-width: 576px) {
+  .about-info-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ── Section backgrounds — keep everything on the same dark stage */
+.about.section,
+.skills.section {
+  background-color: #08080f !important;
+}
+
+/* ── Hero bottom fade — masks the hard overflow:hidden clip edge */
+.hero::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 120px;
+  background: linear-gradient(to bottom, transparent, #08080f);
+  z-index: 1;
+  pointer-events: none;
 }
 
 /* ── Responsive ──────────────────────────────────────────────── */

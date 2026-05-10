@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
 from django.core.mail import send_mail
 from django.conf import settings
-from .models import HomeSection, Project, Skill, Service
+from .models import HomeSection, AboutSection, Project, Skill, Service
 
 
 def home(request):
@@ -24,6 +24,7 @@ def home(request):
     home = HomeSection.get()
     context = {
         "home": home,
+        "about": AboutSection.get(),
         "projects": Project.objects.all(),
         "skills": Skill.objects.all(),
         "services": Service.objects.all(),

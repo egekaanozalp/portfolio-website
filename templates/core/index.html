@@ -42,6 +42,7 @@
         <ul>
           <li><a href="#hero" class="active"><i class="bi bi-house navicon"></i><span class="nav-label">Home</span></a></li>
           <li><a href="#about"><i class="bi bi-person navicon"></i><span class="nav-label">About</span></a></li>
+          <li><a href="#skills"><i class="bi bi-bar-chart-line navicon"></i><span class="nav-label">Skills</span></a></li>
           <li><a href="#resume"><i class="bi bi-file-earmark-text navicon"></i><span class="nav-label">Resume</span></a></li>
           <li><a href="#portfolio"><i class="bi bi-images navicon"></i><span class="nav-label">Portfolio</span></a></li>
           <li><a href="#services"><i class="bi bi-hdd-stack navicon"></i><span class="nav-label">Services</span></a></li>
@@ -215,24 +216,35 @@
             <div class="profile-card">
               <div class="profile-header">
                 <div class="profile-image">
-                  <img src="{% static 'img/profile/profile-square-3.webp' %}" alt="Profile Image" class="img-fluid">
+                  {% if about.profile_image %}
+                    <img src="{{ about.profile_image.url }}" alt="Profile Image" class="img-fluid">
+                  {% else %}
+                    <img src="{% static 'img/profile/profile-square-3.webp' %}" alt="Profile Image" class="img-fluid">
+                  {% endif %}
                 </div>
-                <div class="profile-badge">
-                  <i class="bi bi-check-circle-fill"></i>
                 </div>
-              </div>
               <div class="profile-content">
-                <h3>Your Name</h3>
-                <p class="profession">Your Title</p>
+                <h3>{{ about.name }}</h3>
+                <p class="profession">{{ about.title }}</p>
                 <div class="contact-links">
-                  <a href="mailto:your@email.com" class="contact-item">
+                  {% if about.email %}
+                  <a href="mailto:{{ about.email }}" class="contact-item">
                     <i class="bi bi-envelope"></i>
-                    your@email.com
+                    {{ about.email }}
                   </a>
+                  {% endif %}
+                  {% if about.phone %}
+                  <a href="tel:{{ about.phone }}" class="contact-item">
+                    <i class="bi bi-telephone"></i>
+                    {{ about.phone }}
+                  </a>
+                  {% endif %}
+                  {% if about.location %}
                   <a href="#" class="contact-item">
                     <i class="bi bi-geo-alt"></i>
-                    Your City, Country
+                    {{ about.location }}
                   </a>
+                  {% endif %}
                 </div>
               </div>
             </div>
@@ -241,27 +253,56 @@
           <div class="col-lg-7" data-aos="fade-left" data-aos-delay="300">
             <div class="about-content">
               <div class="section-header">
-                <span class="badge-text">Get to Know Me</span>
-                <h2>Passionate About Creating Digital Experiences</h2>
+                {% if about.badge_text %}<span class="badge-text">{{ about.badge_text }}</span>{% endif %}
+                {% if about.heading %}<h2>{{ about.heading }}</h2>{% endif %}
               </div>
+              {% if about.description %}
               <div class="description">
-                <p>Write a brief description about yourself here.</p>
+                {{ about.description|linebreaks }}
               </div>
+              {% endif %}
+
+              {% if about.stat1_number or about.stat2_number or about.stat3_number %}
               <div class="stats-grid">
+                {% if about.stat1_number %}
                 <div class="stat-item">
-                  <div class="stat-number">10+</div>
-                  <div class="stat-label">Projects Completed</div>
+                  <div class="stat-number">{{ about.stat1_number }}</div>
+                  <div class="stat-label">{{ about.stat1_label }}</div>
                 </div>
+                {% endif %}
+                {% if about.stat2_number %}
                 <div class="stat-item">
-                  <div class="stat-number">2+</div>
-                  <div class="stat-label">Years Experience</div>
+                  <div class="stat-number">{{ about.stat2_number }}</div>
+                  <div class="stat-label">{{ about.stat2_label }}</div>
                 </div>
+                {% endif %}
+                {% if about.stat3_number %}
+                <div class="stat-item">
+                  <div class="stat-number">{{ about.stat3_number }}</div>
+                  <div class="stat-label">{{ about.stat3_label }}</div>
+                </div>
+                {% endif %}
               </div>
+              {% endif %}
+
+              {% if about.info_items %}
+              <div class="about-info-grid">
+                {% for label, value in about.info_items %}
+                <div class="about-info-item">
+                  <span class="info-label">{{ label }}</span>
+                  <span class="info-value">{{ value }}</span>
+                </div>
+                {% endfor %}
+              </div>
+              {% endif %}
+
               <div class="cta-section">
-                <a href="#" class="btn btn-primary">
+                {% if about.resume_url %}
+                <a href="{{ about.resume_url }}" class="btn btn-primary">
                   <i class="bi bi-download"></i>
                   Download Resume
                 </a>
+                {% endif %}
                 <a href="#contact" class="btn btn-outline">
                   <i class="bi bi-chat-dots"></i>
                   Let's Talk
