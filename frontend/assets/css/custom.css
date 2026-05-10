@@ -662,6 +662,26 @@
   border: none !important;
 }
 
+/* Extend hero + about sections to full viewport width so their canvases
+   and orbs paint behind the fixed sidebar. Content stays in place via
+   padding-left. */
+@media (min-width: 1200px) {
+  .hero.section {
+    margin-left: -330px !important;
+    width: calc(100% + 330px) !important;
+  }
+
+  .hero .hero-content {
+    padding-left: 330px !important;
+  }
+
+  .about.section {
+    margin-left: -330px !important;
+    width: calc(100% + 330px) !important;
+    padding-left: 330px !important;
+  }
+}
+
 .navmenu ul {
   display: flex !important;
   flex-direction: column !important;
@@ -760,7 +780,7 @@ body,
   overflow: hidden;
 }
 
-/* Time-series canvas — concentrated on the profile card column */
+/* Time-series canvas — radial mask centered behind the profile card */
 #about-canvas {
   position: absolute;
   inset: 0;
@@ -769,16 +789,16 @@ body,
   z-index: 0;
   pointer-events: none;
   -webkit-mask-image: radial-gradient(
-    ellipse 48% 85% at 16% 50%,
+    ellipse 32% 65% at 39% 28%,
     rgba(255, 255, 255, 0.95) 0%,
-    rgba(255, 255, 255, 0.50) 50%,
-    rgba(255, 255, 255, 0.00) 75%
+    rgba(255, 255, 255, 0.55) 50%,
+    rgba(255, 255, 255, 0.00) 80%
   );
   mask-image: radial-gradient(
-    ellipse 48% 85% at 16% 50%,
+    ellipse 32% 65% at 39% 28%,
     rgba(255, 255, 255, 0.95) 0%,
-    rgba(255, 255, 255, 0.50) 50%,
-    rgba(255, 255, 255, 0.00) 75%
+    rgba(255, 255, 255, 0.55) 50%,
+    rgba(255, 255, 255, 0.00) 80%
   );
 }
 

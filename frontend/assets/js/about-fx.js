@@ -11,11 +11,11 @@
 
   const series = [
     // main purple line — centered high, moderate amplitude, slow drift
-    { pts: [], offset: 0, speed: 0.38, yFrac: 0.38, amp: 0.22, color: '139, 92, 246', alpha: 0.22, lw: 1.8 },
+    { pts: [], offset: 0, speed: 0.38, yFrac: 0.20, amp: 0.22, color: '139, 92, 246', alpha: 0.34, lw: 1.8 },
     // indigo line — centered low, wide swings, a bit faster
-    { pts: [], offset: 0, speed: 0.55, yFrac: 0.64, amp: 0.18, color: '99, 102, 241',  alpha: 0.13, lw: 1.3 },
+    { pts: [], offset: 0, speed: 0.55, yFrac: 0.36, amp: 0.18, color: '99, 102, 241',  alpha: 0.22, lw: 1.3 },
     // lavender ghost — mid, tiny noise, fastest (creates depth)
-    { pts: [], offset: 0, speed: 0.80, yFrac: 0.50, amp: 0.10, color: '196, 181, 253', alpha: 0.07, lw: 1.0 },
+    { pts: [], offset: 0, speed: 0.80, yFrac: 0.28, amp: 0.10, color: '196, 181, 253', alpha: 0.13, lw: 1.0 },
   ];
 
   /* ── Geometry ──────────────────────────────────────────────── */
