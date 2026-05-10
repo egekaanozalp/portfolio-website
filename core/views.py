@@ -21,11 +21,13 @@ def home(request):
         messages.success(request, "Your message has been sent. Thank you!")
         return redirect("home")
 
+    home = HomeSection.get()
     context = {
-        "home": HomeSection.get(),
+        "home": home,
         "projects": Project.objects.all(),
         "skills": Skill.objects.all(),
         "services": Service.objects.all(),
+        "tech_chips": [c.strip() for c in home.tech_chips.split(",") if c.strip()],
     }
     return render(request, "core/index.html", context)
 

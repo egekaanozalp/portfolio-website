@@ -19,6 +19,21 @@ class HomeSection(models.Model):
     cta_secondary_text = models.CharField(max_length=50, default="Get In Touch")
     cta_secondary_url = models.CharField(max_length=200, default="#contact")
 
+    # ID Badge card fields
+    card_first_name = models.CharField(max_length=100, blank=True, default="", verbose_name="First name")
+    card_last_name = models.CharField(max_length=100, blank=True, default="", verbose_name="Last name")
+    card_role = models.CharField(max_length=100, blank=True, default="", verbose_name="Role / Title", help_text="e.g. Software Engineer")
+    card_email = models.EmailField(blank=True, default="", verbose_name="Contact email")
+
+    # Tech stack chips
+    tech_chips = models.CharField(
+        max_length=500,
+        blank=True,
+        default="",
+        verbose_name="Tech stack chips",
+        help_text="Comma-separated labels shown as tags, e.g. Python,Django,React",
+    )
+
     # Social links (leave blank to hide)
     social_github = models.URLField(blank=True, verbose_name="GitHub URL")
     social_linkedin = models.URLField(blank=True, verbose_name="LinkedIn URL")
@@ -83,3 +98,5 @@ class Service(models.Model):
 
     def __str__(self):
         return self.title
+
+

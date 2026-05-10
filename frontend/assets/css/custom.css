@@ -1,37 +1,36 @@
 /* ================================================================
-   HERO — neural-network redesign overrides
+   HERO — complete redesign
    ================================================================ */
 
-/* Dark stage */
 .hero {
   background: #08080f !important;
-  overflow: visible !important;  /* allow blob glows to bleed beyond the hero boundary */
+  overflow: hidden !important;
+  position: relative;
 }
 
-/* Kill the default floating circles */
 .hero .background-elements {
   display: none !important;
 }
 
-/* ── Neural-network canvas ────────────────────────────────────── */
+/* ── Neural-network canvas — full-viewport ambient texture ─── */
 .nn-canvas-wrap {
   position: absolute;
-  right: 0;
-  top: 0;
-  width: 62%;
+  inset: 0;
+  width: 100%;
   height: 100%;
   z-index: 1;
   pointer-events: none;
-  /* Vignette: radial fade so the NN bleeds into the dark background */
   -webkit-mask-image: radial-gradient(
-    ellipse 90% 82% at 58% 50%,
-    rgba(255,255,255,1)  10%,
-    rgba(255,255,255,0)  72%
+    ellipse 85% 80% at 68% 50%,
+    rgba(255,255,255,0.95) 0%,
+    rgba(255,255,255,0.60) 45%,
+    rgba(255,255,255,0.00) 82%
   );
   mask-image: radial-gradient(
-    ellipse 90% 82% at 58% 50%,
-    rgba(255,255,255,1)  10%,
-    rgba(255,255,255,0)  72%
+    ellipse 85% 80% at 68% 50%,
+    rgba(255,255,255,0.95) 0%,
+    rgba(255,255,255,0.60) 45%,
+    rgba(255,255,255,0.00) 82%
   );
 }
 
@@ -41,74 +40,270 @@
   height: 100%;
 }
 
-/* ── Hero content sits above canvas ──────────────────────────── */
+/* ── Atmospheric ambient glow orbs ───────────────────────────── */
+.hero-ambient {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.ambient-orb {
+  position: absolute;
+  border-radius: 50%;
+}
+
+.orb-1 {
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(109, 40, 217, 0.16) 0%, transparent 68%);
+  top: -150px;
+  right: 5%;
+  animation: orb-drift-a 20s ease-in-out infinite;
+}
+
+.orb-2 {
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(37, 99, 235, 0.11) 0%, transparent 70%);
+  bottom: -80px;
+  right: 28%;
+  animation: orb-drift-b 25s ease-in-out infinite;
+}
+
+.orb-3 {
+  width: 260px;
+  height: 260px;
+  background: radial-gradient(circle, rgba(219, 39, 119, 0.09) 0%, transparent 70%);
+  top: 38%;
+  right: 2%;
+  animation: orb-drift-c 18s ease-in-out infinite;
+}
+
+@keyframes orb-drift-a {
+  0%, 100% { transform: translate(0,    0)   scale(1.00); }
+  33%        { transform: translate(-35px, 45px)  scale(1.10); }
+  66%        { transform: translate(28px, -22px) scale(0.92); }
+}
+@keyframes orb-drift-b {
+  0%, 100% { transform: translate(0,    0)   scale(1.00); }
+  40%        { transform: translate(44px, -32px) scale(1.08); }
+  70%        { transform: translate(-22px, 28px) scale(0.94); }
+}
+@keyframes orb-drift-c {
+  0%, 100% { transform: translate(0,    0)   scale(1.00); }
+  50%        { transform: translate(-28px, -38px) scale(1.14); }
+}
+
+/* ── Hero content sits above canvas ─────────────────────────── */
 .hero .hero-content {
   position: relative;
   z-index: 2;
 }
 
-/* ── Typography ──────────────────────────────────────────────── */
-
-/* h1 = home.title → small monospace eyebrow */
-.hero .hero-text h1 {
-  font-family: 'Courier New', 'Courier', monospace !important;
-  font-size: 0.80rem !important;
-  font-weight: 400 !important;
-  letter-spacing: 0.18em !important;
-  text-transform: uppercase !important;
-  color: #7c3aed !important;
-  margin-bottom: 1.1rem !important;
-  line-height: 1 !important;
+.hero-row {
+  min-height: 100vh;
+  padding: 100px 0 60px;
 }
 
-/* Disable the underline pseudo-element on h1 accent-text */
-.hero .hero-text h1 .accent-text::after {
-  display: none !important;
+/* ── Greeting ────────────────────────────────────────────────── */
+.hero-greeting {
+  font-family: 'Courier New', 'Courier', monospace;
+  font-size: 0.88rem;
+  font-weight: 400;
+  letter-spacing: 0.14em;
+  color: rgba(167, 139, 250, 0.68);
+  margin-bottom: 0.55rem;
+  display: flex;
+  align-items: center;
+  gap: 7px;
 }
 
-/* h2 = home.name → large bold white heading */
-.hero .hero-text h2 {
-  font-size: clamp(2rem, 4.5vw, 3.4rem) !important;
-  font-weight: 700 !important;
-  color: #ffffff !important;
-  margin-bottom: 0.55rem !important;
-  line-height: 1.15 !important;
-  letter-spacing: -0.01em !important;
+.greeting-prompt {
+  color: #7c3aed;
+  font-weight: 700;
+  font-size: 1rem;
 }
 
-.hero .hero-text .lead {
-  font-size: 1.05rem !important;
-  color: rgba(255, 255, 255, 0.65) !important;
-  margin-bottom: 1rem !important;
+/* ── Name ────────────────────────────────────────────────────── */
+.hero-name {
+  font-family: 'Ubuntu', 'Roboto', sans-serif;
+  font-weight: 700;
+  font-size: clamp(3.4rem, 6.5vw, 5.4rem);
+  line-height: 0.97;
+  letter-spacing: -0.03em;
+  margin: 0 0 1.2rem 0;
+  display: flex;
+  flex-direction: column;
 }
 
-.hero .hero-text .lead span {
-  color: #a78bfa !important;
-  font-weight: 600 !important;
+.name-white {
+  color: #ffffff;
 }
 
-.hero .hero-text .description {
-  font-size: 0.93rem !important;
-  color: rgba(255, 255, 255, 0.45) !important;
-  line-height: 1.75 !important;
-  max-width: 430px;
-  margin-bottom: 2rem !important;
+.name-gradient {
+  background: linear-gradient(125deg, #c4b5fd 0%, #a78bfa 35%, #7c3aed 72%, #6d28d9 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
-/* ── Glass name-tag ───────────────────────────────────────────── */
+/* ── Role line ───────────────────────────────────────────────── */
+.hero-role-line {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1.08rem;
+  font-weight: 500;
+  color: #a78bfa;
+  margin-bottom: 1.5rem;
+  letter-spacing: 0.02em;
+  min-height: 1.6em;
+}
 
-/* Outer wrapper — tilted, shifted left, blobs breathe outside */
-.nametag-wrap {
+.role-dash {
+  color: rgba(124, 58, 237, 0.45);
+  font-weight: 300;
+  font-size: 1.3rem;
+  line-height: 1;
+}
+
+/* ── Bio ─────────────────────────────────────────────────────── */
+.hero-bio {
+  font-size: 1.0rem;
+  color: rgba(255, 255, 255, 0.50);
+  line-height: 1.82;
+  max-width: 470px;
+  margin-bottom: 2.4rem;
+}
+
+/* ── CTA buttons ─────────────────────────────────────────────── */
+.hero-actions {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-bottom: 1.5rem;
+  align-items: center;
+}
+
+.btn-hero-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 13px 30px;
+  background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%);
+  color: #fff !important;
+  border: none;
+  border-radius: 10px;
+  font-size: 0.94rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-decoration: none !important;
+  cursor: pointer;
+  transition: transform 0.22s ease, box-shadow 0.22s ease;
+  box-shadow: 0 4px 22px rgba(124, 58, 237, 0.42);
   position: relative;
-  display: inline-block;
-  max-width: 100%;
-  padding: 32px 36px 32px 50px;
-  margin: -32px -36px 1.4rem -80px;   /* extra -80px moves card left */
-  transform: rotate(-6deg);
-  transform-origin: center 72%;
+  overflow: hidden;
 }
 
-/* ── Color blobs (shown through the glass) ───────────── */
+.btn-hero-primary::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.13) 0%, transparent 55%);
+  border-radius: inherit;
+  pointer-events: none;
+}
+
+.btn-hero-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 36px rgba(124, 58, 237, 0.64);
+  color: #fff !important;
+}
+
+.btn-hero-outline {
+  display: inline-flex;
+  align-items: center;
+  padding: 12px 28px;
+  background: rgba(124, 58, 237, 0.06);
+  color: #a78bfa !important;
+  border: 1px solid rgba(124, 58, 237, 0.42);
+  border-radius: 10px;
+  font-size: 0.94rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  text-decoration: none !important;
+  cursor: pointer;
+  transition: all 0.22s ease;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.btn-hero-outline:hover {
+  background: rgba(124, 58, 237, 0.16);
+  border-color: #7c3aed;
+  color: #fff !important;
+  transform: translateY(-2px);
+}
+
+/* ── Social links ────────────────────────────────────────────── */
+.hero .social-links a {
+  border-color: rgba(124, 58, 237, 0.38) !important;
+  color: #a78bfa !important;
+  transition: all 0.2s ease !important;
+}
+
+.hero .social-links a:hover {
+  background: #7c3aed !important;
+  border-color: #7c3aed !important;
+  color: #fff !important;
+  transform: translateY(-2px) !important;
+}
+
+/* ── Tech stack chips ────────────────────────────────────────── */
+.tech-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 1.6rem;
+}
+
+.tech-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 5px 14px;
+  background: rgba(124, 58, 237, 0.07);
+  border: 1px solid rgba(124, 58, 237, 0.26);
+  border-radius: 100px;
+  font-family: 'Courier New', monospace;
+  font-size: 0.71rem;
+  font-weight: 500;
+  color: rgba(167, 139, 250, 0.80);
+  letter-spacing: 0.07em;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  transition: all 0.18s ease;
+  user-select: none;
+}
+
+.tech-chip:hover {
+  background: rgba(124, 58, 237, 0.18);
+  border-color: rgba(124, 58, 237, 0.55);
+  color: #c4b5fd;
+  transform: translateY(-1px);
+}
+
+/* ── Badge scene (right column wrapper) ─────────────────────── */
+.hero-badge-scene {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 60px 40px;
+}
+
+/* ── Color blobs behind the glass card ──────────────────────── */
 .nametag-blob {
   position: absolute;
   border-radius: 50%;
@@ -117,54 +312,57 @@
 }
 
 .blob-purple {
-  width: 220px;
-  height: 220px;
+  width: 280px;
+  height: 280px;
   background: radial-gradient(circle at 40% 40%, #a78bfa, #7c3aed 60%, transparent);
-  filter: blur(50px);
-  top: -20px;
-  left: -40px;
+  filter: blur(58px);
+  top: -10px;
+  left: -10px;
   animation: blob-drift-a 9s ease-in-out infinite;
 }
 
 .blob-cyan {
-  width: 150px;
-  height: 150px;
+  width: 190px;
+  height: 190px;
   background: radial-gradient(circle at 60% 60%, #67e8f9, #2563eb 60%, transparent);
-  filter: blur(32px);
-  bottom: 0px;
-  right: 20px;
+  filter: blur(44px);
+  bottom: 20px;
+  right: 10px;
   animation: blob-drift-b 11s ease-in-out infinite;
 }
 
 .blob-pink {
-  width: 110px;
-  height: 110px;
+  width: 140px;
+  height: 140px;
   background: radial-gradient(circle at 50% 50%, #f9a8d4, #db2777 60%, transparent);
-  filter: blur(28px);
-  top: 30%;
-  right: 10%;
+  filter: blur(32px);
+  top: 42%;
+  right: 2%;
   animation: blob-drift-c 13s ease-in-out infinite;
 }
 
-/* ── Flex column: lanyard above, card below ───────────── */
+/* ── Nametag column: lanyard above card ─────────────────────── */
 .nametag-column {
   display: flex;
   flex-direction: column;
   align-items: center;
   position: relative;
+  z-index: 1;
+  transform: rotate(-5deg);
+  transform-origin: center 65%;
 }
 
-/* ── Lanyard rope + clasp SVG ─────────────────────────── */
+/* ── Lanyard rope + clasp SVG ───────────────────────────────── */
 .lanyard-assembly {
   width: 60px;
   height: 148px;
   flex-shrink: 0;
   position: relative;
-  z-index: 2;               /* sits above the glass card */
-  margin-bottom: -12px;     /* clasp overlaps the card top */
+  z-index: 2;
+  margin-bottom: -12px;
   pointer-events: none;
   animation: rope-sway 5.5s ease-in-out infinite;
-  transform-origin: 50% 100%;  /* pivot at the card attachment point */
+  transform-origin: 50% 100%;
 }
 
 .lanyard-svg {
@@ -179,7 +377,7 @@
   72%        { transform: rotate(-1.8deg); }
 }
 
-/* ── Card head: empty space where the clasp threads through ── */
+/* ── Card head ──────────────────────────────────────────────── */
 .card-head {
   height: 36px;
   display: flex;
@@ -190,7 +388,6 @@
   z-index: 1;
 }
 
-/* The punched hole through the card */
 .card-hole {
   width: 18px;
   height: 22px;
@@ -201,63 +398,56 @@
   box-shadow: inset 0 4px 10px rgba(0, 0, 0, 0.75);
 }
 
-/* ── Glass card ───────────────────────────────────────── */
+/* ── Glass card ─────────────────────────────────────────────── */
 .nametag-glass {
   position: relative;
   z-index: 1;
-  -webkit-backdrop-filter: blur(20px) saturate(190%) brightness(1.05);
-  backdrop-filter: blur(20px) saturate(190%) brightness(1.05);
+  -webkit-backdrop-filter: blur(24px) saturate(200%) brightness(1.06);
+  backdrop-filter: blur(24px) saturate(200%) brightness(1.06);
   background: linear-gradient(
     135deg,
-    rgba(255, 255, 255, 0.16) 0%,
-    rgba(124, 58, 237, 0.07) 45%,
-    rgba(6, 182, 212, 0.05)  80%,
-    rgba(255, 255, 255, 0.10) 100%
+    rgba(255, 255, 255, 0.18) 0%,
+    rgba(124, 58, 237, 0.08) 45%,
+    rgba(6, 182, 212, 0.06)  80%,
+    rgba(255, 255, 255, 0.11) 100%
   );
   border-radius: 22px;
-  border-top: 1px solid rgba(255, 255, 255, 0.35);
-  border-left: 1px solid rgba(255, 255, 255, 0.20);
-  border-right: 1px solid rgba(255, 255, 255, 0.08);
+  border-top:    1px solid rgba(255, 255, 255, 0.38);
+  border-left:   1px solid rgba(255, 255, 255, 0.22);
+  border-right:  1px solid rgba(255, 255, 255, 0.08);
   border-bottom: 1px solid rgba(255, 255, 255, 0.06);
   width: 305px;
   box-sizing: border-box;
-  padding: 4px 36px 26px;   /* reduced top — card-head is the top space */
+  padding: 4px 36px 26px;
   overflow: hidden;
   box-shadow:
-    0 2px 4px  rgba(0, 0, 0, 0.10),
-    0 12px 32px rgba(0, 0, 0, 0.45),
-    0 48px 80px rgba(0, 0, 0, 0.18),
-    inset 0  1px 0 rgba(255, 255, 255, 0.40),
+    0 2px  4px  rgba(0, 0, 0, 0.12),
+    0 12px 32px rgba(0, 0, 0, 0.52),
+    0 48px 80px rgba(0, 0, 0, 0.22),
+    inset 0  1px 0 rgba(255, 255, 255, 0.44),
     inset 1px 0  0 rgba(255, 255, 255, 0.15),
     inset 0 -1px 0 rgba(255, 255, 255, 0.04);
 }
 
-/* Coloured divider strip between card-head and content */
 .nametag-top-bar {
   position: relative;
   height: 3px;
   background: linear-gradient(90deg, #7c3aed 0%, #22d3ee 55%, #f472b6 100%);
-  margin: 0 -36px 18px;    /* stretch edge-to-edge (clipped by overflow:hidden) */
+  margin: 0 -36px 18px;
   border-radius: 0;
 }
 
-/* Upper-half sheen — simulates convex glass surface */
 .nametag-glass::before {
   content: '';
   position: absolute;
   top: 0; left: 0;
   width: 100%;
   height: 52%;
-  background: linear-gradient(
-    180deg,
-    rgba(255, 255, 255, 0.14) 0%,
-    rgba(255, 255, 255, 0.00) 100%
-  );
+  background: linear-gradient(180deg, rgba(255,255,255,0.14) 0%, rgba(255,255,255,0.00) 100%);
   border-radius: 22px 22px 0 0;
   pointer-events: none;
 }
 
-/* Bottom-right purple refraction glow */
 .nametag-glass::after {
   content: '';
   position: absolute;
@@ -267,7 +457,16 @@
   pointer-events: none;
 }
 
-/* Eyebrow label inside the card */
+/* ── Card internals above pseudo-elements ───────────────────── */
+.nametag-glass .card-org-row,
+.nametag-glass .card-identity,
+.nametag-glass .card-divider,
+.nametag-glass .card-fields,
+.nametag-glass .card-footer-row {
+  position: relative;
+  z-index: 1;
+}
+
 .nametag-eyebrow {
   font-family: 'Courier New', monospace !important;
   font-size: 0.70rem !important;
@@ -280,17 +479,6 @@
   z-index: 1;
 }
 
-/* Keep card content above pseudo-elements */
-.nametag-glass .card-org-row,
-.nametag-glass .card-identity,
-.nametag-glass .card-divider,
-.nametag-glass .card-fields,
-.nametag-glass .card-footer-row {
-  position: relative;
-  z-index: 1;
-}
-
-/* ── Card org row ─────────────────────────────────────── */
 .card-org-row {
   display: flex;
   align-items: center;
@@ -298,16 +486,13 @@
   margin-bottom: 13px;
 }
 
-.card-org-row .nametag-eyebrow {
-  margin-bottom: 0 !important;
-}
+.card-org-row .nametag-eyebrow { margin-bottom: 0 !important; }
 
 .card-chip {
   font-size: 0.82rem;
   color: rgba(167, 139, 250, 0.55);
 }
 
-/* ── Identity block ───────────────────────────────────── */
 .card-identity {
   display: flex;
   align-items: flex-start;
@@ -334,7 +519,7 @@
   flex-direction: column;
   gap: 2px;
   padding-top: 2px;
-  min-width: 0;        /* allow flex child to shrink below content size */
+  min-width: 0;
 }
 
 .card-firstname {
@@ -361,27 +546,15 @@
   color: #a78bfa;
   letter-spacing: 0.04em;
   display: block;
-  white-space: normal;
-  word-break: break-word;
-  overflow-wrap: break-word;
   line-height: 1.5;
-  height: 3em;     /* 2 lines × 1.5 line-height — card never jumps */
-  overflow: hidden;
 }
 
-/* ── Thin separator ───────────────────────────────────── */
 .card-divider {
   height: 1px;
-  background: linear-gradient(
-    90deg,
-    rgba(124, 58, 237, 0.45) 0%,
-    rgba(6, 182, 212, 0.22) 60%,
-    transparent 100%
-  );
+  background: linear-gradient(90deg, rgba(124,58,237,0.45) 0%, rgba(6,182,212,0.22) 60%, transparent 100%);
   margin-bottom: 11px;
 }
 
-/* ── Data fields ──────────────────────────────────────── */
 .card-fields {
   display: flex;
   flex-direction: column;
@@ -414,12 +587,6 @@
   word-break: break-all;
 }
 
-.field-id {
-  color: #a78bfa;
-  font-weight: 600;
-}
-
-/* ── Card footer ──────────────────────────────────────── */
 .card-footer-row {
   display: flex;
   align-items: center;
@@ -452,10 +619,9 @@
 
 @keyframes status-pulse {
   0%, 100% { opacity: 1;   box-shadow: 0 0 6px #4ade80; }
-  50%        { opacity: 0.6; box-shadow: 0 0 14px #4ade80, 0 0 22px rgba(74, 222, 128, 0.30); }
+  50%        { opacity: 0.6; box-shadow: 0 0 14px #4ade80, 0 0 22px rgba(74,222,128,0.30); }
 }
 
-/* Decorative grid QR */
 .card-qr {
   width: 34px;
   height: 34px;
@@ -468,72 +634,34 @@
   opacity: 0.52;
 }
 
-/* ── Blob drift keyframes ──────────────────────────────── */
+/* ── Blob drift keyframes ────────────────────────────────────── */
 @keyframes blob-drift-a {
-  0%,  100% { transform: translate(0px,   0px)  scale(1.00); }
-  25%        { transform: translate(14px, -22px) scale(1.08); }
-  50%        { transform: translate(-9px, -12px) scale(0.94); }
-  75%        { transform: translate(18px,  8px)  scale(1.06); }
+  0%,  100% { transform: translate(0px,    0px)  scale(1.00); }
+  25%        { transform: translate(14px, -22px)  scale(1.08); }
+  50%        { transform: translate(-9px, -12px)  scale(0.94); }
+  75%        { transform: translate(18px,   8px)  scale(1.06); }
 }
 
 @keyframes blob-drift-b {
-  0%,  100% { transform: translate(0px,  0px)  scale(1.00); }
+  0%,  100% { transform: translate(0px,   0px)  scale(1.00); }
   30%        { transform: translate(-18px, 16px) scale(1.07); }
   60%        { transform: translate(13px,  22px) scale(0.92); }
   85%        { transform: translate(-7px, -11px) scale(1.04); }
 }
 
 @keyframes blob-drift-c {
-  0%,  100% { transform: translate(0px,   0px)  scale(1.00); }
-  40%        { transform: translate(14px, -20px) scale(1.13); }
-  70%        { transform: translate(-15px, 12px) scale(0.88); }
+  0%,  100% { transform: translate(0px,    0px)  scale(1.00); }
+  40%        { transform: translate(14px,  -20px) scale(1.13); }
+  70%        { transform: translate(-15px,  12px) scale(0.88); }
 }
 
-/* ── CTA buttons ──────────────────────────────────────────────── */
-.hero .hero-actions .btn.btn-primary {
-  background: #7c3aed !important;
-  border-color: #7c3aed !important;
-  color: #fff !important;
-}
+/* ── Navbar ──────────────────────────────────────────────────── */
 
-.hero .hero-actions .btn.btn-primary:hover {
-  background: #6d28d9 !important;
-  border-color: #6d28d9 !important;
-}
-
-.hero .hero-actions .btn.btn-outline {
-  border-color: rgba(124, 58, 237, 0.55) !important;
-  color: #a78bfa !important;
-  background: transparent !important;
-}
-
-.hero .hero-actions .btn.btn-outline:hover {
-  background: rgba(124, 58, 237, 0.15) !important;
-  border-color: #7c3aed !important;
-  color: #fff !important;
-}
-
-/* ── Social links ─────────────────────────────────────────────── */
-.hero .social-links a {
-  border-color: rgba(124, 58, 237, 0.4) !important;
-  color: #a78bfa !important;
-}
-
-.hero .social-links a:hover {
-  background: #7c3aed !important;
-  border-color: #7c3aed !important;
-  color: #fff !important;
-}
-
-/* ── Navbar ───────────────────────────────────────────────────── */
-
-/* Remove card background */
 .header .header-container {
   background: transparent !important;
   border: none !important;
 }
 
-/* Stack circles vertically with a gap */
 .navmenu ul {
   display: flex !important;
   flex-direction: column !important;
@@ -543,13 +671,12 @@
   margin: 0 !important;
 }
 
-/* Base link: vibrant circle */
 .navmenu a,
 .navmenu a:focus {
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
-  min-width: 46px !important;   /* force square — equal min/max = circle */
+  min-width: 46px !important;
   max-width: 46px !important;
   width: 46px !important;
   height: 46px !important;
@@ -566,7 +693,6 @@
     background    0.25s ease !important;
 }
 
-/* Icon — visible by default */
 .navmenu a .navicon {
   font-size: 1.05rem !important;
   color: #fff !important;
@@ -575,7 +701,6 @@
   transition: opacity 0.15s ease !important;
 }
 
-/* Label — hidden by default */
 .navmenu a .nav-label {
   max-width: 0 !important;
   opacity: 0 !important;
@@ -588,7 +713,6 @@
   transition: max-width 0.3s ease, opacity 0.2s ease 0.12s !important;
 }
 
-/* Hover: expand to pill, hide icon, show label */
 .navmenu a:hover,
 .navmenu a:focus:hover {
   width: 140px !important;
@@ -602,7 +726,6 @@
 
 .navmenu a:hover .navicon {
   opacity: 0 !important;
-  /* collapses instantly so there's no overlap with the label */
   max-width: 0 !important;
   overflow: hidden !important;
 }
@@ -612,21 +735,19 @@
   opacity: 1 !important;
 }
 
-/* Dark → night blue → vibrant purple progression */
 .navmenu ul li:nth-child(1) a { background: #0d0d2e; box-shadow: 0 0 14px rgba(13,  13,  46,  0.8); }
 .navmenu ul li:nth-child(2) a { background: #162460; box-shadow: 0 0 14px rgba(22,  36,  96,  0.8); }
-.navmenu ul li:nth-child(3) a { background: #1e3a8a; box-shadow: 0 0 14px rgba(30,  58,  138, 0.8); }
-.navmenu ul li:nth-child(4) a { background: #3730a3; box-shadow: 0 0 14px rgba(55,  48,  163, 0.8); }
-.navmenu ul li:nth-child(5) a { background: #5b21b6; box-shadow: 0 0 14px rgba(91,  33,  182, 0.8); }
-.navmenu ul li:nth-child(6) a { background: #7c3aed; box-shadow: 0 0 14px rgba(124, 58,  237, 0.8); }
+.navmenu ul li:nth-child(3) a { background: #1e3a8a; box-shadow: 0 0 14px rgba(30,  58, 138,  0.8); }
+.navmenu ul li:nth-child(4) a { background: #3730a3; box-shadow: 0 0 14px rgba(55,  48, 163,  0.8); }
+.navmenu ul li:nth-child(5) a { background: #5b21b6; box-shadow: 0 0 14px rgba(91,  33, 182,  0.8); }
+.navmenu ul li:nth-child(6) a { background: #7c3aed; box-shadow: 0 0 14px rgba(124, 58, 237,  0.8); }
 
-/* Active state stays as a circle (scrollspy) */
 .navmenu .active,
 .navmenu .active:focus {
   color: #fff !important;
 }
 
-/* ── Page background — match hero dark so no grey strip shows ── */
+/* ── Page background ─────────────────────────────────────────── */
 body,
 .index-page {
   background-color: #08080f !important;
@@ -635,30 +756,39 @@ body,
 /* ── Responsive ──────────────────────────────────────────────── */
 @media (max-width: 991px) {
   .nn-canvas-wrap {
-    display: none;   /* hide NN on smaller screens, no room */
+    -webkit-mask-image: radial-gradient(ellipse 110% 55% at 50% 25%, rgba(255,255,255,1) 25%, rgba(255,255,255,0) 80%);
+    mask-image: radial-gradient(ellipse 110% 55% at 50% 25%, rgba(255,255,255,1) 25%, rgba(255,255,255,0) 80%);
   }
 
-  .hero .hero-text h2 {
-    font-size: 2rem !important;
+  .hero-row {
+    padding: 80px 0 50px;
   }
 
-  /* Remove the desktop left-shift and tilt so card stays in flow */
-  .nametag-wrap {
-    margin: 0 0 1.4rem 0 !important;
-    transform: none !important;
-    padding: 16px 0 16px 0;
-    display: block;
+  .hero-name {
+    font-size: clamp(2.6rem, 10vw, 3.4rem) !important;
   }
 
-  /* Card fills the column width instead of being a fixed 305px */
-  .nametag-glass {
-    width: 100% !important;
-    max-width: 340px;
-    box-sizing: border-box;
+  .hero-bio {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 576px) {
+  .hero-name {
+    font-size: 2.5rem !important;
   }
 
-  /* Keep blobs from causing horizontal scroll */
-  .nametag-blob {
-    display: none;
+  .hero-bio {
+    font-size: 0.92rem;
+  }
+
+  .btn-hero-primary,
+  .btn-hero-outline {
+    padding: 11px 22px;
+    font-size: 0.88rem;
+  }
+
+  .tech-chips {
+    gap: 6px;
   }
 }

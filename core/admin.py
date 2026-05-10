@@ -10,6 +10,14 @@ class HomeSectionAdmin(admin.ModelAdmin):
         ("Identity", {
             "fields": ["title", "name", "typed_items", "description", "profile_image"],
         }),
+        ("ID Badge Card", {
+            "description": "Content shown on the floating ID card on the right side of the hero.",
+            "fields": ["card_first_name", "card_last_name", "card_role", "card_email"],
+        }),
+        ("Tech Stack Chips", {
+            "description": "Comma-separated labels shown as tags below the hero text, e.g. Python,Django,React",
+            "fields": ["tech_chips"],
+        }),
         ("Call-to-Action Buttons", {
             "fields": ["cta_primary_text", "cta_primary_url", "cta_secondary_text", "cta_secondary_url"],
         }),

@@ -54,44 +54,14 @@
 
   function connectionColor(midX, alphaScale) {
     const t = midX / W;
-    let r, g, b, a;
-
-    if (t < 0.12) {
-      // Left fade: very faint lavender
-      const s = t / 0.12;
-      r = 200; g = 185; b = 255;
-      a = s * 0.30;
-    } else if (t < 0.38) {
-      // Ramp up to vivid purple
-      const s = (t - 0.12) / 0.26;
-      r = Math.round(200 - 95 * s);  // 200 → 105
-      g = Math.round(185 - 150 * s); // 185 → 35
-      b = 255;
-      a = 0.30 + s * 0.40;           // 0.30 → 0.70
-    } else if (t < 0.58) {
-      // Deep purple core
-      const s = (t - 0.38) / 0.20;
-      r = Math.round(105 - 5 * s);   // 105 → 100
-      g = Math.round(35 + 5 * s);    // 35 → 40
-      b = 255;
-      a = 0.70 + s * 0.10;           // 0.70 → 0.80
-    } else if (t < 0.78) {
-      // Purple → warm lavender
-      const s = (t - 0.58) / 0.20;
-      r = Math.round(100 + 125 * s); // 100 → 225
-      g = Math.round(40 + 160 * s);  // 40 → 200
-      b = Math.round(255 - 30 * s);  // 255 → 225
-      a = 0.80 - s * 0.52;           // 0.80 → 0.28
-    } else {
-      // Right fade: cream → transparent
-      const s = (t - 0.78) / 0.22;
-      r = Math.round(225 + 30 * s);  // 225 → 255
-      g = Math.round(200 + 45 * s);  // 200 → 245
-      b = Math.round(225 - 5 * s);   // 225 → 220
-      a = 0.28 * (1 - s);            // 0.28 → 0
-    }
-
-    return rgba(r, g, b, a * alphaScale);
+    // Sine envelope fades naturally at both edges
+    const envelope = Math.pow(Math.sin(t * Math.PI), 0.55);
+    // Peak brightness sits at ~65% from left (badge column area)
+    const dist = Math.abs(t - 0.65);
+    const peak = Math.max(0, 1.0 - dist * 1.6);
+    const intensity = peak * envelope;
+    const a = (0.04 + intensity * 0.48) * alphaScale;
+    return `rgba(139, 92, 246, ${Math.min(1, a)})`;
   }
 
   /* ── Pulse helpers ─────────────────────────────── */
