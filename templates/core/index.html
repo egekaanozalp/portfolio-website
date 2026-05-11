@@ -366,6 +366,11 @@
 
     <!-- Resume Section -->
     <section id="resume" class="resume section">
+      <div class="resume-ambient" aria-hidden="true">
+        <span class="resume-orb resume-orb--1"></span>
+        <span class="resume-orb resume-orb--2"></span>
+        <span class="resume-orb resume-orb--3"></span>
+      </div>
       <div class="container section-title" data-aos="fade-up">
         <h2>Resume</h2>
       </div>
@@ -374,7 +379,7 @@
         <div class="row gy-4 resume-columns">
           <!-- Left: Experience -->
           <div class="col-lg-6 resume-left-col">
-            <div class="resume-section" data-aos="fade-up" data-collapsible>
+            <div class="resume-section" data-aos="fade-up" data-collapsible data-threshold-lg="5">
               <h3><i class="bi bi-briefcase me-2"></i>Professional Experience{% if total_experience %}<span class="resume-total-exp">{{ total_experience }}</span>{% endif %}</h3>
               {% for exp in experiences %}
               <div class="resume-item">
@@ -622,12 +627,22 @@
     (function () {
       const THRESHOLD = 2;
       const autoExpand = window.location.hash === '#resume';
+      const lgMQ = window.matchMedia('(min-width: 992px)');
 
-      document.querySelectorAll('.resume-section[data-collapsible]').forEach(section => {
+      /* ── Collapsible sections ─────────────────────────────────── */
+      function setupCollapsible(section) {
+        // Tear down any previous state before re-initialising
+        const prev = section.querySelector('.resume-show-more');
+        if (prev) prev.remove();
         const items = Array.from(section.querySelectorAll(':scope > .resume-item'));
-        if (items.length <= THRESHOLD) return;
+        items.forEach(el => el.classList.remove('resume-item--hidden'));
+        section.classList.remove('is-expanded');
 
-        items.slice(THRESHOLD).forEach(el => el.classList.add('resume-item--hidden'));
+        const lgAttr = section.dataset.thresholdLg;
+        const threshold = (lgAttr && lgMQ.matches) ? parseInt(lgAttr) : THRESHOLD;
+        if (items.length <= threshold) return;
+
+        items.slice(threshold).forEach(el => el.classList.add('resume-item--hidden'));
 
         const btn = document.createElement('button');
         btn.type = 'button';
@@ -636,12 +651,12 @@
         section.appendChild(btn);
 
         function expand() {
-          items.slice(THRESHOLD).forEach(el => el.classList.remove('resume-item--hidden'));
+          items.slice(threshold).forEach(el => el.classList.remove('resume-item--hidden'));
           btn.innerHTML = `<i class="bi bi-chevron-up"></i> Show less`;
           section.classList.add('is-expanded');
         }
         function collapse() {
-          items.slice(THRESHOLD).forEach(el => el.classList.add('resume-item--hidden'));
+          items.slice(threshold).forEach(el => el.classList.add('resume-item--hidden'));
           btn.innerHTML = `<i class="bi bi-chevron-down"></i> Show all (${items.length})`;
           section.classList.remove('is-expanded');
           if (section.getBoundingClientRect().top < 0) {
@@ -652,7 +667,46 @@
         btn.addEventListener('click', () => section.classList.contains('is-expanded') ? collapse() : expand());
 
         if (autoExpand) expand();
+      }
+
+      const collapsibleSections = document.querySelectorAll('.resume-section[data-collapsible]');
+      collapsibleSections.forEach(setupCollapsible);
+      lgMQ.addEventListener('change', () => collapsibleSections.forEach(setupCollapsible));
+
+      /* ── Staggered entrance + timeline dot trigger ─────────────── */
+      // Mark only visible (non-hidden) items as pending so they start invisible.
+      // Hidden items are display:none anyway, so we leave them untouched.
+      document.querySelectorAll('.resume-section').forEach(section => {
+        section.querySelectorAll(':scope > .resume-item:not(.resume-item--hidden)').forEach(item => {
+          item.classList.add('resume-item--pending');
+        });
       });
+
+      if (window.IntersectionObserver) {
+        const entranceObs = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (!entry.isIntersecting) return;
+            const visible = Array.from(
+              entry.target.querySelectorAll(':scope > .resume-item:not(.resume-item--hidden)')
+            );
+            visible.forEach((item, i) => {
+              setTimeout(() => {
+                item.classList.remove('resume-item--pending');
+                item.classList.add('resume-item--visible');
+              }, i * 90);
+            });
+            entranceObs.unobserve(entry.target);
+          });
+        }, { threshold: 0.08 });
+
+        document.querySelectorAll('.resume-section').forEach(s => entranceObs.observe(s));
+      } else {
+        // Fallback: show everything immediately
+        document.querySelectorAll('.resume-item--pending').forEach(el => {
+          el.classList.remove('resume-item--pending');
+          el.classList.add('resume-item--visible');
+        });
+      }
     })();
   </script>
 
