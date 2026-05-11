@@ -87,22 +87,16 @@ class AboutSectionAdmin(admin.ModelAdmin):
         )
 
 
-class ProjectInline(admin.StackedInline):
+class ProjectInline(admin.TabularInline):
     model = Project
     extra = 0
-    fieldsets = [
-        ("Card", {
-            "fields": ["title", "company", "image", "featured", "status", "order"],
-        }),
-        ("Duration", {
-            "description": "Leave End year blank to show 'Present'.",
-            "fields": [("start_month", "start_year"), ("end_month", "end_year")],
-        }),
-        ("Detail Page", {
-            "classes": ["collapse"],
-            "fields": ["description", "tech_stack", "role", "highlights", "live_url", "github_url"],
-        }),
-    ]
+    fields = ["title", "company", "status", "featured", "order"]
+    readonly_fields = ["title", "company", "status", "featured", "order"]
+    show_change_link = True
+    can_delete = True
+
+    def has_add_permission(self, request, obj=None):
+        return False
 
 
 @admin.register(ProjectCategory)
@@ -110,6 +104,25 @@ class ProjectCategoryAdmin(admin.ModelAdmin):
     list_display = ["name", "order"]
     list_editable = ["order"]
     inlines = [ProjectInline]
+
+
+@admin.register(Project)
+class ProjectAdmin(admin.ModelAdmin):
+    fieldsets = [
+        ("Card", {
+            "fields": ["category", "title", "company", "image", "featured", "status", "order"],
+        }),
+        ("Duration", {
+            "description": "Leave End year blank to show 'Present'.",
+            "fields": [("start_month", "start_year"), ("end_month", "end_year")],
+        }),
+        ("Detail Page", {
+            "fields": ["description", "tech_stack", "role", "highlights", "live_url", "github_url"],
+        }),
+    ]
+    list_display = ["title", "category", "company", "status", "order"]
+    list_filter = ["category", "status"]
+    search_fields = ["title", "company"]
 
 
 class SkillInline(admin.TabularInline):

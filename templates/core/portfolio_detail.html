@@ -205,13 +205,13 @@
                 <span class="pd-icon-badge"><i class="bi bi-lightning-charge-fill"></i></span>
                 Key Highlights
               </h2>
-              <ul class="pd-highlights-list">
-                {% for line in project.highlights.splitlines %}
-                {% if line.strip %}
-                <li>{{ line }}</li>
-                {% endif %}
+              {% with lines=project.highlights.splitlines %}
+              <ul class="pd-highlights-list{% if lines|length < 3 %} pd-highlights-list--single{% endif %}">
+                {% for line in lines %}
+                {% if line.strip %}<li>{{ line }}</li>{% endif %}
                 {% endfor %}
               </ul>
+              {% endwith %}
             </div>
           </div>
         </div>
@@ -226,13 +226,13 @@
                 <span class="pd-icon-badge"><i class="bi bi-file-text-fill"></i></span>
                 About the Project
               </h2>
-              <ul class="pd-highlights-list">
-                {% for line in project.description.splitlines %}
-                {% if line.strip %}
-                <li>{{ line }}</li>
-                {% endif %}
+              {% with lines=project.description.splitlines %}
+              <ul class="pd-highlights-list{% if lines|length < 3 %} pd-highlights-list--single{% endif %}">
+                {% for line in lines %}
+                {% if line.strip %}<li>{{ line }}</li>{% endif %}
                 {% endfor %}
               </ul>
+              {% endwith %}
             </div>
           </div>
         </div>

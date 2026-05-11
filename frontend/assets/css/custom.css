@@ -2394,6 +2394,10 @@ body.pd-page {
   .pd-hero-actions { width: 100%; }
 }
 
+.pd-highlights-list--single {
+  columns: 1 !important;
+}
+
 @media (max-width: 768px) {
   .pd-content-card { padding: 1.5rem 1.25rem; }
   .pd-highlights-list { columns: 1; }

@@ -3,6 +3,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
 from django.core.mail import send_mail
 from django.conf import settings
+from django.db.models import F
 from .models import HomeSection, AboutSection, Project, ProjectCategory, Skill, SkillCategory, Service, Experience, Education, Certificate
 
 
@@ -44,7 +45,10 @@ def home(request):
     context = {
         "home": home,
         "about": AboutSection.get(),
-        "projects": Project.objects.select_related("category").all(),
+        "projects": Project.objects.select_related("category").order_by(
+            F("end_year").desc(nulls_first=True),
+            F("end_month").desc(nulls_first=True),
+        ),
         "project_categories": ProjectCategory.objects.order_by('name'),
         "skill_categories": SkillCategory.objects.prefetch_related("skills").all(),
         "services": Service.objects.all(),
