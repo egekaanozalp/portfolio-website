@@ -92,7 +92,7 @@ class ProjectInline(admin.StackedInline):
     extra = 0
     fieldsets = [
         ("Card", {
-            "fields": ["title", "short_description", "image", "featured", "status", "order"],
+            "fields": ["title", "company", "image", "featured", "status", "order"],
         }),
         ("Detail Page", {
             "classes": ["collapse"],

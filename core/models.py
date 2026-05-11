@@ -156,8 +156,38 @@ class AboutSection(models.Model):
         return obj
 
 
+CATEGORY_ICON_CHOICES = [
+    ("bi-code-slash",      "Code / Programming"),
+    ("bi-laptop",          "Laptop / Computer"),
+    ("bi-cpu",             "CPU / Hardware"),
+    ("bi-bar-chart-line",  "Bar Chart / Analytics"),
+    ("bi-graph-up",        "Graph / Statistics"),
+    ("bi-database",        "Database"),
+    ("bi-braces",          "Braces / JSON"),
+    ("bi-terminal",        "Terminal / CLI"),
+    ("bi-cloud-upload",    "Cloud"),
+    ("bi-robot",           "Robot / AI"),
+    ("bi-calculator",      "Calculator / Maths"),
+    ("bi-diagram-3",       "Diagram / Architecture"),
+    ("bi-layers",          "Layers / Stack"),
+    ("bi-puzzle",          "Puzzle / Problem Solving"),
+    ("bi-shield-check",    "Security / Cybersecurity"),
+    ("bi-phone",           "Mobile / App"),
+    ("bi-globe",           "Web / Network"),
+    ("bi-eye",             "Computer Vision"),
+    ("bi-chat-dots",       "NLP / Chat"),
+    ("bi-grid-3x3",        "Grid / Data Table"),
+]
+
+
 class ProjectCategory(models.Model):
     name = models.CharField(max_length=100)
+    icon = models.CharField(
+        max_length=50,
+        choices=CATEGORY_ICON_CHOICES,
+        default="bi-code-slash",
+        help_text="Icon shown on the portfolio card.",
+    )
     order = models.PositiveIntegerField(default=0)
 
     class Meta:
@@ -184,12 +214,13 @@ class Project(models.Model):
         related_name="projects",
     )
     title = models.CharField(max_length=200)
-    short_description = models.CharField(
+    company = models.CharField(
         max_length=300, blank=True, default="",
-        help_text="Brief summary shown on the portfolio card.",
+        verbose_name="Company / Institution",
+        help_text="Company or institution the project was done for.",
     )
     description = models.TextField(blank=True, default="", help_text="Full description for the project detail page.")
-    image = models.ImageField(upload_to="portfolio/")
+    image = models.ImageField(upload_to="portfolio/", blank=True)
     featured = models.BooleanField(default=False, help_text="Pin to the top of the portfolio.")
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default="completed")
 

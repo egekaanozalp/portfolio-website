@@ -697,6 +697,7 @@
     margin-left: -330px !important;
     width: calc(100% + 330px) !important;
     padding-left: 330px !important;
+    padding-right: 24px !important;
   }
 }
 
@@ -1431,6 +1432,251 @@ body,
     padding-left: 2.5rem !important;
   }
 }
+
+/* ── Portfolio filter box — glassmorphism ────────────────────── */
+.portfolio .filters-wrapper {
+  background: rgba(11, 7, 22, 0.60) !important;
+  backdrop-filter: blur(22px) !important;
+  -webkit-backdrop-filter: blur(22px) !important;
+  border: 1px solid rgba(124, 58, 237, 0.22) !important;
+  border-radius: 16px !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.05),
+    0 0 40px rgba(124, 58, 237, 0.07),
+    0 24px 48px rgba(0, 0, 0, 0.45) !important;
+  position: relative;
+  overflow: hidden;
+}
+
+.portfolio .filters-wrapper::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(167, 139, 250, 0.45), transparent);
+  pointer-events: none;
+}
+
+.pf-filter-heading {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(167, 139, 250, 0.45);
+  margin: 0 0 16px;
+}
+
+.portfolio .portfolio-filters li {
+  color: rgba(196, 181, 253, 0.65) !important;
+  border-left: 2px solid transparent !important;
+  border-radius: 8px !important;
+  font-size: 0.88rem !important;
+  font-weight: 500 !important;
+  padding: 9px 14px !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+  transition: all 0.2s ease !important;
+}
+
+.portfolio .portfolio-filters li:hover {
+  color: #c4b5fd !important;
+  background: rgba(124, 58, 237, 0.08) !important;
+  border-left-color: rgba(124, 58, 237, 0.38) !important;
+}
+
+.portfolio .portfolio-filters li.filter-active {
+  color: #ede9fe !important;
+  background: rgba(124, 58, 237, 0.13) !important;
+  border-left-color: #7c3aed !important;
+  font-weight: 600 !important;
+}
+
+.pf-filter-icon {
+  width: 1rem;
+  text-align: center;
+  flex-shrink: 0;
+  font-size: 0.95rem;
+  opacity: 0.8;
+}
+
+/* ── Portfolio overlay — fix theme's #310606 contrast-color ─── */
+.portfolio .portfolio-wrap .portfolio-info h4 {
+  color: #ffffff !important;
+  font-size: 0.88rem;
+  margin-bottom: 4px;
+}
+
+.portfolio .portfolio-wrap .portfolio-info .pf-label {
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(167, 139, 250, 0.85);
+  margin: 0 0 4px;
+}
+
+.portfolio .portfolio-wrap .portfolio-info .pf-label span {
+  font-weight: 400;
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+.portfolio .portfolio-wrap .portfolio-info .pf-desc {
+  font-size: 0.68rem;
+  color: rgba(200, 205, 220, 0.45);
+  line-height: 1.4;
+  margin: 0 0 10px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.portfolio .portfolio-wrap .portfolio-info .pf-desc i {
+  color: rgba(167, 139, 250, 0.6);
+  font-size: 0.7rem;
+  flex-shrink: 0;
+}
+
+/* ── Portfolio overlay — detail link button ──────────────────── */
+.portfolio .portfolio-wrap .portfolio-info .portfolio-links a {
+  width: auto !important;
+  height: auto !important;
+  padding: 4px 12px !important;
+  border-radius: 100px !important;
+  font-size: 0.7rem !important;
+  font-weight: 500 !important;
+  gap: 5px !important;
+  background: rgba(124, 58, 237, 0.15) !important;
+  border: 1px solid rgba(124, 58, 237, 0.40) !important;
+  color: #c4b5fd !important;
+  backdrop-filter: blur(8px) !important;
+  -webkit-backdrop-filter: blur(8px) !important;
+  transition: all 0.2s ease !important;
+}
+
+.portfolio .portfolio-wrap .portfolio-info .portfolio-links a:hover {
+  background: rgba(124, 58, 237, 0.40) !important;
+  border-color: #7c3aed !important;
+  color: #fff !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 4px 14px rgba(124, 58, 237, 0.35) !important;
+}
+
+/* Fade center content out when overlay slides in */
+.portfolio .portfolio-wrap:hover .portfolio-grad-icon,
+.portfolio .portfolio-wrap:hover .portfolio-grad-title,
+.portfolio .portfolio-wrap:hover .portfolio-grad-chips {
+  opacity: 0;
+}
+
+/* ── Portfolio card size ─────────────────────────────────────── */
+.portfolio .portfolio-wrap img {
+  height: 220px !important;
+}
+
+/* ── Portfolio glass cards ───────────────────────────────────── */
+.portfolio-grad-card {
+  width: 100%;
+  height: 220px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 1.5rem;
+  overflow: hidden;
+  background: rgba(11, 7, 22, 0.78);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+/* Dot grid texture */
+.portfolio-grad-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle, rgba(255,255,255,0.04) 1px, transparent 1px);
+  background-size: 22px 22px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Subtle top colour blush per category */
+.portfolio-grad-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 180px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.portfolio-grad-icon {
+  font-size: 1.8rem;
+  position: relative;
+  z-index: 1;
+  transition: opacity 0.35s ease;
+}
+
+.portfolio-grad-title {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.82);
+  text-align: center;
+  margin: 0;
+  position: relative;
+  z-index: 1;
+  transition: opacity 0.35s ease;
+}
+
+.portfolio-grad-chips {
+  display: flex;
+  gap: 0.35rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  position: relative;
+  z-index: 1;
+  transition: opacity 0.35s ease;
+}
+
+.portfolio-grad-chip {
+  padding: 2px 8px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 100px;
+  font-size: 0.6rem;
+  color: rgba(255, 255, 255, 0.55);
+  font-family: 'Courier New', monospace;
+  letter-spacing: 0.05em;
+}
+
+/* Per-category: border, top blush, icon colour */
+.portfolio-grad-1 .portfolio-grad-card { border-color: rgba(124, 58, 237, 0.40); box-shadow: 0 0 32px rgba(124,58,237,0.07), inset 0 1px 0 rgba(167,139,250,0.12); }
+.portfolio-grad-1 .portfolio-grad-card::before { background: radial-gradient(ellipse 90% 60% at 50% 0%, rgba(124,58,237,0.13) 0%, transparent 100%); }
+.portfolio-grad-1 .portfolio-grad-icon { color: rgba(167, 139, 250, 0.60); }
+
+.portfolio-grad-2 .portfolio-grad-card { border-color: rgba(37, 99, 235, 0.40); box-shadow: 0 0 32px rgba(37,99,235,0.07), inset 0 1px 0 rgba(96,165,250,0.12); }
+.portfolio-grad-2 .portfolio-grad-card::before { background: radial-gradient(ellipse 90% 60% at 50% 0%, rgba(37,99,235,0.13) 0%, transparent 100%); }
+.portfolio-grad-2 .portfolio-grad-icon { color: rgba(96, 165, 250, 0.60); }
+
+.portfolio-grad-3 .portfolio-grad-card { border-color: rgba(5, 150, 105, 0.40); box-shadow: 0 0 32px rgba(5,150,105,0.07), inset 0 1px 0 rgba(52,211,153,0.12); }
+.portfolio-grad-3 .portfolio-grad-card::before { background: radial-gradient(ellipse 90% 60% at 50% 0%, rgba(5,150,105,0.13) 0%, transparent 100%); }
+.portfolio-grad-3 .portfolio-grad-icon { color: rgba(52, 211, 153, 0.60); }
+
+.portfolio-grad-4 .portfolio-grad-card { border-color: rgba(100, 116, 139, 0.40); box-shadow: 0 0 32px rgba(100,116,139,0.07), inset 0 1px 0 rgba(148,163,184,0.12); }
+.portfolio-grad-4 .portfolio-grad-card::before { background: radial-gradient(ellipse 90% 60% at 50% 0%, rgba(100,116,139,0.13) 0%, transparent 100%); }
+.portfolio-grad-4 .portfolio-grad-icon { color: rgba(148, 163, 184, 0.60); }
+
+.portfolio-grad-5 .portfolio-grad-card { border-color: rgba(101, 163, 13, 0.40); box-shadow: 0 0 32px rgba(101,163,13,0.07), inset 0 1px 0 rgba(163,230,53,0.12); }
+.portfolio-grad-5 .portfolio-grad-card::before { background: radial-gradient(ellipse 90% 60% at 50% 0%, rgba(101,163,13,0.13) 0%, transparent 100%); }
+.portfolio-grad-5 .portfolio-grad-icon { color: rgba(163, 230, 53, 0.60); }
+
+.portfolio-grad-6 .portfolio-grad-card { border-color: rgba(8, 145, 178, 0.40); box-shadow: 0 0 32px rgba(8,145,178,0.07), inset 0 1px 0 rgba(34,211,238,0.12); }
+.portfolio-grad-6 .portfolio-grad-card::before { background: radial-gradient(ellipse 90% 60% at 50% 0%, rgba(8,145,178,0.13) 0%, transparent 100%); }
+.portfolio-grad-6 .portfolio-grad-icon { color: rgba(34, 211, 238, 0.60); }
 
 /* ── Section backgrounds — keep everything on the same dark stage */
 .about.section,

@@ -3,7 +3,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
 from django.core.mail import send_mail
 from django.conf import settings
-from .models import HomeSection, AboutSection, Project, Skill, SkillCategory, Service, Experience, Education, Certificate
+from .models import HomeSection, AboutSection, Project, ProjectCategory, Skill, SkillCategory, Service, Experience, Education, Certificate
 
 
 def _total_experience_label(experiences):
@@ -44,7 +44,8 @@ def home(request):
     context = {
         "home": home,
         "about": AboutSection.get(),
-        "projects": Project.objects.all(),
+        "projects": Project.objects.select_related("category").all(),
+        "project_categories": ProjectCategory.objects.order_by('name'),
         "skill_categories": SkillCategory.objects.prefetch_related("skills").all(),
         "services": Service.objects.all(),
         "experiences": Experience.objects.all(),

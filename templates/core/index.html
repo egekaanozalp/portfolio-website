@@ -465,12 +465,15 @@
           <div class="row">
             <div class="col-lg-3 filter-sidebar">
               <div class="filters-wrapper" data-aos="fade-right" data-aos-delay="150">
+                <p class="pf-filter-heading">Browse by category</p>
                 <ul class="portfolio-filters isotope-filters">
-                  <li data-filter="*" class="filter-active">All Projects</li>
-                  {% for project in projects %}
-                  {% if project.category %}
-                  <li data-filter=".filter-{{ project.category|lower|slugify }}">{{ project.category }}</li>
-                  {% endif %}
+                  <li data-filter="*" class="filter-active">
+                    <i class="bi bi-grid pf-filter-icon"></i>All Projects
+                  </li>
+                  {% for cat in project_categories %}
+                  <li data-filter=".filter-{{ cat.name|lower|slugify }}">
+                    <i class="bi {{ cat.icon }} pf-filter-icon"></i>{{ cat.name }}
+                  </li>
                   {% endfor %}
                 </ul>
               </div>
@@ -479,16 +482,29 @@
             <div class="col-lg-9">
               <div class="row gy-4 portfolio-container isotope-container" data-aos="fade-up" data-aos-delay="200">
                 {% for project in projects %}
-                <div class="col-lg-6 col-md-6 portfolio-item isotope-item filter-{{ project.category|lower|slugify }}">
-                  <div class="portfolio-wrap">
-                    <img src="{{ project.image.url }}" class="img-fluid" alt="{{ project.title }}" loading="lazy">
+                <div class="col-lg-4 col-md-6 portfolio-item isotope-item filter-{{ project.category|lower|slugify }}">
+                  <div class="portfolio-wrap{% if not project.image %} portfolio-grad-{{ project.category.pk|gradient_index }}{% endif %}" data-url="{% url 'portfolio_detail' project.pk %}" onclick="window.location.href=this.dataset.url" style="cursor:pointer">
+                    {% if project.image %}
+                      <img src="{{ project.image.url }}" class="img-fluid" alt="{{ project.title }}" loading="lazy">
+                    {% else %}
+                      <div class="portfolio-grad-card">
+                        <i class="bi {{ project.category.icon|default:'bi-code-slash' }} portfolio-grad-icon"></i>
+                        <h4 class="portfolio-grad-title">{{ project.title }}</h4>
+                        {% if project.tech_list %}
+                        <div class="portfolio-grad-chips">
+                          {% for tech in project.tech_list|slice:":4" %}<span class="portfolio-grad-chip">{{ tech }}</span>{% endfor %}
+                        </div>
+                        {% endif %}
+                      </div>
+                    {% endif %}
                     <div class="portfolio-info">
                       <div class="content">
-                        <span class="category">{{ project.category }}</span>
+                        {% if project.category %}<p class="pf-label">Category: <span>{{ project.category }}</span></p>{% endif %}
                         <h4>{{ project.title }}</h4>
+                        {% if project.company %}<p class="pf-desc"><i class="bi bi-building-fill"></i> {{ project.company }}</p>{% endif %}
                         <div class="portfolio-links">
-                          <a href="{{ project.image.url }}" class="glightbox" title="{{ project.title }}"><i class="bi bi-plus-lg"></i></a>
-                          <a href="{% url 'portfolio_detail' project.pk %}" title="More Details"><i class="bi bi-arrow-right"></i></a>
+                          {% if project.image %}<a href="{{ project.image.url }}" class="glightbox" title="{{ project.title }}" onclick="event.stopPropagation()"><i class="bi bi-plus-lg"></i></a>{% endif %}
+                          <a href="{% url 'portfolio_detail' project.pk %}" title="More Details" onclick="event.stopPropagation()"><i class="bi bi-arrow-right"></i> Details</a>
                         </div>
                       </div>
                     </div>

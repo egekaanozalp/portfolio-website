@@ -7,6 +7,14 @@ register = template.Library()
 _STRIP_CHARS = '•·–—-* '
 
 @register.filter
+def gradient_index(value):
+    """Return a stable 1-6 gradient index based on the project pk."""
+    try:
+        return (int(value) % 6) + 1
+    except (ValueError, TypeError):
+        return 1
+
+@register.filter
 def as_bullets(value):
     """Render a newline-separated string as a styled <ul> bullet list.
     Strips common manual bullet characters (•, -, *, etc.) from line starts."""

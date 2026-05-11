@@ -17,7 +17,9 @@
       <div class="container">
         <div class="row">
           <div class="col-lg-8">
-            <img src="{{ project.image.url }}" class="img-fluid" alt="{{ project.title }}">
+            {% if project.image %}
+              <img src="{{ project.image.url }}" class="img-fluid" alt="{{ project.title }}">
+            {% endif %}
           </div>
           <div class="col-lg-4">
             <div class="portfolio-info">
