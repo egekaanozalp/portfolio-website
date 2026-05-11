@@ -1250,6 +1250,49 @@ body,
   margin-right: 0 !important;
 }
 
+/* Total experience badge next to section heading */
+.resume-total-exp {
+  margin-left: auto;
+  padding: 0.2rem 0.75rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: #c4b5fd;
+  background: rgba(124, 58, 237, 0.12);
+  border: 1px solid rgba(124, 58, 237, 0.35);
+  border-radius: 20px;
+  white-space: nowrap;
+  text-transform: uppercase;
+}
+
+/* Resume description bullet list */
+.resume-bullets {
+  list-style: none;
+  padding: 0;
+  margin: 0.65rem 0 0;
+}
+
+.resume-bullets li {
+  position: relative;
+  padding-left: 1.1rem;
+  margin-bottom: 0.45rem;
+  font-size: 0.9rem;
+  line-height: 1.55;
+  color: rgba(210, 195, 255, 0.75);
+}
+
+.resume-bullets li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.52em;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #a78bfa, #7c3aed);
+  box-shadow: 0 0 6px rgba(124, 58, 237, 0.55);
+}
+
 /* Duration badge inline with period */
 .resume-duration {
   display: inline-block;
@@ -1274,8 +1317,8 @@ body,
 }
 
 .resume-institution-logo {
-  width: 44px;
-  height: 44px;
+  width: 64px;
+  height: 64px;
   object-fit: contain;
   border-radius: 8px;
   background: rgba(255, 255, 255, 0.06);

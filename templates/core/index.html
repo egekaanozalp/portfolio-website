@@ -1,4 +1,4 @@
-{% load static %}
+{% load static resume_filters %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -375,7 +375,7 @@
           <!-- Left: Experience -->
           <div class="col-lg-6 resume-left-col">
             <div class="resume-section" data-aos="fade-up">
-              <h3><i class="bi bi-briefcase me-2"></i>Professional Experience</h3>
+              <h3><i class="bi bi-briefcase me-2"></i>Professional Experience{% if total_experience %}<span class="resume-total-exp">{{ total_experience }}</span>{% endif %}</h3>
               {% for exp in experiences %}
               <div class="resume-item">
                 <div class="resume-item-header">
@@ -388,7 +388,7 @@
                     <p class="company"><i class="bi bi-building"></i> {{ exp.company }}</p>
                   </div>
                 </div>
-                {% if exp.description %}<p>{{ exp.description }}</p>{% endif %}
+                {% if exp.description %}{{ exp.description|as_bullets }}{% endif %}
               </div>
               {% empty %}
               <p class="text-muted">Add your experience via the admin panel.</p>
@@ -412,7 +412,7 @@
                     <p class="company"><i class="bi bi-building"></i> {{ edu.institution }}</p>
                   </div>
                 </div>
-                {% if edu.description %}<p>{{ edu.description }}</p>{% endif %}
+                {% if edu.description %}{{ edu.description|as_bullets }}{% endif %}
               </div>
               {% empty %}
               <p class="text-muted">Add your education via the admin panel.</p>

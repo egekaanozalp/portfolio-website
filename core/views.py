@@ -1,8 +1,27 @@
+import datetime
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
 from django.core.mail import send_mail
 from django.conf import settings
 from .models import HomeSection, AboutSection, Project, Skill, SkillCategory, Service, Experience, Education, Certificate
+
+
+def _total_experience_label(experiences):
+    today = datetime.date.today()
+    total_months = 0
+    for exp in experiences:
+        start = datetime.date(exp.start_year, exp.start_month, 1)
+        end = datetime.date(exp.end_year, exp.end_month, 1) if (exp.end_year and exp.end_month) else today
+        total_months += max((end.year - start.year) * 12 + (end.month - start.month) + 1, 0)
+    if not total_months:
+        return ""
+    years, months = divmod(total_months, 12)
+    parts = []
+    if years:
+        parts.append(f"{years} yr{'s' if years > 1 else ''}")
+    if months:
+        parts.append(f"{months} mo")
+    return " ".join(parts)
 
 
 def home(request):
@@ -29,6 +48,7 @@ def home(request):
         "skill_categories": SkillCategory.objects.prefetch_related("skills").all(),
         "services": Service.objects.all(),
         "experiences": Experience.objects.all(),
+        "total_experience": _total_experience_label(Experience.objects.all()),
         "educations": Education.objects.all(),
         "certificates": Certificate.objects.all(),
         "tech_chips": [c.strip() for c in home.tech_chips.split(",") if c.strip()],
