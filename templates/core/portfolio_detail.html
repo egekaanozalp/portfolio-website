@@ -1,55 +1,253 @@
-{% load static %}
+{% load static resume_filters %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" style="background:#08080f">
 <head>
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
-  <title>{{ project.title }} - Portfolio</title>
+  <title>{{ project.title }} – Portfolio</title>
+
+  <link href="https://fonts.googleapis.com" rel="preconnect">
+  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Ubuntu:wght@300;400;500;700&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
 
   <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
   <link href="{% static 'vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet">
   <link href="{% static 'css/main.css' %}" rel="stylesheet">
+  <link href="{% static 'css/custom.css' %}" rel="stylesheet">
+  <style>
+    :root { --background-color: #08080f; --surface-color: #0d0d1a; }
+    html, body { background: #08080f !important; }
+  </style>
 </head>
-<body>
 
-  <main class="main">
-    <section class="portfolio-details section">
+<body class="pd-page" style="background:#08080f">
+
+  <!-- Ambient orbs — fixed behind everything -->
+  <div class="pd-ambient" aria-hidden="true">
+    <span class="pd-orb pd-orb-1"></span>
+    <span class="pd-orb pd-orb-2"></span>
+    <span class="pd-orb pd-orb-3"></span>
+  </div>
+
+  <main>
+
+    <!-- ── Hero Banner ───────────────────────────────────────── -->
+    <section class="pd-hero">
       <div class="container">
-        <div class="row">
-          <div class="col-lg-8">
-            {% if project.image %}
-              <img src="{{ project.image.url }}" class="img-fluid" alt="{{ project.title }}">
+
+        <!-- Breadcrumb -->
+        <div class="pd-breadcrumb">
+          <a href="{% url 'home' %}#portfolio" class="pd-back-btn">
+            <i class="bi bi-arrow-left"></i> Portfolio
+          </a>
+          {% if project.category %}
+          <span class="pd-breadcrumb-sep">/</span>
+          <span class="pd-breadcrumb-cat">{{ project.category }}</span>
+          {% endif %}
+          <span class="pd-breadcrumb-sep">/</span>
+          <span class="pd-breadcrumb-cat">{{ project.title }}</span>
+        </div>
+
+        <!-- Title row: title + action buttons -->
+        <div class="pd-title-row">
+          <div class="pd-title-block">
+
+            <!-- Meta badges -->
+            <div class="pd-meta-badges">
+              {% if project.category %}
+              <span class="pd-badge pd-badge-cat">
+                <i class="bi {{ project.category.icon|default:'bi-code-slash' }}"></i>
+                {{ project.category }}
+              </span>
+              {% endif %}
+              {% if project.status %}
+              <span class="pd-badge pd-badge-status pd-badge-status--{{ project.status }}">
+                <span class="pd-status-dot"></span>
+                {{ project.get_status_display }}
+              </span>
+              {% endif %}
+              {% if project.featured %}
+              <span class="pd-badge pd-badge-featured">
+                <i class="bi bi-star-fill"></i> Featured
+              </span>
+              {% endif %}
+            </div>
+
+            <h1 class="pd-title">{{ project.title }}</h1>
+
+            {% if project.company %}
+            <p class="pd-company">
+              <i class="bi bi-building-fill"></i> {{ project.company }}
+            </p>
+            {% endif %}
+
+          </div>
+
+          <!-- CTA buttons -->
+          <div class="pd-hero-actions">
+            {% if project.live_url %}
+            <a href="{{ project.live_url }}" target="_blank" rel="noopener" class="btn-hero-primary pd-hero-btn">
+              <i class="bi bi-box-arrow-up-right"></i> Live Demo
+            </a>
+            {% endif %}
+            {% if project.github_url %}
+            <a href="{{ project.github_url }}" target="_blank" rel="noopener" class="btn-hero-outline pd-hero-btn">
+              <i class="bi bi-github"></i> Source Code
+            </a>
             {% endif %}
           </div>
-          <div class="col-lg-4">
-            <div class="portfolio-info">
-              <h3>Project Information</h3>
-              <ul>
-                {% if project.category %}<li><strong>Category:</strong> {{ project.category }}</li>{% endif %}
-                {% if project.role %}<li><strong>Role:</strong> {{ project.role }}</li>{% endif %}
-                {% if project.status %}<li><strong>Status:</strong> {{ project.get_status_display }}</li>{% endif %}
-                {% if project.live_url %}<li><strong>Live URL:</strong> <a href="{{ project.live_url }}" target="_blank">{{ project.live_url }}</a></li>{% endif %}
-                {% if project.github_url %}<li><strong>GitHub:</strong> <a href="{{ project.github_url }}" target="_blank">{{ project.github_url }}</a></li>{% endif %}
-              </ul>
-              {% if project.tech_list %}
-              <h4>Tech Stack</h4>
-              <ul>{% for t in project.tech_list %}<li>{{ t }}</li>{% endfor %}</ul>
-              {% endif %}
-            </div>
-            <div class="portfolio-description">
-              <h2>{{ project.title }}</h2>
-              {% if project.highlights %}
-              <ul>{% for line in project.highlights.splitlines %}{% if line.strip %}<li>{{ line }}</li>{% endif %}{% endfor %}</ul>
-              {% endif %}
-              <p>{{ project.description }}</p>
-            </div>
-            <a href="{% url 'home' %}#portfolio" class="btn btn-primary mt-3">
-              <i class="bi bi-arrow-left"></i> Back to Portfolio
-            </a>
-          </div>
         </div>
+
       </div>
     </section>
+
+    <!-- ── Main Content ──────────────────────────────────────── -->
+    <section class="pd-body">
+      <div class="container">
+
+        <div class="row g-4 align-items-start">
+
+          <!-- Left column: image + tech stack -->
+          <div class="col-lg-7">
+
+            <!-- Project image / gradient fallback -->
+            <div class="pd-image-wrap{% if not project.image %} pd-image-wrap--fallback{% endif %}">
+              {% if project.image %}
+              <img src="{{ project.image.url }}" alt="{{ project.title }}" class="pd-img">
+              {% else %}
+              <div class="{% if project.category %}portfolio-grad-{{ project.category.pk|gradient_index }}{% endif %} pd-fallback-outer">
+                <div class="portfolio-grad-card pd-fallback-card">
+                  <i class="bi {{ project.category.icon|default:'bi-code-slash' }} portfolio-grad-icon pd-fallback-icon"></i>
+                  <h3 class="portfolio-grad-title pd-fallback-title">{{ project.title }}</h3>
+                </div>
+              </div>
+              {% endif %}
+            </div>
+
+            <!-- Tech stack chips -->
+            {% if project.tech_list %}
+            <div class="pd-content-card mt-4">
+              <h2 class="pd-content-heading">
+                <span class="pd-icon-badge"><i class="bi bi-cpu-fill"></i></span>
+                Tech Stack
+              </h2>
+              <div class="tech-chips">
+                {% for t in project.tech_list %}
+                <span class="tech-chip">{{ t }}</span>
+                {% endfor %}
+              </div>
+            </div>
+            {% endif %}
+
+          </div>
+
+          <!-- Right column: info glass card -->
+          <div class="col-lg-5">
+            <div class="pd-info-card">
+
+              <p class="pd-eyebrow">Project Details</p>
+
+              <div class="pd-info-list">
+                {% if project.period %}
+                <div class="pd-info-row">
+                  <span class="pd-info-label"><i class="bi bi-calendar-fill"></i> Period</span>
+                  <span class="pd-info-value">{{ project.period }}</span>
+                </div>
+                {% endif %}
+                {% if project.company %}
+                <div class="pd-info-row">
+                  <span class="pd-info-label"><i class="bi bi-building-fill"></i> Organisation</span>
+                  <span class="pd-info-value">{{ project.company }}</span>
+                </div>
+                {% endif %}
+                {% if project.role %}
+                <div class="pd-info-row">
+                  <span class="pd-info-label"><i class="bi bi-person-badge-fill"></i> My Role</span>
+                  <span class="pd-info-value">{{ project.role }}</span>
+                </div>
+                {% endif %}
+                {% if project.status %}
+                <div class="pd-info-row">
+                  <span class="pd-info-label"><i class="bi bi-activity"></i> Status</span>
+                  <span class="pd-info-value pd-info-status--{{ project.status }}">
+                    {{ project.get_status_display }}
+                  </span>
+                </div>
+                {% endif %}
+              </div>
+
+              {% if project.live_url or project.github_url %}
+              <div class="pd-card-links">
+                {% if project.live_url %}
+                <a href="{{ project.live_url }}" target="_blank" rel="noopener" class="pd-link-btn">
+                  <i class="bi bi-box-arrow-up-right"></i> Live Demo
+                </a>
+                {% endif %}
+                {% if project.github_url %}
+                <a href="{{ project.github_url }}" target="_blank" rel="noopener" class="pd-link-btn pd-link-btn--ghost">
+                  <i class="bi bi-github"></i> Source Code
+                </a>
+                {% endif %}
+              </div>
+              {% endif %}
+
+            </div>
+          </div>
+
+        </div>
+
+        <!-- ── Highlights ──────────────────────────────────── -->
+        {% if project.highlights %}
+        <div class="row mt-4">
+          <div class="col-12">
+            <div class="pd-content-card">
+              <h2 class="pd-content-heading">
+                <span class="pd-icon-badge"><i class="bi bi-lightning-charge-fill"></i></span>
+                Key Highlights
+              </h2>
+              <ul class="pd-highlights-list">
+                {% for line in project.highlights.splitlines %}
+                {% if line.strip %}
+                <li>{{ line }}</li>
+                {% endif %}
+                {% endfor %}
+              </ul>
+            </div>
+          </div>
+        </div>
+        {% endif %}
+
+        <!-- ── Description ────────────────────────────────── -->
+        {% if project.description %}
+        <div class="row mt-4">
+          <div class="col-12">
+            <div class="pd-content-card">
+              <h2 class="pd-content-heading">
+                <span class="pd-icon-badge"><i class="bi bi-file-text-fill"></i></span>
+                About the Project
+              </h2>
+              <ul class="pd-highlights-list">
+                {% for line in project.description.splitlines %}
+                {% if line.strip %}
+                <li>{{ line }}</li>
+                {% endif %}
+                {% endfor %}
+              </ul>
+            </div>
+          </div>
+        </div>
+        {% endif %}
+
+        <!-- ── Footer back button ─────────────────────────── -->
+        <div class="pd-footer-row">
+          <a href="{% url 'home' %}#portfolio" class="btn-hero-outline pd-hero-btn">
+            <i class="bi bi-arrow-left"></i> Back to Portfolio
+          </a>
+        </div>
+
+      </div>
+    </section>
+
   </main>
 
   <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>

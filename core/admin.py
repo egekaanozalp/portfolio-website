@@ -94,6 +94,10 @@ class ProjectInline(admin.StackedInline):
         ("Card", {
             "fields": ["title", "company", "image", "featured", "status", "order"],
         }),
+        ("Duration", {
+            "description": "Leave End year blank to show 'Present'.",
+            "fields": [("start_month", "start_year"), ("end_month", "end_year")],
+        }),
         ("Detail Page", {
             "classes": ["collapse"],
             "fields": ["description", "tech_stack", "role", "highlights", "live_url", "github_url"],

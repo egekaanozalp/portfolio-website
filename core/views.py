@@ -57,6 +57,6 @@ def home(request):
     return render(request, "core/index.html", context)
 
 
-def portfolio_detail(request, pk):
-    project = get_object_or_404(Project, pk=pk)
+def portfolio_detail(request, slug):
+    project = get_object_or_404(Project, slug=slug)
     return render(request, "core/portfolio_detail.html", {"project": project})

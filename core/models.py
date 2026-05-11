@@ -1,5 +1,6 @@
 import datetime
 from django.db import models
+from django.utils.text import slugify
 
 MONTH_CHOICES = [
     (1, 'January'), (2, 'February'), (3, 'March'), (4, 'April'),
@@ -214,6 +215,7 @@ class Project(models.Model):
         related_name="projects",
     )
     title = models.CharField(max_length=200)
+    slug = models.SlugField(max_length=220, unique=True, blank=True)
     company = models.CharField(
         max_length=300, blank=True, default="",
         verbose_name="Company / Institution",
@@ -235,6 +237,10 @@ class Project(models.Model):
     role = models.CharField(max_length=200, blank=True, default="", help_text="Your role, e.g. Full Stack Developer.")
     highlights = models.TextField(blank=True, default="", help_text="Key features or highlights, one per line.")
 
+    start_month = models.PositiveSmallIntegerField(choices=MONTH_CHOICES, null=True, blank=True, verbose_name="Start month")
+    start_year  = models.PositiveIntegerField(null=True, blank=True, verbose_name="Start year")
+    end_month   = models.PositiveSmallIntegerField(choices=MONTH_CHOICES, null=True, blank=True, verbose_name="End month")
+    end_year    = models.PositiveIntegerField(null=True, blank=True, verbose_name="End year", help_text="Leave blank for 'Present'")
     order = models.PositiveIntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
 
@@ -244,9 +250,27 @@ class Project(models.Model):
     def __str__(self):
         return self.title
 
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            base = slugify(self.title)
+            slug, n = base, 1
+            while Project.objects.filter(slug=slug).exclude(pk=self.pk).exists():
+                slug = f"{base}-{n}"
+                n += 1
+            self.slug = slug
+        super().save(*args, **kwargs)
+
     @property
     def tech_list(self):
         return [t.strip() for t in self.tech_stack.split(",") if t.strip()]
+
+    @property
+    def period(self):
+        if not (self.start_month and self.start_year):
+            return ""
+        start = _fmt_month_year(self.start_month, self.start_year)
+        end = _fmt_month_year(self.end_month, self.end_year) if (self.end_year and self.end_month) else "Present"
+        return f"{start} – {end}"
 
 
 class SkillCategory(models.Model):
