@@ -156,12 +156,54 @@ class AboutSection(models.Model):
         return obj
 
 
+class ProjectCategory(models.Model):
+    name = models.CharField(max_length=100)
+    order = models.PositiveIntegerField(default=0)
+
+    class Meta:
+        ordering = ["order"]
+        verbose_name = "Project Category"
+        verbose_name_plural = "Project Categories"
+
+    def __str__(self):
+        return self.name
+
+
 class Project(models.Model):
+    STATUS_CHOICES = [
+        ("completed", "Completed"),
+        ("in_progress", "In Progress"),
+        ("archived", "Archived"),
+    ]
+
+    category = models.ForeignKey(
+        ProjectCategory,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="projects",
+    )
     title = models.CharField(max_length=200)
-    description = models.TextField()
+    short_description = models.CharField(
+        max_length=300, blank=True, default="",
+        help_text="Brief summary shown on the portfolio card.",
+    )
+    description = models.TextField(blank=True, default="", help_text="Full description for the project detail page.")
     image = models.ImageField(upload_to="portfolio/")
-    url = models.URLField(blank=True)
-    category = models.CharField(max_length=100, blank=True)
+    featured = models.BooleanField(default=False, help_text="Pin to the top of the portfolio.")
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default="completed")
+
+    # Detail page
+    tech_stack = models.CharField(
+        max_length=500, blank=True, default="",
+        verbose_name="Tech stack",
+        help_text="Comma-separated technologies, e.g. Python,Django,React",
+    )
+    live_url = models.URLField(blank=True, verbose_name="Live URL", help_text="Link to the deployed project.")
+    github_url = models.URLField(blank=True, verbose_name="GitHub URL", help_text="Link to the source code repository.")
+    role = models.CharField(max_length=200, blank=True, default="", help_text="Your role, e.g. Full Stack Developer.")
+    highlights = models.TextField(blank=True, default="", help_text="Key features or highlights, one per line.")
+
     order = models.PositiveIntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
 
@@ -170,6 +212,10 @@ class Project(models.Model):
 
     def __str__(self):
         return self.title
+
+    @property
+    def tech_list(self):
+        return [t.strip() for t in self.tech_stack.split(",") if t.strip()]
 
 
 class SkillCategory(models.Model):

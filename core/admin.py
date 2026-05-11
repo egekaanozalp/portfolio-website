@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.http import HttpResponseRedirect
 from django.urls import reverse
-from .models import HomeSection, AboutSection, Project, Skill, SkillCategory, Service, Experience, Education, Certificate
+from .models import HomeSection, AboutSection, Project, ProjectCategory, Skill, SkillCategory, Service, Experience, Education, Certificate
 
 
 @admin.register(HomeSection)
@@ -87,10 +87,25 @@ class AboutSectionAdmin(admin.ModelAdmin):
         )
 
 
-@admin.register(Project)
-class ProjectAdmin(admin.ModelAdmin):
-    list_display = ["title", "category", "order"]
+class ProjectInline(admin.StackedInline):
+    model = Project
+    extra = 0
+    fieldsets = [
+        ("Card", {
+            "fields": ["title", "short_description", "image", "featured", "status", "order"],
+        }),
+        ("Detail Page", {
+            "classes": ["collapse"],
+            "fields": ["description", "tech_stack", "role", "highlights", "live_url", "github_url"],
+        }),
+    ]
+
+
+@admin.register(ProjectCategory)
+class ProjectCategoryAdmin(admin.ModelAdmin):
+    list_display = ["name", "order"]
     list_editable = ["order"]
+    inlines = [ProjectInline]
 
 
 class SkillInline(admin.TabularInline):

@@ -692,6 +692,12 @@
     width: calc(100% + 330px) !important;
     padding-left: 330px !important;
   }
+
+  .portfolio.section {
+    margin-left: -330px !important;
+    width: calc(100% + 330px) !important;
+    padding-left: 330px !important;
+  }
 }
 
 .navmenu ul {
@@ -1429,7 +1435,8 @@ body,
 /* ── Section backgrounds — keep everything on the same dark stage */
 .about.section,
 .skills.section,
-.resume.section {
+.resume.section,
+.portfolio.section {
   background-color: #08080f !important;
 }
 

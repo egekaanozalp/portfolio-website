@@ -23,14 +23,22 @@
             <div class="portfolio-info">
               <h3>Project Information</h3>
               <ul>
-                <li><strong>Category:</strong> {{ project.category }}</li>
-                {% if project.url %}
-                <li><strong>Project URL:</strong> <a href="{{ project.url }}" target="_blank">{{ project.url }}</a></li>
-                {% endif %}
+                {% if project.category %}<li><strong>Category:</strong> {{ project.category }}</li>{% endif %}
+                {% if project.role %}<li><strong>Role:</strong> {{ project.role }}</li>{% endif %}
+                {% if project.status %}<li><strong>Status:</strong> {{ project.get_status_display }}</li>{% endif %}
+                {% if project.live_url %}<li><strong>Live URL:</strong> <a href="{{ project.live_url }}" target="_blank">{{ project.live_url }}</a></li>{% endif %}
+                {% if project.github_url %}<li><strong>GitHub:</strong> <a href="{{ project.github_url }}" target="_blank">{{ project.github_url }}</a></li>{% endif %}
               </ul>
+              {% if project.tech_list %}
+              <h4>Tech Stack</h4>
+              <ul>{% for t in project.tech_list %}<li>{{ t }}</li>{% endfor %}</ul>
+              {% endif %}
             </div>
             <div class="portfolio-description">
               <h2>{{ project.title }}</h2>
+              {% if project.highlights %}
+              <ul>{% for line in project.highlights.splitlines %}{% if line.strip %}<li>{{ line }}</li>{% endif %}{% endfor %}</ul>
+              {% endif %}
               <p>{{ project.description }}</p>
             </div>
             <a href="{% url 'home' %}#portfolio" class="btn btn-primary mt-3">
