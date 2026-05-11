@@ -374,7 +374,7 @@
         <div class="row gy-4 resume-columns">
           <!-- Left: Experience -->
           <div class="col-lg-6 resume-left-col">
-            <div class="resume-section" data-aos="fade-up">
+            <div class="resume-section" data-aos="fade-up" data-collapsible>
               <h3><i class="bi bi-briefcase me-2"></i>Professional Experience{% if total_experience %}<span class="resume-total-exp">{{ total_experience }}</span>{% endif %}</h3>
               {% for exp in experiences %}
               <div class="resume-item">
@@ -419,7 +419,7 @@
               {% endfor %}
             </div>
 
-            <div class="resume-section mt-4" data-aos="fade-up" data-aos-delay="100">
+            <div class="resume-section mt-4" data-aos="fade-up" data-aos-delay="100" data-collapsible>
               <h3><i class="bi bi-award me-2"></i>Certificates</h3>
               {% for cert in certificates %}
               <div class="resume-item">
@@ -431,6 +431,7 @@
                     <h4>{{ cert.name }}</h4>
                     <h5>{{ cert.date }}</h5>
                     <p class="company"><i class="bi bi-building"></i> {{ cert.issuer }}</p>
+                    {% if cert.credential_id %}<p class="resume-credential-id"><i class="bi bi-fingerprint"></i>Credential ID: {{ cert.credential_id }}</p>{% endif %}
                   </div>
                 </div>
                 {% if cert.url %}
@@ -617,6 +618,43 @@
   <script src="{% static 'js/main.js' %}"></script>
   <script src="{% static 'js/hero-fx.js' %}"></script>
   <script src="{% static 'js/about-fx.js' %}"></script>
+  <script>
+    (function () {
+      const THRESHOLD = 2;
+      const autoExpand = window.location.hash === '#resume';
+
+      document.querySelectorAll('.resume-section[data-collapsible]').forEach(section => {
+        const items = Array.from(section.querySelectorAll(':scope > .resume-item'));
+        if (items.length <= THRESHOLD) return;
+
+        items.slice(THRESHOLD).forEach(el => el.classList.add('resume-item--hidden'));
+
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'resume-show-more';
+        btn.innerHTML = `<i class="bi bi-chevron-down"></i> Show all (${items.length})`;
+        section.appendChild(btn);
+
+        function expand() {
+          items.slice(THRESHOLD).forEach(el => el.classList.remove('resume-item--hidden'));
+          btn.innerHTML = `<i class="bi bi-chevron-up"></i> Show less`;
+          section.classList.add('is-expanded');
+        }
+        function collapse() {
+          items.slice(THRESHOLD).forEach(el => el.classList.add('resume-item--hidden'));
+          btn.innerHTML = `<i class="bi bi-chevron-down"></i> Show all (${items.length})`;
+          section.classList.remove('is-expanded');
+          if (section.getBoundingClientRect().top < 0) {
+            section.scrollIntoView({ behavior: 'instant', block: 'start' });
+          }
+        }
+
+        btn.addEventListener('click', () => section.classList.contains('is-expanded') ? collapse() : expand());
+
+        if (autoExpand) expand();
+      });
+    })();
+  </script>
 
 </body>
 </html>

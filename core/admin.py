@@ -163,6 +163,6 @@ class CertificateAdmin(admin.ModelAdmin):
     list_editable = ["order"]
     fieldsets = [
         (None, {
-            "fields": ["name", "issuer", ("issue_month", "issue_year"), "url", "image", "order"],
+            "fields": ["name", "issuer", ("issue_month", "issue_year"), "url", "credential_id", "image", "order"],
         }),
     ]

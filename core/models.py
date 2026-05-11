@@ -286,7 +286,8 @@ class Certificate(models.Model):
     issue_month = models.PositiveSmallIntegerField(choices=MONTH_CHOICES, default=1, verbose_name="Issue month")
     issue_year = models.PositiveIntegerField(default=_current_year, verbose_name="Issue year")
     url = models.URLField(blank=True, help_text="Link to the certificate (optional)")
-    image = models.ImageField(upload_to="resume/certificates/", blank=True)
+    credential_id = models.CharField(max_length=200, blank=True, help_text="Unique identifier issued by the organization (shown as 'Credential ID' on LinkedIn).")
+    image = models.ImageField(upload_to="resume/certificates/", blank=True, help_text="The logo of the issuer.")
     order = models.PositiveIntegerField(default=0)
 
     @property
