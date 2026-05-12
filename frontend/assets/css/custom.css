@@ -699,6 +699,12 @@
     padding-left: 330px !important;
     padding-right: 24px !important;
   }
+
+  .recommendations.section {
+    margin-left: -330px !important;
+    width: calc(100% + 330px) !important;
+    padding-left: 330px !important;
+  }
 }
 
 .navmenu ul {
@@ -1682,7 +1688,8 @@ body,
 .about.section,
 .skills.section,
 .resume.section,
-.portfolio.section {
+.portfolio.section,
+.recommendations.section {
   background-color: #08080f !important;
 }
 
@@ -2409,4 +2416,202 @@ body.pd-page {
   .pd-title { font-size: 1.8rem; }
   .pd-hero-actions { flex-direction: column; align-items: stretch; }
   .pd-hero-btn { text-align: center; justify-content: center; }
+}
+
+
+/* ================================================================
+   RECOMMENDATIONS SECTION
+   ================================================================ */
+
+.recommendations.section {
+  position: relative;
+  overflow: hidden;
+}
+
+/* Ambient pseudo-element glows */
+.recommendations.section::before {
+  content: '';
+  position: absolute;
+  top: -15%;
+  left: 15%;
+  width: 520px;
+  height: 520px;
+  background: radial-gradient(circle, rgba(139, 92, 246, 0.09) 0%, transparent 68%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.recommendations.section::after {
+  content: '';
+  position: absolute;
+  bottom: -10%;
+  right: 8%;
+  width: 420px;
+  height: 420px;
+  background: radial-gradient(circle, rgba(99, 102, 241, 0.07) 0%, transparent 68%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── Card ─────────────────────────────────────────────────────── */
+.rec-card {
+  position: relative;
+  z-index: 1;
+  background: rgba(255, 255, 255, 0.035);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border: 1px solid rgba(139, 92, 246, 0.18);
+  border-radius: 22px;
+  padding: 36px 30px 28px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  overflow: hidden;
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+              border-color 0.35s ease,
+              box-shadow 0.35s ease;
+}
+
+/* Top-left gradient wash */
+.rec-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(140deg, rgba(139, 92, 246, 0.07) 0%, transparent 55%);
+  border-radius: inherit;
+  pointer-events: none;
+}
+
+.rec-card:hover {
+  transform: translateY(-10px);
+  border-color: rgba(139, 92, 246, 0.45);
+  box-shadow:
+    0 24px 64px rgba(139, 92, 246, 0.14),
+    0 0 0 1px rgba(139, 92, 246, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+/* Decorative giant background quotation mark */
+.rec-bg-quote {
+  position: absolute;
+  top: -18px;
+  right: 22px;
+  font-size: 160px;
+  font-family: Georgia, serif;
+  line-height: 1;
+  color: rgba(139, 92, 246, 0.07);
+  pointer-events: none;
+  user-select: none;
+  transition: color 0.35s ease;
+}
+
+.rec-card:hover .rec-bg-quote {
+  color: rgba(139, 92, 246, 0.12);
+}
+
+/* ── Quote icon ───────────────────────────────────────────────── */
+.rec-quote-icon {
+  font-size: 2rem;
+  line-height: 1;
+  background: linear-gradient(135deg, #a78bfa, #818cf8);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ── Quote text ───────────────────────────────────────────────── */
+.rec-quote {
+  font-size: 0.935rem;
+  line-height: 1.8;
+  color: rgba(255, 255, 255, 0.72);
+  font-style: italic;
+  flex: 1;
+  margin: 0;
+}
+
+/* ── Footer ───────────────────────────────────────────────────── */
+.rec-footer {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding-top: 18px;
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+/* ── Avatar ───────────────────────────────────────────────────── */
+.rec-avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  overflow: hidden;
+  flex-shrink: 0;
+  border: 2px solid rgba(139, 92, 246, 0.35);
+  transition: border-color 0.35s ease, box-shadow 0.35s ease;
+}
+
+.rec-card:hover .rec-avatar {
+  border-color: rgba(139, 92, 246, 0.7);
+  box-shadow: 0 0 14px rgba(139, 92, 246, 0.3);
+}
+
+.rec-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.rec-avatar-fallback {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #6d28d9, #a78bfa);
+  font-size: 1rem;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: 0.02em;
+}
+
+/* ── Person info ──────────────────────────────────────────────── */
+.rec-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.rec-name {
+  display: block;
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: #fff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.rec-role {
+  display: block;
+  font-size: 0.76rem;
+  color: rgba(255, 255, 255, 0.45);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.rec-company {
+  display: block;
+  font-size: 0.76rem;
+  color: rgba(167, 139, 250, 0.85);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.rec-company i {
+  font-size: 0.68rem;
+  margin-right: 2px;
 }

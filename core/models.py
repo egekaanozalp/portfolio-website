@@ -321,6 +321,24 @@ class Service(models.Model):
         return self.title
 
 
+class Recommendation(models.Model):
+    profile_image = models.ImageField(upload_to="recommendations/", blank=True)
+    first_name = models.CharField(max_length=100)
+    last_name = models.CharField(max_length=100)
+    role = models.CharField(max_length=200, blank=True, default="", help_text="Their job title, e.g. Senior Engineer")
+    company = models.CharField(max_length=200)
+    quote = models.TextField(help_text="The recommendation text.")
+    order = models.PositiveIntegerField(default=0)
+
+    class Meta:
+        ordering = ["order"]
+        verbose_name = "Recommendation"
+        verbose_name_plural = "Recommendation Section"
+
+    def __str__(self):
+        return f"{self.first_name} {self.last_name} – {self.company}"
+
+
 class Experience(models.Model):
     title = models.CharField(max_length=200, help_text="e.g. Software Engineer")
     company = models.CharField(max_length=200)

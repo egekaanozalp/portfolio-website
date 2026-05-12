@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.http import HttpResponseRedirect
 from django.urls import reverse
-from .models import HomeSection, AboutSection, Project, ProjectCategory, Skill, SkillCategory, Service, Experience, Education, Certificate
+from .models import HomeSection, AboutSection, Project, ProjectCategory, Skill, SkillCategory, Service, Experience, Education, Certificate, Recommendation
 
 
 @admin.register(HomeSection)
@@ -149,6 +149,20 @@ class SkillAdmin(admin.ModelAdmin):
 class ServiceAdmin(admin.ModelAdmin):
     list_display = ["title", "order"]
     list_editable = ["order"]
+
+
+@admin.register(Recommendation)
+class RecommendationAdmin(admin.ModelAdmin):
+    list_display = ["first_name", "last_name", "role", "company", "order"]
+    list_editable = ["order"]
+    fieldsets = [
+        ("Person", {
+            "fields": ["profile_image", "first_name", "last_name", "role", "company"],
+        }),
+        ("Content", {
+            "fields": ["quote", "order"],
+        }),
+    ]
 
 
 @admin.register(Experience)

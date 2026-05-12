@@ -45,7 +45,7 @@
           <li><a href="#skills"><i class="bi bi-bar-chart-line navicon"></i><span class="nav-label">Skills</span></a></li>
           <li><a href="#resume"><i class="bi bi-file-earmark-text navicon"></i><span class="nav-label">Resume</span></a></li>
           <li><a href="#portfolio"><i class="bi bi-briefcase navicon"></i><span class="nav-label">Portfolio</span></a></li>
-          <li><a href="#services"><i class="bi bi-hdd-stack navicon"></i><span class="nav-label">Services</span></a></li>
+          <li><a href="#recommendations"><i class="bi bi-stars navicon"></i><span class="nav-label">Reviews</span></a></li>
           <li><a href="#contact"><i class="bi bi-envelope navicon"></i><span class="nav-label">Contact</span></a></li>
         </ul>
       </nav>
@@ -518,32 +518,47 @@
       </div>
     </section><!-- /Portfolio Section -->
 
-    <!-- Services Section -->
-    <section id="services" class="services section">
+    <!-- Recommendations Section -->
+    <section id="recommendations" class="recommendations section">
+
       <div class="container section-title" data-aos="fade-up">
-        <h2>Services</h2>
+        <h2>Recommendations</h2>
+        <p>What colleagues and collaborators say about working with me</p>
       </div>
 
-      <div class="container" data-aos="fade-up" data-aos-delay="100">
-        <div class="row justify-content-center">
-          {% for service in services %}
-          <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
-            <div class="service-card position-relative z-1">
-              <div class="service-icon">
-                <i class="bi {{ service.icon }}"></i>
+      <div class="container">
+        <div class="row g-4 justify-content-center">
+          {% for rec in recommendations %}
+          <div class="col-xl-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
+            <div class="rec-card">
+              <div class="rec-bg-quote" aria-hidden="true">"</div>
+              <i class="bi bi-quote rec-quote-icon"></i>
+              <p class="rec-quote">{{ rec.quote }}</p>
+              <div class="rec-footer">
+                <div class="rec-avatar">
+                  {% if rec.profile_image %}
+                    <img src="{{ rec.profile_image.url }}" alt="{{ rec.first_name }} {{ rec.last_name }}">
+                  {% else %}
+                    <div class="rec-avatar-fallback">{{ rec.first_name.0 }}{{ rec.last_name.0 }}</div>
+                  {% endif %}
+                </div>
+                <div class="rec-info">
+                  <span class="rec-name">{{ rec.first_name }} {{ rec.last_name }}</span>
+                  {% if rec.role %}<span class="rec-role">{{ rec.role }}</span>{% endif %}
+                  <span class="rec-company"><i class="bi bi-building-fill"></i> {{ rec.company }}</span>
+                </div>
               </div>
-              <h3>{{ service.title }}</h3>
-              <p>{{ service.description }}</p>
             </div>
           </div>
           {% empty %}
-          <div class="col-12">
-            <p class="text-muted text-center">Add services via the admin panel.</p>
+          <div class="col-12 text-center" data-aos="fade-up">
+            <p style="color: rgba(255,255,255,0.35);">Add recommendations via the admin panel.</p>
           </div>
           {% endfor %}
         </div>
       </div>
-    </section><!-- /Services Section -->
+
+    </section><!-- /Recommendations Section -->
 
     <!-- Contact Section -->
     <section id="contact" class="contact section">
