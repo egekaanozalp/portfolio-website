@@ -562,75 +562,146 @@
 
     <!-- Contact Section -->
     <section id="contact" class="contact section">
+
+      <!-- Ambient background orbs -->
+      <div class="ctc-ambient" aria-hidden="true">
+        <span class="ctc-orb ctc-orb-1"></span>
+        <span class="ctc-orb ctc-orb-2"></span>
+        <span class="ctc-orb ctc-orb-3"></span>
+      </div>
+
       <div class="container section-title" data-aos="fade-up">
         <h2>Contact</h2>
+        {% if contact.tagline %}<p>{{ contact.tagline }}</p>{% endif %}
       </div>
 
       <div class="container">
-        <div class="row g-4 g-lg-5">
-          <div class="col-lg-5">
-            <div class="info-box">
-              <h3>Contact Info</h3>
-              <div class="info-item">
-                <div class="icon-box"><i class="bi bi-envelope"></i></div>
-                <div class="content">
-                  <h4>Email Address</h4>
-                  <p>your@email.com</p>
+        <div class="row g-4 g-lg-5 align-items-start">
+
+          <!-- Left: Info card -->
+          <div class="col-lg-5" data-aos="fade-right" data-aos-delay="100">
+            <div class="ctc-info-card">
+
+              <h3 class="ctc-card-heading">{{ contact.info_heading }}</h3>
+
+              {% if contact.email %}
+              <div class="ctc-item">
+                <div class="ctc-icon"><i class="bi bi-envelope-at-fill"></i></div>
+                <div class="ctc-content">
+                  <span class="ctc-label">Email</span>
+                  <a href="mailto:{{ contact.email }}" class="ctc-value">{{ contact.email }}</a>
                 </div>
               </div>
-              <div class="info-item">
-                <div class="icon-box"><i class="bi bi-linkedin"></i></div>
-                <div class="content">
-                  <h4>LinkedIn</h4>
-                  <p>linkedin.com/in/yourprofile</p>
+              {% endif %}
+
+              {% if contact.phone %}
+              <div class="ctc-item">
+                <div class="ctc-icon"><i class="bi bi-telephone-fill"></i></div>
+                <div class="ctc-content">
+                  <span class="ctc-label">Phone</span>
+                  <a href="tel:{{ contact.phone }}" class="ctc-value">{{ contact.phone }}</a>
                 </div>
               </div>
+              {% endif %}
+
+              {% if contact.location %}
+              <div class="ctc-item">
+                <div class="ctc-icon"><i class="bi bi-geo-alt-fill"></i></div>
+                <div class="ctc-content">
+                  <span class="ctc-label">Location</span>
+                  <span class="ctc-value">{{ contact.location }}</span>
+                </div>
+              </div>
+              {% endif %}
+
+              {% if contact.linkedin_url or contact.github_url or contact.twitter_url %}
+              <div class="ctc-socials">
+                {% if contact.linkedin_url %}<a href="{{ contact.linkedin_url }}" target="_blank" rel="noopener" class="ctc-social-btn" aria-label="LinkedIn"><i class="bi bi-linkedin"></i></a>{% endif %}
+                {% if contact.github_url %}<a href="{{ contact.github_url }}" target="_blank" rel="noopener" class="ctc-social-btn" aria-label="GitHub"><i class="bi bi-github"></i></a>{% endif %}
+                {% if contact.twitter_url %}<a href="{{ contact.twitter_url }}" target="_blank" rel="noopener" class="ctc-social-btn" aria-label="Twitter / X"><i class="bi bi-twitter-x"></i></a>{% endif %}
+              </div>
+              {% endif %}
+
             </div>
           </div>
 
-          <div class="col-lg-7">
-            <div class="contact-form">
-              <h3>Get In Touch</h3>
+          <!-- Right: Form card -->
+          <div class="col-lg-7" data-aos="fade-left" data-aos-delay="150">
+            <div class="ctc-form-card">
+
+              <h3 class="ctc-card-heading">{{ contact.form_heading }}</h3>
 
               {% if messages %}
               {% for message in messages %}
-              <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+              <div class="ctc-alert">
+                <i class="bi bi-check-circle-fill"></i> {{ message }}
+              </div>
               {% endfor %}
               {% endif %}
 
-              <form action="{% url 'home' %}" method="post">
+              <form action="{% url 'home' %}" method="post" class="ctc-form">
                 {% csrf_token %}
                 <input type="hidden" name="contact_form" value="1">
-                <div class="row gy-4">
-                  <div class="col-md-6">
-                    <input type="text" name="name" class="form-control" placeholder="Your Name" required>
+                <div class="row g-3">
+                  <div class="col-sm-6">
+                    <div class="ctc-field">
+                      <input type="text" name="name" placeholder="Your Name" required>
+                    </div>
                   </div>
-                  <div class="col-md-6">
-                    <input type="email" name="email" class="form-control" placeholder="Your Email" required>
+                  <div class="col-sm-6">
+                    <div class="ctc-field">
+                      <input type="email" name="email" placeholder="Your Email" required>
+                    </div>
                   </div>
                   <div class="col-12">
-                    <input type="text" name="subject" class="form-control" placeholder="Subject" required>
+                    <div class="ctc-field">
+                      <input type="text" name="subject" placeholder="Subject" required>
+                    </div>
                   </div>
                   <div class="col-12">
-                    <textarea class="form-control" name="message" rows="6" placeholder="Message" required></textarea>
+                    <div class="ctc-field">
+                      <textarea name="message" rows="6" placeholder="Your message…" required></textarea>
+                    </div>
                   </div>
-                  <div class="col-12 text-center">
-                    <button type="submit" class="btn">Send Message</button>
+                  <div class="col-12">
+                    <button type="submit" class="ctc-submit">
+                      Send Message&nbsp;<i class="bi bi-send-fill"></i>
+                    </button>
                   </div>
                 </div>
               </form>
+
             </div>
           </div>
+
         </div>
       </div>
     </section><!-- /Contact Section -->
 
   </main>
 
-  <footer id="footer" class="footer position-relative">
+  <footer id="footer" class="footer">
+    <div class="footer-separator" aria-hidden="true"></div>
     <div class="container">
-      <div class="copyright text-center">
-        <p><strong class="px-1 sitename">Sapere Aude</strong></p>
+      <div class="footer-inner">
+
+        <div class="footer-brand">
+          <span class="footer-name">{{ home.card_first_name }} {{ home.card_last_name }}</span>
+          {% if home.card_role %}<span class="footer-role">{{ home.card_role }}</span>{% endif %}
+        </div>
+
+        <nav class="footer-nav" aria-label="Page sections">
+          <a href="#hero">Home</a>
+          <a href="#about">About</a>
+          <a href="#skills">Skills</a>
+          <a href="#resume">Resume</a>
+          <a href="#portfolio">Portfolio</a>
+          <a href="#recommendations">Reviews</a>
+          <a href="#contact">Contact</a>
+        </nav>
+
+        <p class="footer-copy">&copy; {% now "Y" %} {{ home.card_first_name }} {{ home.card_last_name }}. All rights reserved.</p>
+
       </div>
     </div>
   </footer>

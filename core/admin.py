@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.http import HttpResponseRedirect
 from django.urls import reverse
-from .models import HomeSection, AboutSection, Project, ProjectCategory, Skill, SkillCategory, Service, Experience, Education, Certificate, Recommendation
+from .models import HomeSection, AboutSection, Project, ProjectCategory, Skill, SkillCategory, Service, Experience, Education, Certificate, Recommendation, ContactSection
 
 
 @admin.register(HomeSection)
@@ -149,6 +149,34 @@ class SkillAdmin(admin.ModelAdmin):
 class ServiceAdmin(admin.ModelAdmin):
     list_display = ["title", "order"]
     list_editable = ["order"]
+
+
+@admin.register(ContactSection)
+class ContactSectionAdmin(admin.ModelAdmin):
+    fieldsets = [
+        ("Info Card", {
+            "fields": ["info_heading", "tagline", "email", "phone", "location"],
+        }),
+        ("Social Links", {
+            "description": "Leave blank to hide.",
+            "fields": ["linkedin_url", "github_url", "twitter_url"],
+        }),
+        ("Form", {
+            "fields": ["form_heading"],
+        }),
+    ]
+
+    def has_add_permission(self, request):
+        return not ContactSection.objects.exists()
+
+    def has_delete_permission(self, request, obj=None):
+        return False
+
+    def changelist_view(self, request, extra_context=None):
+        obj = ContactSection.get()
+        return HttpResponseRedirect(
+            reverse("admin:core_contactsection_change", args=[obj.pk])
+        )
 
 
 @admin.register(Recommendation)

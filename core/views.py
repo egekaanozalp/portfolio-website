@@ -4,7 +4,7 @@ from django.contrib import messages
 from django.core.mail import send_mail
 from django.conf import settings
 from django.db.models import F
-from .models import HomeSection, AboutSection, Project, ProjectCategory, Skill, SkillCategory, Service, Experience, Education, Certificate, Recommendation
+from .models import HomeSection, AboutSection, Project, ProjectCategory, Skill, SkillCategory, Service, Experience, Education, Certificate, Recommendation, ContactSection
 
 
 def _total_experience_label(experiences):
@@ -52,6 +52,7 @@ def home(request):
         "project_categories": ProjectCategory.objects.order_by('name'),
         "skill_categories": SkillCategory.objects.prefetch_related("skills").all(),
         "recommendations": Recommendation.objects.all(),
+        "contact": ContactSection.get(),
         "experiences": Experience.objects.all(),
         "total_experience": _total_experience_label(Experience.objects.all()),
         "educations": Education.objects.all(),

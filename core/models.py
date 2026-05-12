@@ -321,6 +321,34 @@ class Service(models.Model):
         return self.title
 
 
+class ContactSection(models.Model):
+    info_heading  = models.CharField(max_length=100, default="Let's Connect")
+    tagline       = models.CharField(max_length=200, blank=True, default="", help_text="Optional subtitle shown under the section heading.")
+    email         = models.EmailField(blank=True, default="")
+    phone         = models.CharField(max_length=30, blank=True, default="")
+    location      = models.CharField(max_length=100, blank=True, default="")
+    linkedin_url  = models.URLField(blank=True, verbose_name="LinkedIn URL")
+    github_url    = models.URLField(blank=True, verbose_name="GitHub URL")
+    twitter_url   = models.URLField(blank=True, verbose_name="Twitter / X URL")
+    form_heading  = models.CharField(max_length=100, default="Send a Message")
+
+    class Meta:
+        verbose_name = "Contact Section"
+        verbose_name_plural = "Contact Section"
+
+    def __str__(self):
+        return "Contact Section"
+
+    def save(self, *args, **kwargs):
+        self.pk = 1
+        super().save(*args, **kwargs)
+
+    @classmethod
+    def get(cls):
+        obj, _ = cls.objects.get_or_create(pk=1)
+        return obj
+
+
 class Recommendation(models.Model):
     profile_image = models.ImageField(upload_to="recommendations/", blank=True)
     first_name = models.CharField(max_length=100)
