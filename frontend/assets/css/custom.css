@@ -3039,6 +3039,63 @@ a.ctc-value:hover { color: #a78bfa; }
    FOOTER
    ================================================================ */
 
+/* ── Scroll-to-top button ────────────────────────────────────── */
+.scroll-top {
+  width: auto !important;
+  height: 38px !important;
+  border-radius: 20px !important;
+  padding: 0 18px 0 14px !important;
+  background: rgba(10, 8, 24, 0.72) !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  border: 1px solid rgba(124, 58, 237, 0.38) !important;
+  box-shadow:
+    0 0 18px rgba(124, 58, 237, 0.18),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06) !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  right: 20px !important;
+  bottom: -50px !important;
+  transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1) !important;
+}
+
+.scroll-top::after {
+  content: 'Back to top';
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: rgba(196, 181, 253, 0.85);
+  white-space: nowrap;
+}
+
+.scroll-top i {
+  font-size: 1rem !important;
+  color: #a78bfa !important;
+  line-height: 1 !important;
+}
+
+.scroll-top:hover {
+  background: rgba(124, 58, 237, 0.22) !important;
+  border-color: rgba(167, 139, 250, 0.65) !important;
+  box-shadow:
+    0 0 28px rgba(124, 58, 237, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.10) !important;
+  transform: translateY(-2px);
+}
+
+.scroll-top:hover i {
+  color: #c4b5fd !important;
+}
+
+.scroll-top:hover::after {
+  color: #e9d5ff;
+}
+
+.scroll-top.active {
+  bottom: 20px !important;
+}
+
 .footer {
   background: #08080f !important;
   padding: 0 !important;
