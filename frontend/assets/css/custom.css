@@ -903,6 +903,42 @@ body,
   box-shadow: 0 0 14px rgba(124, 58, 237, 0.55) !important;
 }
 
+/* ── "Copied!" chat bubble toast ─────────────────────────────── */
+.about .copy-toast {
+  position: absolute;
+  top: 32px;
+  right: 72px;
+  background: linear-gradient(135deg, #7c3aed 0%, #5b21b6 100%);
+  color: #fff;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  padding: 7px 16px;
+  border-radius: 8px;
+  z-index: 10;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(-6px) scale(0.92);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  box-shadow: 0 4px 18px rgba(124, 58, 237, 0.45);
+  white-space: nowrap;
+}
+
+.about .copy-toast::after {
+  content: '';
+  position: absolute;
+  bottom: -7px;
+  left: 16px;
+  border: 7px solid transparent;
+  border-top-color: #5b21b6;
+  border-bottom: none;
+}
+
+.about .copy-toast.copy-toast--visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
 /* ── Contact pills (email / phone / location) ─────────────────── */
 .about .contact-links .contact-item {
   background: rgba(124, 58, 237, 0.07) !important;

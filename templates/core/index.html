@@ -215,6 +215,7 @@
         <div class="row">
           <div class="col-lg-5" data-aos="zoom-in" data-aos-delay="200">
             <div class="profile-card">
+              <div class="copy-toast" aria-live="polite">Copied!</div>
               <div class="profile-header">
                 <div class="profile-image">
                   {% if about.profile_image %}
@@ -229,7 +230,7 @@
                 <p class="profession">{{ about.title }}</p>
                 <div class="contact-links">
                   {% if about.email %}
-                  <a href="mailto:{{ about.email }}" class="contact-item">
+                  <a href="#" class="contact-item copy-trigger" data-copy="{{ about.email }}">
                     <i class="bi bi-envelope"></i>
                     {{ about.email }}
                   </a>
@@ -241,7 +242,7 @@
                   </a>
                   {% endif %}
                   {% if about.location %}
-                  <a href="#" class="contact-item">
+                  <a href="#" class="contact-item copy-trigger" data-copy="{{ about.location }}">
                     <i class="bi bi-geo-alt"></i>
                     {{ about.location }}
                   </a>
@@ -721,6 +722,26 @@
   <script src="{% static 'js/main.js' %}"></script>
   <script src="{% static 'js/hero-fx.js' %}"></script>
   <script src="{% static 'js/about-fx.js' %}"></script>
+  <script>
+    (function () {
+      var toast = document.querySelector('.copy-toast');
+      var hideTimer = null;
+      document.querySelectorAll('.copy-trigger').forEach(function (el) {
+        el.addEventListener('click', function (e) {
+          e.preventDefault();
+          var text = this.dataset.copy;
+          if (!text || !toast) return;
+          navigator.clipboard.writeText(text).then(function () {
+            clearTimeout(hideTimer);
+            toast.classList.add('copy-toast--visible');
+            hideTimer = setTimeout(function () {
+              toast.classList.remove('copy-toast--visible');
+            }, 1800);
+          });
+        });
+      });
+    })();
+  </script>
   <script>
     (function () {
       const THRESHOLD = 2;
