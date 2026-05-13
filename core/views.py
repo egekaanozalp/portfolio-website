@@ -45,7 +45,7 @@ def home(request):
     context = {
         "home": home,
         "about": AboutSection.get(),
-        "projects": Project.objects.select_related("category").order_by(
+        "projects": Project.objects.select_related("category", "linked_experience", "linked_education").order_by(
             F("end_year").desc(nulls_first=True),
             F("end_month").desc(nulls_first=True),
         ),
@@ -53,9 +53,9 @@ def home(request):
         "skill_categories": SkillCategory.objects.prefetch_related("skills").all(),
         "recommendations": Recommendation.objects.all(),
         "contact": ContactSection.get(),
-        "experiences": Experience.objects.all(),
+        "experiences": Experience.objects.prefetch_related("projects__category").all(),
         "total_experience": _total_experience_label(Experience.objects.all()),
-        "educations": Education.objects.all(),
+        "educations": Education.objects.prefetch_related("projects__category").all(),
         "certificates": Certificate.objects.all(),
         "tech_chips": [c.strip() for c in home.tech_chips.split(",") if c.strip()],
     }

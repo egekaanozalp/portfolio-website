@@ -216,10 +216,21 @@ class Project(models.Model):
     )
     title = models.CharField(max_length=200)
     slug = models.SlugField(max_length=220, unique=True, blank=True)
-    company = models.CharField(
-        max_length=300, blank=True, default="",
-        verbose_name="Company / Institution",
-        help_text="Company or institution the project was done for.",
+    linked_experience = models.ForeignKey(
+        "Experience",
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="projects",
+        verbose_name="Experience (company)",
+    )
+    linked_education = models.ForeignKey(
+        "Education",
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="projects",
+        verbose_name="Education (school)",
     )
     description = models.TextField(blank=True, default="", help_text="Full description for the project detail page.")
     image = models.ImageField(upload_to="portfolio/", blank=True)
@@ -259,6 +270,14 @@ class Project(models.Model):
                 n += 1
             self.slug = slug
         super().save(*args, **kwargs)
+
+    @property
+    def institution_name(self):
+        if self.linked_experience_id:
+            return self.linked_experience.company
+        if self.linked_education_id:
+            return self.linked_education.institution
+        return ""
 
     @property
     def tech_list(self):

@@ -1424,6 +1424,41 @@ body,
 }
 
 /* Certificate button */
+/* ── Linked project chips inside resume entries ──────────────── */
+.resume-linked-projects {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.85rem;
+}
+
+.resume-project-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.35rem 0.85rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: rgba(196, 181, 253, 0.8);
+  background: rgba(124, 58, 237, 0.08);
+  border: 1px solid rgba(124, 58, 237, 0.28);
+  border-radius: 20px;
+  text-decoration: none;
+  transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.15s ease;
+}
+
+.resume-project-chip i {
+  font-size: 0.75rem;
+  color: #a78bfa;
+}
+
+.resume-project-chip:hover {
+  background: rgba(124, 58, 237, 0.20);
+  border-color: rgba(167, 139, 250, 0.6);
+  color: #fff;
+  transform: translateY(-1px);
+}
+
 .resume-cert-btn {
   display: inline-flex;
   align-items: center;

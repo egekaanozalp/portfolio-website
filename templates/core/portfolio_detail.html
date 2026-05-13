@@ -75,9 +75,9 @@
 
             <h1 class="pd-title">{{ project.title }}</h1>
 
-            {% if project.company %}
+            {% if project.institution_name %}
             <p class="pd-company">
-              <i class="bi bi-building-fill"></i> {{ project.company }}
+              <i class="bi bi-building-fill"></i> {{ project.institution_name }}
             </p>
             {% endif %}
 
@@ -154,10 +154,10 @@
                   <span class="pd-info-value">{{ project.period }}</span>
                 </div>
                 {% endif %}
-                {% if project.company %}
+                {% if project.institution_name %}
                 <div class="pd-info-row">
                   <span class="pd-info-label"><i class="bi bi-building-fill"></i> Organisation</span>
-                  <span class="pd-info-value">{{ project.company }}</span>
+                  <span class="pd-info-value">{{ project.institution_name }}</span>
                 </div>
                 {% endif %}
                 {% if project.role %}

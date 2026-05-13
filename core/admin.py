@@ -90,8 +90,8 @@ class AboutSectionAdmin(admin.ModelAdmin):
 class ProjectInline(admin.TabularInline):
     model = Project
     extra = 0
-    fields = ["title", "company", "status", "featured", "order"]
-    readonly_fields = ["title", "company", "status", "featured", "order"]
+    fields = ["title", "status", "featured", "order"]
+    readonly_fields = ["title", "status", "featured", "order"]
     show_change_link = True
     can_delete = True
 
@@ -110,7 +110,11 @@ class ProjectCategoryAdmin(admin.ModelAdmin):
 class ProjectAdmin(admin.ModelAdmin):
     fieldsets = [
         ("Card", {
-            "fields": ["category", "title", "company", "image", "featured", "status", "order"],
+            "fields": ["category", "title", "image", "featured", "status", "order"],
+        }),
+        ("Institution", {
+            "description": "Link to a company (Experience) or school (Education) from your resume. Select at most one.",
+            "fields": ["linked_experience", "linked_education"],
         }),
         ("Duration", {
             "description": "Leave End year blank to show 'Present'.",
@@ -120,9 +124,9 @@ class ProjectAdmin(admin.ModelAdmin):
             "fields": ["description", "tech_stack", "role", "highlights", "live_url", "github_url"],
         }),
     ]
-    list_display = ["title", "category", "company", "status", "order"]
-    list_filter = ["category", "status"]
-    search_fields = ["title", "company"]
+    list_display = ["title", "category", "institution_name", "status", "order"]
+    list_filter = ["category", "status", "linked_experience", "linked_education"]
+    search_fields = ["title", "linked_experience__company", "linked_education__institution"]
 
 
 class SkillInline(admin.TabularInline):

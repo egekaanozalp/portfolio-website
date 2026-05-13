@@ -395,6 +395,15 @@
                   </div>
                 </div>
                 {% if exp.description %}{{ exp.description|as_bullets }}{% endif %}
+                {% if exp.projects.exists %}
+                <div class="resume-linked-projects">
+                  {% for proj in exp.projects.all %}
+                  <a href="{% url 'portfolio_detail' proj.slug %}" class="resume-project-chip">
+                    <i class="bi {{ proj.category.icon|default:'bi-code-slash' }}"></i>{{ proj.title }}
+                  </a>
+                  {% endfor %}
+                </div>
+                {% endif %}
               </div>
               {% empty %}
               <p class="text-muted">Add your experience via the admin panel.</p>
@@ -419,13 +428,22 @@
                   </div>
                 </div>
                 {% if edu.description %}{{ edu.description|as_bullets }}{% endif %}
+                {% if edu.projects.exists %}
+                <div class="resume-linked-projects">
+                  {% for proj in edu.projects.all %}
+                  <a href="{% url 'portfolio_detail' proj.slug %}" class="resume-project-chip">
+                    <i class="bi {{ proj.category.icon|default:'bi-code-slash' }}"></i>{{ proj.title }}
+                  </a>
+                  {% endfor %}
+                </div>
+                {% endif %}
               </div>
               {% empty %}
               <p class="text-muted">Add your education via the admin panel.</p>
               {% endfor %}
             </div>
 
-            <div class="resume-section mt-4" data-aos="fade-up" data-aos-delay="100" data-collapsible>
+            <div class="resume-section mt-4" data-aos="fade-up" data-aos-delay="100" data-collapsible data-threshold="3">
               <h3><i class="bi bi-award me-2"></i>Certificates</h3>
               {% for cert in certificates %}
               <div class="resume-item">
@@ -497,7 +515,7 @@
                       <div class="content">
                         {% if project.category %}<p class="pf-label">Category: <span>{{ project.category }}</span></p>{% endif %}
                         <h4>{{ project.title }}</h4>
-                        {% if project.company %}<p class="pf-desc"><i class="bi bi-building-fill"></i> {{ project.company }}</p>{% endif %}
+                        {% if project.institution_name %}<p class="pf-desc"><i class="bi bi-building-fill"></i> {{ project.institution_name }}</p>{% endif %}
                         <div class="portfolio-links">
                           {% if project.image %}<a href="{{ project.image.url }}" class="glightbox" title="{{ project.title }}" onclick="event.stopPropagation()"><i class="bi bi-plus-lg"></i></a>{% endif %}
                           <a href="{% url 'portfolio_detail' project.slug %}" title="More Details" onclick="event.stopPropagation()"><i class="bi bi-arrow-right"></i> Details</a>
@@ -758,7 +776,8 @@
         section.classList.remove('is-expanded');
 
         const lgAttr = section.dataset.thresholdLg;
-        const threshold = (lgAttr && lgMQ.matches) ? parseInt(lgAttr) : THRESHOLD;
+        const baseThreshold = section.dataset.threshold ? parseInt(section.dataset.threshold) : THRESHOLD;
+        const threshold = (lgAttr && lgMQ.matches) ? parseInt(lgAttr) : baseThreshold;
         if (items.length <= threshold) return;
 
         items.slice(threshold).forEach(el => el.classList.add('resume-item--hidden'));
