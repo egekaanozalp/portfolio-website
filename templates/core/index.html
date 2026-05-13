@@ -551,9 +551,7 @@
           <div class="col-xl-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
             <div class="rec-card">
               <div class="rec-bg-quote" aria-hidden="true">"</div>
-              <i class="bi bi-quote rec-quote-icon"></i>
-              <p class="rec-quote">{{ rec.quote }}</p>
-              <div class="rec-footer">
+              <div class="rec-header">
                 <div class="rec-avatar">
                   {% if rec.profile_image %}
                     <img src="{{ rec.profile_image.url }}" alt="{{ rec.first_name }} {{ rec.last_name }}">
@@ -566,6 +564,10 @@
                   {% if rec.role %}<span class="rec-role">{{ rec.role }}</span>{% endif %}
                   <span class="rec-company"><i class="bi bi-building-fill"></i> {{ rec.company }}</span>
                 </div>
+              </div>
+              <div class="rec-body">
+                <i class="bi bi-quote rec-quote-icon"></i>
+                <p class="rec-quote">{{ rec.quote }}</p>
               </div>
             </div>
           </div>
