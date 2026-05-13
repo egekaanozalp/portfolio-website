@@ -1749,6 +1749,35 @@ body,
   background-color: #08080f !important;
 }
 
+/* ── Portfolio "Show all" button ─────────────────────────────── */
+.pf-show-all-wrap {
+  display: flex;
+  justify-content: center;
+  margin-top: 1.5rem;
+}
+
+.pf-show-all {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.55rem 1.6rem;
+  background: transparent;
+  border: 1px dashed rgba(124, 58, 237, 0.35);
+  border-radius: 10px;
+  color: rgba(196, 181, 253, 0.65);
+  font-size: 0.84rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  transition: border-color 0.2s ease, color 0.2s ease, background 0.2s ease;
+}
+
+.pf-show-all:hover {
+  border-color: rgba(124, 58, 237, 0.7);
+  color: #c4b5fd;
+  background: rgba(124, 58, 237, 0.07);
+}
+
 /* ── Resume ambient orbs ─────────────────────────────────────── */
 .resume.section {
   position: relative;

@@ -133,29 +133,92 @@
     let layout = isotopeItem.getAttribute('data-layout') ?? 'masonry';
     let filter = isotopeItem.getAttribute('data-default-filter') ?? '*';
     let sort = isotopeItem.getAttribute('data-sort') ?? 'original-order';
+    const PF_LIMIT = 6;
 
     let initIsotope;
-    imagesLoaded(isotopeItem.querySelector('.isotope-container'), function() {
-      initIsotope = new Isotope(isotopeItem.querySelector('.isotope-container'), {
+    let currentFilter = filter;
+    let pfExpanded = false;
+    const container = isotopeItem.querySelector('.isotope-container');
+
+    // Build "Show all" button and inject after the grid
+    const pfWrap = document.createElement('div');
+    pfWrap.className = 'pf-show-all-wrap';
+    pfWrap.innerHTML = '<button class="pf-show-all" type="button"><i class="bi bi-grid-3x3-gap-fill"></i> <span class="pf-show-all-label">Show all (<span class="pf-show-all-count"></span>)</span></button>';
+    pfWrap.style.display = 'none';
+    container.parentElement.appendChild(pfWrap);
+    const pfBtn = pfWrap.querySelector('.pf-show-all');
+    const pfCount = pfWrap.querySelector('.pf-show-all-count');
+    const pfLabel = pfWrap.querySelector('.pf-show-all-label');
+
+    function applyPortfolioFilter(filterSel, isExpanded) {
+      const allItems = Array.from(container.querySelectorAll('.isotope-item'));
+      allItems.forEach(function(el) { el.removeAttribute('data-pf-over'); });
+
+      if (isExpanded) {
+        initIsotope.arrange({ filter: filterSel });
+        pfWrap.style.display = 'none';
+        return;
+      }
+
+      const matching = filterSel === '*'
+        ? allItems
+        : allItems.filter(function(el) { return el.matches(filterSel); });
+
+      if (matching.length <= PF_LIMIT) {
+        initIsotope.arrange({ filter: filterSel });
+        pfWrap.style.display = 'none';
+        return;
+      }
+
+      matching.slice(PF_LIMIT).forEach(function(el) { el.setAttribute('data-pf-over', '1'); });
+      const limitedFilter = filterSel === '*'
+        ? ':not([data-pf-over])'
+        : filterSel + ':not([data-pf-over])';
+      initIsotope.arrange({ filter: limitedFilter });
+      pfCount.textContent = matching.length;
+      pfLabel.textContent = 'Show all (' + matching.length + ')';
+      pfWrap.style.display = 'flex';
+    }
+
+    imagesLoaded(container, function() {
+      initIsotope = new Isotope(container, {
         itemSelector: '.isotope-item',
         layoutMode: layout,
         filter: filter,
         sortBy: sort
       });
+      applyPortfolioFilter(currentFilter, false);
     });
 
     isotopeItem.querySelectorAll('.isotope-filters li').forEach(function(filters) {
       filters.addEventListener('click', function() {
         isotopeItem.querySelector('.isotope-filters .filter-active').classList.remove('filter-active');
         this.classList.add('filter-active');
-        initIsotope.arrange({
-          filter: this.getAttribute('data-filter')
-        });
+        currentFilter = this.getAttribute('data-filter') || '*';
+        pfExpanded = false;
+        applyPortfolioFilter(currentFilter, false);
         if (typeof aosInit === 'function') {
           aosInit();
         }
       }, false);
     });
+
+    pfBtn.addEventListener('click', function() {
+      if (pfExpanded) {
+        pfExpanded = false;
+        applyPortfolioFilter(currentFilter, false);
+        const section = document.getElementById('portfolio');
+        if (section && section.getBoundingClientRect().top < 0) {
+          section.scrollIntoView({ behavior: 'instant', block: 'start' });
+        }
+      } else {
+        pfExpanded = true;
+        initIsotope.arrange({ filter: currentFilter });
+        pfLabel.textContent = 'Show less';
+        pfWrap.style.display = 'flex';
+      }
+    });
+
 
   });
 
