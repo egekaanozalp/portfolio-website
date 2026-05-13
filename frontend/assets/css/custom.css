@@ -301,6 +301,7 @@
   justify-content: center;
   align-items: center;
   padding: 60px 40px;
+  transform: translate(-180px, -55px);
 }
 
 /* ── Color blobs behind the glass card ──────────────────────── */
@@ -312,12 +313,12 @@
 }
 
 .blob-purple {
-  width: 280px;
-  height: 280px;
+  width: 220px;
+  height: 220px;
   background: radial-gradient(circle at 40% 40%, #a78bfa, #7c3aed 60%, transparent);
   filter: blur(58px);
-  top: -10px;
-  left: -10px;
+  top: 150px;
+  left: 30px;
   animation: blob-drift-a 9s ease-in-out infinite;
 }
 
