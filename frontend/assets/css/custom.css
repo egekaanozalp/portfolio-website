@@ -1816,7 +1816,8 @@ body,
 /* ── Resume ambient orbs ─────────────────────────────────────── */
 .resume.section {
   position: relative;
-  overflow: hidden;
+  overflow-x: clip;
+  overflow-y: visible;
 }
 
 .resume-ambient {
