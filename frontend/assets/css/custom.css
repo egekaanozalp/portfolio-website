@@ -1835,7 +1835,7 @@ body,
 .skills-orb--1 {
   width: 420px;
   height: 420px;
-  top: -5%;
+  top: 30%;
   right: -12%;
   background: radial-gradient(circle,
     rgba(139, 58, 237, 0.55)  0%,
@@ -1872,26 +1872,6 @@ body,
   filter: blur(90px);
 }
 
-.skills-orb--3 {
-  width: 420px;
-  height: 420px;
-  bottom: 8%;
-  right: -8%;
-  background: radial-gradient(circle,
-    rgba(139, 58, 237, 0.55)  0%,
-    rgba(139, 58, 237, 0.46) 10%,
-    rgba(139, 58, 237, 0.36) 20%,
-    rgba(139, 58, 237, 0.26) 30%,
-    rgba(139, 58, 237, 0.18) 40%,
-    rgba(139, 58, 237, 0.11) 50%,
-    rgba(139, 58, 237, 0.06) 60%,
-    rgba(139, 58, 237, 0.03) 70%,
-    rgba(139, 58, 237, 0.01) 80%,
-    rgba(139, 58, 237, 0.00) 90%
-  );
-  filter: blur(90px);
-}
-
 /* ── Resume ambient orbs ─────────────────────────────────────── */
 .resume.section {
   position: relative;
@@ -1909,15 +1889,26 @@ body,
 .resume-orb {
   position: absolute;
   border-radius: 50%;
-  filter: none;
 }
 
 .resume-orb--1 {
-  width: 520px;
-  height: 520px;
-  top: -4%;
-  left: 5%;
-  background: radial-gradient(circle, rgba(124, 58, 237, 0.15) 0%, transparent 68%);
+  width: 620px;
+  height: 120px;
+  top: 1%;
+  left: 40%;
+  background: radial-gradient(circle,
+    rgba(139, 58, 237, 0.55)  0%,
+    rgba(139, 58, 237, 0.46) 10%,
+    rgba(139, 58, 237, 0.36) 20%,
+    rgba(139, 58, 237, 0.26) 30%,
+    rgba(139, 58, 237, 0.18) 40%,
+    rgba(139, 58, 237, 0.11) 50%,
+    rgba(139, 58, 237, 0.06) 60%,
+    rgba(139, 58, 237, 0.03) 70%,
+    rgba(139, 58, 237, 0.01) 80%,
+    rgba(139, 58, 237, 0.00) 90%
+  );
+  filter: blur(70px);
 }
 
 
