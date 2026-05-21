@@ -1833,10 +1833,10 @@ body,
 }
 
 .skills-orb--1 {
-  width: 420px;
-  height: 420px;
-  top: 30%;
-  right: -12%;
+  width: 620px;
+  height: 120px;
+  top: 1%;
+  left: 41%;
   background: radial-gradient(circle,
     rgba(139, 58, 237, 0.55)  0%,
     rgba(139, 58, 237, 0.46) 10%,
@@ -1849,27 +1849,7 @@ body,
     rgba(139, 58, 237, 0.01) 80%,
     rgba(139, 58, 237, 0.00) 90%
   );
-  filter: blur(90px);
-}
-
-.skills-orb--2 {
-  width: 420px;
-  height: 420px;
-  top: 35%;
-  left: 10%;
-  background: radial-gradient(circle,
-    rgba(139, 58, 237, 0.55)  0%,
-    rgba(139, 58, 237, 0.46) 10%,
-    rgba(139, 58, 237, 0.36) 20%,
-    rgba(139, 58, 237, 0.26) 30%,
-    rgba(139, 58, 237, 0.18) 40%,
-    rgba(139, 58, 237, 0.11) 50%,
-    rgba(139, 58, 237, 0.06) 60%,
-    rgba(139, 58, 237, 0.03) 70%,
-    rgba(139, 58, 237, 0.01) 80%,
-    rgba(139, 58, 237, 0.00) 90%
-  );
-  filter: blur(90px);
+  filter: blur(80px);
 }
 
 /* ── Resume ambient orbs ─────────────────────────────────────── */
@@ -1895,7 +1875,7 @@ body,
   width: 620px;
   height: 120px;
   top: 1%;
-  left: 40%;
+  left: 41%;
   background: radial-gradient(circle,
     rgba(139, 58, 237, 0.55)  0%,
     rgba(139, 58, 237, 0.46) 10%,
@@ -1908,7 +1888,7 @@ body,
     rgba(139, 58, 237, 0.01) 80%,
     rgba(139, 58, 237, 0.00) 90%
   );
-  filter: blur(70px);
+  filter: blur(80px);
 }
 
 
