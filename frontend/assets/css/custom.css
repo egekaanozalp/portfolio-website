@@ -1892,6 +1892,45 @@ body,
 }
 
 
+/* ── Portfolio ambient orb ───────────────────────────────────── */
+.portfolio.section {
+  position: relative;
+  overflow-x: clip;
+  overflow-y: visible;
+}
+
+.portfolio-ambient {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.portfolio-orb {
+  position: absolute;
+  border-radius: 50%;
+}
+
+.portfolio-orb--1 {
+  width: 620px;
+  height: 120px;
+  top: 3%;
+  left: 40%;
+  background: radial-gradient(circle,
+    rgba(139, 58, 237, 0.55)  0%,
+    rgba(139, 58, 237, 0.46) 10%,
+    rgba(139, 58, 237, 0.36) 20%,
+    rgba(139, 58, 237, 0.26) 30%,
+    rgba(139, 58, 237, 0.18) 40%,
+    rgba(139, 58, 237, 0.11) 50%,
+    rgba(139, 58, 237, 0.06) 60%,
+    rgba(139, 58, 237, 0.03) 70%,
+    rgba(139, 58, 237, 0.01) 80%,
+    rgba(139, 58, 237, 0.00) 90%
+  );
+  filter: blur(80px);
+}
+
 .resume .container {
   position: relative;
   z-index: 1;
