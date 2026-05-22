@@ -128,7 +128,7 @@
 
 /* ── Name ────────────────────────────────────────────────────── */
 .hero-name {
-  font-family: 'Ubuntu', 'Roboto', sans-serif;
+  font-family: 'Space Grotesk', 'Roboto', sans-serif;
   font-weight: 700;
   font-size: clamp(3.4rem, 6.5vw, 5.4rem);
   line-height: 0.97;
@@ -822,7 +822,8 @@ body,
 /* ── About section — ambient atmosphere ──────────────────────── */
 .about.section {
   position: relative;
-  overflow: hidden;
+  overflow-x: clip;
+  overflow-y: visible;
 }
 
 /* Time-series canvas — radial mask centered behind the profile card */
@@ -2257,7 +2258,7 @@ body.pd-page {
 
 /* Title */
 .pd-title {
-  font-family: 'Ubuntu', sans-serif;
+  font-family: 'Space Grotesk', sans-serif;
   font-weight: 700;
   font-size: clamp(2rem, 4.5vw, 3.4rem);
   line-height: 1.08;
