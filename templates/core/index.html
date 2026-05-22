@@ -230,10 +230,13 @@
                 <p class="profession">{{ about.title }}</p>
                 <div class="contact-links">
                   {% if about.email %}
-                  <a href="#" class="contact-item copy-trigger" data-copy="{{ about.email }}">
+                  <div class="contact-item">
                     <i class="bi bi-envelope"></i>
                     {{ about.email }}
-                  </a>
+                    <button class="copy-btn copy-trigger" data-copy="{{ about.email }}" aria-label="Copy email">
+                      <i class="bi bi-clipboard"></i>
+                    </button>
+                  </div>
                   {% endif %}
                   {% if about.phone %}
                   <a href="tel:{{ about.phone }}" class="contact-item">
@@ -242,10 +245,13 @@
                   </a>
                   {% endif %}
                   {% if about.location %}
-                  <a href="#" class="contact-item copy-trigger" data-copy="{{ about.location }}">
+                  <div class="contact-item">
                     <i class="bi bi-geo-alt"></i>
                     {{ about.location }}
-                  </a>
+                    <button class="copy-btn copy-trigger" data-copy="{{ about.location }}" aria-label="Copy location">
+                      <i class="bi bi-clipboard"></i>
+                    </button>
+                  </div>
                   {% endif %}
                 </div>
 
