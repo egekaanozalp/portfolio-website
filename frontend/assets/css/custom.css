@@ -2090,43 +2090,89 @@ body,
   pointer-events: none;
 }
 
-/* ── Responsive ──────────────────────────────────────────────── */
+/* ── Mobile hero — complete redesign ─────────────────────────── */
 @media (max-width: 991px) {
+
+  /* 1. Dot-grid as subtle base layer behind the canvas */
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(rgba(124, 58, 237, 0.09) 1px, transparent 1px);
+    background-size: 28px 28px;
+    -webkit-mask-image: radial-gradient(ellipse 90% 75% at 50% 38%, black 15%, transparent 72%);
+    mask-image: radial-gradient(ellipse 90% 75% at 50% 38%, black 15%, transparent 72%);
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  /* 2. Canvas visible — portrait-optimised mask (centered, fades to bottom) */
   .nn-canvas-wrap {
-    -webkit-mask-image: radial-gradient(ellipse 110% 55% at 50% 25%, rgba(255,255,255,1) 25%, rgba(255,255,255,0) 80%);
-    mask-image: radial-gradient(ellipse 110% 55% at 50% 25%, rgba(255,255,255,1) 25%, rgba(255,255,255,0) 80%);
+    display: block;
+    -webkit-mask-image: radial-gradient(
+      ellipse 95% 72% at 50% 32%,
+      rgba(255,255,255,0.90) 0%,
+      rgba(255,255,255,0.45) 42%,
+      rgba(255,255,255,0.00) 76%
+    );
+    mask-image: radial-gradient(
+      ellipse 95% 72% at 50% 32%,
+      rgba(255,255,255,0.90) 0%,
+      rgba(255,255,255,0.45) 42%,
+      rgba(255,255,255,0.00) 76%
+    );
   }
 
+  /* 3. Reposition orbs for portrait */
+  .orb-1 {
+    width: 420px;
+    height: 420px;
+    top: -100px;
+    left: calc(50% - 210px);
+    right: auto;
+    background: radial-gradient(circle, rgba(109, 40, 217, 0.20) 0%, transparent 65%);
+  }
+
+  .orb-2 {
+    width: 300px;
+    height: 300px;
+    bottom: -60px;
+    right: -80px;
+    left: auto;
+  }
+
+  .orb-3 { display: none; }
+
+  /* 4. Center all hero text + elements */
   .hero-row {
-    padding: 80px 0 50px;
+    min-height: 100vh;
+    min-height: 100svh;
+    padding: 100px 0 56px;
+    text-align: center;
   }
 
-  .hero-name {
-    font-size: clamp(2.6rem, 10vw, 3.4rem) !important;
-  }
-
-  .hero-bio {
-    max-width: 100%;
-  }
+  .hero-greeting      { justify-content: center; }
+  .hero-name          { align-items: center; font-size: clamp(2.8rem, 11vw, 3.8rem) !important; }
+  .hero-role-line     { justify-content: center; }
+  .hero-bio           { margin-left: auto; margin-right: auto; max-width: 360px; }
+  .hero-actions       { justify-content: center; }
+  .hero .social-links { display: flex; justify-content: center; }
+  .tech-chips         { justify-content: center; gap: 6px; }
 }
 
 @media (max-width: 576px) {
-  .hero-name {
-    font-size: 2.5rem !important;
-  }
+  .hero-name { font-size: 2.8rem !important; }
 
   .hero-bio {
-    font-size: 0.92rem;
+    font-size: 0.90rem;
+    max-width: 300px;
+    line-height: 1.7;
   }
 
   .btn-hero-primary,
   .btn-hero-outline {
     padding: 11px 22px;
     font-size: 0.88rem;
-  }
-
-  .tech-chips {
-    gap: 6px;
   }
 }
 
@@ -3338,4 +3384,37 @@ a.ctc-value:hover { color: #a78bfa; }
   .footer-inner { gap: 18px; padding: 36px 0 24px; }
   .footer-name  { font-size: 1.3rem; }
   .footer-nav a { font-size: 0.74rem; padding: 4px 12px; }
+}
+
+
+/* ================================================================
+   MOBILE NAV TOGGLE — glassmorphic redesign
+   ================================================================ */
+
+.header .header-toggle {
+  background: rgba(15, 10, 30, 0.55) !important;
+  backdrop-filter: blur(18px) saturate(1.4);
+  -webkit-backdrop-filter: blur(18px) saturate(1.4);
+  border: 1px solid rgba(139, 92, 246, 0.32);
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.04) inset,
+    0 4px 24px rgba(124, 58, 237, 0.18),
+    0 1px 0 rgba(255, 255, 255, 0.06) inset;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  font-size: 20px;
+  color: #c4b5fd !important;
+  transition: all 0.25s ease;
+}
+
+.header .header-toggle:hover,
+.header .header-toggle:focus {
+  background: rgba(124, 58, 237, 0.20) !important;
+  border-color: rgba(139, 92, 246, 0.60);
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.06) inset,
+    0 4px 32px rgba(124, 58, 237, 0.35),
+    0 0 16px rgba(139, 92, 246, 0.20);
+  color: #fff !important;
 }
