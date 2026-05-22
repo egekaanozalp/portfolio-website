@@ -724,6 +724,7 @@
     margin-left: -330px;
     width: calc(100% + 330px);
   }
+
 }
 
 .navmenu ul {
@@ -1836,7 +1837,7 @@ body,
   width: 620px;
   height: 120px;
   top: 1%;
-  left: 41%;
+  left: calc(50% - 310px);
   background: radial-gradient(circle,
     rgba(139, 58, 237, 0.55)  0%,
     rgba(139, 58, 237, 0.46) 10%,
@@ -1875,7 +1876,7 @@ body,
   width: 620px;
   height: 120px;
   top: 1%;
-  left: 41%;
+  left: calc(50% - 310px);
   background: radial-gradient(circle,
     rgba(139, 58, 237, 0.55)  0%,
     rgba(139, 58, 237, 0.46) 10%,
@@ -1914,8 +1915,8 @@ body,
 .portfolio-orb--1 {
   width: 620px;
   height: 120px;
-  top: 3%;
-  left: 40%;
+  top: 1%;
+  left: calc(50% - 310px);
   background: radial-gradient(circle,
     rgba(139, 58, 237, 0.55)  0%,
     rgba(139, 58, 237, 0.46) 10%,
@@ -1929,6 +1930,16 @@ body,
     rgba(139, 58, 237, 0.00) 90%
   );
   filter: blur(80px);
+}
+
+/* On large screens the sections extend behind the 330px sidebar, so 50%
+   of the section is 165px left of the content center. Shift right to compensate. */
+@media (min-width: 1200px) {
+  .skills-orb--1,
+  .resume-orb--1,
+  .portfolio-orb--1 {
+    left: calc(50% - 145px);
+  }
 }
 
 .resume .container {
