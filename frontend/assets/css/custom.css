@@ -2090,74 +2090,57 @@ body,
   pointer-events: none;
 }
 
-/* ── Mobile hero — complete redesign ─────────────────────────── */
+/* ── Mobile hero ─────────────────────────────────────────────── */
 @media (max-width: 991px) {
 
-  /* 1. Dot-grid as subtle base layer behind the canvas */
-  .hero::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background-image: radial-gradient(rgba(124, 58, 237, 0.09) 1px, transparent 1px);
-    background-size: 28px 28px;
-    -webkit-mask-image: radial-gradient(ellipse 90% 75% at 50% 38%, black 15%, transparent 72%);
-    mask-image: radial-gradient(ellipse 90% 75% at 50% 38%, black 15%, transparent 72%);
-    z-index: 0;
-    pointer-events: none;
-  }
+  /* Remove dot-grid ::before */
+  .hero::before { display: none; }
 
-  /* 2. Canvas visible — portrait-optimised mask (centered, fades to bottom) */
+  /* Canvas: JS sets top/height dynamically over .hero-name; CSS drives the reveal */
   .nn-canvas-wrap {
-    display: block;
-    -webkit-mask-image: radial-gradient(
-      ellipse 95% 72% at 50% 32%,
-      rgba(255,255,255,0.90) 0%,
-      rgba(255,255,255,0.45) 42%,
-      rgba(255,255,255,0.00) 76%
+    left: 0 !important;
+    right: 0 !important;
+    bottom: auto !important;
+
+    clip-path: inset(0 100% 0 0);
+    animation: nn-reveal 1.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.55s forwards;
+
+    -webkit-mask-image: linear-gradient(
+      to right, transparent 0%, black 6%, black 94%, transparent 100%
     );
-    mask-image: radial-gradient(
-      ellipse 95% 72% at 50% 32%,
-      rgba(255,255,255,0.90) 0%,
-      rgba(255,255,255,0.45) 42%,
-      rgba(255,255,255,0.00) 76%
+    mask-image: linear-gradient(
+      to right, transparent 0%, black 6%, black 94%, transparent 100%
     );
   }
 
-  /* 3. Reposition orbs for portrait */
+  /* Orbs */
   .orb-1 {
-    width: 420px;
-    height: 420px;
-    top: -100px;
-    left: calc(50% - 210px);
-    right: auto;
-    background: radial-gradient(circle, rgba(109, 40, 217, 0.20) 0%, transparent 65%);
+    width: 420px; height: 420px;
+    top: -110px;
+    left: calc(50% - 210px); right: auto;
+    background: radial-gradient(circle, rgba(109, 40, 217, 0.18) 0%, transparent 65%);
   }
-
-  .orb-2 {
-    width: 300px;
-    height: 300px;
-    bottom: -60px;
-    right: -80px;
-    left: auto;
-  }
-
+  .orb-2 { width: 260px; height: 260px; bottom: -40px; right: -60px; left: auto; }
   .orb-3 { display: none; }
 
-  /* 4. Center all hero text + elements */
+  /* Layout */
   .hero-row {
-    min-height: 100vh;
-    min-height: 100svh;
-    padding: 100px 0 56px;
+    min-height: 100vh; min-height: 100svh;
+    padding: 88px 0 52px;
     text-align: center;
   }
 
   .hero-greeting      { justify-content: center; }
   .hero-name          { align-items: center; font-size: clamp(2.8rem, 11vw, 3.8rem) !important; }
   .hero-role-line     { justify-content: center; }
-  .hero-bio           { margin-left: auto; margin-right: auto; max-width: 360px; }
+  .hero-bio           { margin-left: auto; margin-right: auto; max-width: 350px; }
   .hero-actions       { justify-content: center; }
   .hero .social-links { display: flex; justify-content: center; }
   .tech-chips         { justify-content: center; gap: 6px; }
+}
+
+@keyframes nn-reveal {
+  to { clip-path: inset(0 0% 0 0); }
 }
 
 @media (max-width: 576px) {
