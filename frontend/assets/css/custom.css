@@ -1915,7 +1915,7 @@ body,
 .portfolio-orb--1 {
   width: 620px;
   height: 120px;
-  top: 1%;
+  top: 3%;
   left: calc(50% - 310px);
   background: radial-gradient(circle,
     rgba(139, 58, 237, 0.55)  0%,
@@ -1930,16 +1930,6 @@ body,
     rgba(139, 58, 237, 0.00) 90%
   );
   filter: blur(80px);
-}
-
-/* On large screens the sections extend behind the 330px sidebar, so 50%
-   of the section is 165px left of the content center. Shift right to compensate. */
-@media (min-width: 1200px) {
-  .skills-orb--1,
-  .resume-orb--1,
-  .portfolio-orb--1 {
-    left: calc(50% - 145px);
-  }
 }
 
 .resume .container {
@@ -2615,7 +2605,40 @@ body.pd-page {
 
 .recommendations.section {
   position: relative;
-  overflow: hidden;
+  overflow-x: clip;
+  overflow-y: visible;
+}
+
+.recommendations-ambient {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.recommendations-orb {
+  position: absolute;
+  border-radius: 50%;
+}
+
+.recommendations-orb--1 {
+  width: 620px;
+  height: 120px;
+  top: 7%;
+  left: calc(50% - 310px);
+  background: radial-gradient(circle,
+    rgba(139, 58, 237, 0.55)  0%,
+    rgba(139, 58, 237, 0.46) 10%,
+    rgba(139, 58, 237, 0.36) 20%,
+    rgba(139, 58, 237, 0.26) 30%,
+    rgba(139, 58, 237, 0.18) 40%,
+    rgba(139, 58, 237, 0.11) 50%,
+    rgba(139, 58, 237, 0.06) 60%,
+    rgba(139, 58, 237, 0.03) 70%,
+    rgba(139, 58, 237, 0.01) 80%,
+    rgba(139, 58, 237, 0.00) 90%
+  );
+  filter: blur(80px);
 }
 
 /* Ambient pseudo-element glows */
@@ -2641,6 +2664,17 @@ body.pd-page {
   background: radial-gradient(circle, rgba(99, 102, 241, 0.07) 0%, transparent 68%);
   pointer-events: none;
   z-index: 0;
+}
+
+/* On large screens the sections extend behind the 330px sidebar, so 50%
+   of the section is 165px left of the content center. Shift right to compensate. */
+@media (min-width: 1200px) {
+  .skills-orb--1,
+  .resume-orb--1,
+  .portfolio-orb--1,
+  .recommendations-orb--1 {
+    left: calc(50% - 145px);
+  }
 }
 
 /* ── Card ─────────────────────────────────────────────────────── */
