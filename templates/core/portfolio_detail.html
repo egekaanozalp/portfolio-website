@@ -240,7 +240,7 @@
 
         <!-- ── Footer back button ─────────────────────────── -->
         <div class="pd-footer-row">
-          <a href="{% url 'home' %}#portfolio" class="btn-hero-outline pd-hero-btn">
+          <a href="{% url 'home' %}#portfolio" class="btn-hero-outline pd-hero-btn pd-footer-back">
             <i class="bi bi-arrow-left"></i> Back to Portfolio
           </a>
         </div>
@@ -251,5 +251,15 @@
   </main>
 
   <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+  <script>
+    (function () {
+      var hash = sessionStorage.getItem('portfolioReturnHash') || '#portfolio';
+      document.querySelectorAll('.pd-back-btn, .pd-footer-back').forEach(function (btn) {
+        var url = new URL(btn.href);
+        url.hash = hash;
+        btn.href = url.href;
+      });
+    })();
+  </script>
 </body>
 </html>

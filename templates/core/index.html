@@ -28,7 +28,18 @@
   <script>
     if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
     if (window.location.hash) history.replaceState(null, '', window.location.pathname);
-    window.addEventListener('load', function () { window.scrollTo(0, 0); });
+    window.addEventListener('load', function () {
+      var returnHash = sessionStorage.getItem('portfolioReturnHash');
+      if (returnHash) {
+        sessionStorage.removeItem('portfolioReturnHash');
+        var target = document.querySelector(returnHash);
+        if (target) {
+          target.scrollIntoView({ behavior: 'instant', block: 'start' });
+          return;
+        }
+      }
+      window.scrollTo(0, 0);
+    });
   </script>
 </head>
 
@@ -40,7 +51,7 @@
     <div class="header-container d-flex flex-column align-items-start">
       <nav id="navmenu" class="navmenu">
         <ul>
-          <li><a href="#hero" class="active"><i class="bi bi-house navicon"></i><span class="nav-label">Home</span></a></li>
+          <li><a href="#home" class="active"><i class="bi bi-house navicon"></i><span class="nav-label">Home</span></a></li>
           <li><a href="#about"><i class="bi bi-person navicon"></i><span class="nav-label">About</span></a></li>
           <li><a href="#skills"><i class="bi bi-bar-chart-line navicon"></i><span class="nav-label">Skills</span></a></li>
           <li><a href="#resume"><i class="bi bi-file-earmark-text navicon"></i><span class="nav-label">Resume</span></a></li>
@@ -56,7 +67,7 @@
   <main class="main">
 
     <!-- Hero Section -->
-    <section id="hero" class="hero section">
+    <section id="home" class="hero section">
 
       <!-- Full-viewport neural network — ambient background texture -->
       <div class="nn-canvas-wrap" aria-hidden="true">
@@ -855,6 +866,22 @@
         });
       }
     })();
+  </script>
+
+  <script>
+    document.addEventListener('click', function (e) {
+      var link = e.target.closest('a');
+      if (link && link.pathname && /^\/portfolio\/.+/.test(link.pathname)) {
+        var active = document.querySelector('#navmenu a.active');
+        sessionStorage.setItem('portfolioReturnHash', active ? active.getAttribute('href') : '#portfolio');
+        return;
+      }
+      var wrap = e.target.closest('[data-url]');
+      if (wrap && wrap.dataset.url && /\/portfolio\/.+/.test(wrap.dataset.url)) {
+        var active = document.querySelector('#navmenu a.active');
+        sessionStorage.setItem('portfolioReturnHash', active ? active.getAttribute('href') : '#portfolio');
+      }
+    }, true);
   </script>
 
 
