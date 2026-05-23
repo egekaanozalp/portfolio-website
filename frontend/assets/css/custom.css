@@ -1286,6 +1286,12 @@ body,
   }
 }
 
+@media (max-width: 991.98px) {
+  #about-canvas { display: none; }
+  .about .contact-links .contact-item { font-size: clamp(0.7rem, 3.5vw, 0.9rem); }
+  .about .stats-grid .stat-item:not(:last-child)::after { display: none; }
+}
+
 /* ── Resume redesign ─────────────────────────────────────────── */
 
 /* Glass card per section */
