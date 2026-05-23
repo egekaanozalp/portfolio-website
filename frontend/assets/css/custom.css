@@ -1290,6 +1290,8 @@ body,
   #about-canvas { display: none; }
   .about .contact-links .contact-item { font-size: clamp(0.7rem, 3.5vw, 0.9rem); }
   .about .stats-grid .stat-item:not(:last-child)::after { display: none; }
+  .hero.section { padding-bottom: 20px !important; }
+  .about.section { padding-top: 20px !important; }
 }
 
 /* ── Resume redesign ─────────────────────────────────────────── */
