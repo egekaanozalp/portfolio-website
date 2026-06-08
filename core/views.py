@@ -1,7 +1,8 @@
 import datetime
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
-from django.core.mail import send_mail
+from django.core.mail import EmailMessage
+from django.http import JsonResponse
 from django.conf import settings
 from django.db.models import F
 from .models import HomeSection, AboutSection, Project, ProjectCategory, Skill, SkillCategory, Service, Experience, Education, Certificate, Recommendation, ContactSection
@@ -32,13 +33,15 @@ def home(request):
         email = request.POST.get("email", "")
         subject = request.POST.get("subject", "")
         message = request.POST.get("message", "")
-        send_mail(
+        EmailMessage(
             subject=f"[Portfolio Contact] {subject}",
-            message=f"From: {name} <{email}>\n\n{message}",
-            from_email=settings.DEFAULT_FROM_EMAIL if hasattr(settings, "DEFAULT_FROM_EMAIL") else email,
-            recipient_list=[settings.CONTACT_EMAIL] if hasattr(settings, "CONTACT_EMAIL") else [],
-            fail_silently=True,
-        )
+            body=f"From: {name} <{email}>\n\n{message}",
+            from_email=settings.DEFAULT_FROM_EMAIL,
+            to=[settings.CONTACT_EMAIL] if hasattr(settings, "CONTACT_EMAIL") else [],
+            reply_to=[f"{name} <{email}>"],
+        ).send(fail_silently=True)
+        if request.headers.get("X-Requested-With") == "XMLHttpRequest":
+            return JsonResponse({"ok": True})
         messages.success(request, "Your message has been sent. Thank you!")
         return redirect("home")
 
