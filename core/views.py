@@ -1,4 +1,7 @@
 import datetime
+import json
+import urllib.parse
+import urllib.request
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
 from django.core.mail import EmailMessage
@@ -7,6 +10,27 @@ from django.conf import settings
 from django.db.models import F
 from .models import HomeSection, AboutSection, Project, ProjectCategory, Skill, SkillCategory, Service, Experience, Education, Certificate, Recommendation, ContactSection
 from general.models import GeneralSettings
+
+
+def _verify_turnstile(token, remote_ip):
+    if not token:
+        return False
+    try:
+        data = urllib.parse.urlencode({
+            "secret": settings.TURNSTILE_SECRET_KEY,
+            "response": token,
+            "remoteip": remote_ip,
+        }).encode()
+        with urllib.request.urlopen(
+            urllib.request.Request(
+                "https://challenges.cloudflare.com/turnstile/v0/siteverify",
+                data=data,
+            ),
+            timeout=5,
+        ) as resp:
+            return json.loads(resp.read()).get("success", False)
+    except Exception:
+        return True  # fail open if Cloudflare is unreachable
 
 
 def _total_experience_label(experiences):
@@ -29,6 +53,15 @@ def _total_experience_label(experiences):
 
 def home(request):
     if request.method == "POST" and request.POST.get("contact_form"):
+        is_ajax = request.headers.get("X-Requested-With") == "XMLHttpRequest"
+        token = request.POST.get("cf-turnstile-response", "")
+        if not _verify_turnstile(token, request.META.get("REMOTE_ADDR", "")):
+            msg = "Security check failed. Please try again."
+            if is_ajax:
+                return JsonResponse({"ok": False, "msg": msg})
+            messages.error(request, msg)
+            return redirect("home")
+
         name = request.POST.get("name", "")
         email = request.POST.get("email", "")
         subject = request.POST.get("subject", "")
@@ -40,7 +73,7 @@ def home(request):
             to=[settings.CONTACT_EMAIL] if hasattr(settings, "CONTACT_EMAIL") else [],
             reply_to=[f"{name} <{email}>"],
         ).send(fail_silently=True)
-        if request.headers.get("X-Requested-With") == "XMLHttpRequest":
+        if is_ajax:
             return JsonResponse({"ok": True})
         messages.success(request, "Your message has been sent. Thank you!")
         return redirect("home")
@@ -63,6 +96,7 @@ def home(request):
         "educations": Education.objects.prefetch_related("projects__category").all(),
         "certificates": Certificate.objects.all(),
         "tech_chips": [c.strip() for c in home.tech_chips.split(",") if c.strip()],
+        "turnstile_site_key": settings.TURNSTILE_SITE_KEY,
     }
     return render(request, "core/index.html", context)
 

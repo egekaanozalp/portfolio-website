@@ -24,6 +24,7 @@
 
   <link href="{% static 'css/main.css' %}" rel="stylesheet">
   <link href="{% static 'css/custom.css' %}" rel="stylesheet">
+  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 
   <script>
     if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
@@ -702,9 +703,10 @@
                     </div>
                   </div>
                   <div class="col-12">
-                    <button type="submit" class="ctc-submit">
+                    <button type="button" class="ctc-submit">
                       Send Message&nbsp;<i class="bi bi-send-fill"></i>
                     </button>
+                    <div id="turnstile-container" class="ctc-turnstile-wrap" data-sitekey="{{ turnstile_site_key }}"></div>
                   </div>
                 </div>
               </form>
@@ -865,58 +867,6 @@
 
 
 
-  <script>
-    (function () {
-      var form  = document.querySelector('.ctc-form');
-      var toast = document.getElementById('ctc-toast');
-      var toastMsg = document.getElementById('ctc-toast-msg');
-      if (!form || !toast) return;
-
-      var hideTimer = null;
-
-      function showToast(msg, isError) {
-        toastMsg.textContent = msg;
-        toast.querySelector('i').className = isError
-          ? 'bi bi-exclamation-circle-fill'
-          : 'bi bi-check-circle-fill';
-        toast.classList.toggle('ctc-toast--error', isError);
-        toast.classList.toggle('ctc-toast--success', !isError);
-        toast.classList.add('ctc-toast--visible');
-        clearTimeout(hideTimer);
-        hideTimer = setTimeout(function () {
-          toast.classList.remove('ctc-toast--visible');
-        }, 5000);
-      }
-
-      form.addEventListener('submit', function (e) {
-        e.preventDefault();
-        var btn = form.querySelector('.ctc-submit');
-        btn.disabled = true;
-        btn.innerHTML = 'Sending…';
-
-        fetch(form.action, {
-          method: 'POST',
-          headers: { 'X-Requested-With': 'XMLHttpRequest' },
-          body: new FormData(form),
-        })
-          .then(function (res) { return res.json(); })
-          .then(function (data) {
-            if (data.ok) {
-              form.reset();
-              showToast("Your message has been sent. I’ll get back to you soon!", false);
-            } else {
-              showToast('Something went wrong. Please try again.', true);
-            }
-          })
-          .catch(function () {
-            showToast('Something went wrong. Please try again.', true);
-          })
-          .finally(function () {
-            btn.disabled = false;
-            btn.innerHTML = 'Send Message&nbsp;<i class="bi bi-send-fill"></i>';
-          });
-      });
-    })();
-  </script>
+  <script src="{% static 'js/contact.js' %}"></script>
 </body>
 </html>

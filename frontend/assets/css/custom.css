@@ -3436,10 +3436,25 @@ a.ctc-value:hover { color: #a78bfa; }
   color: #fff !important;
 }
 
+/* ── Turnstile widget — slides in after submit ─────────────── */
+.ctc-turnstile-wrap {
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: max-height 0.35s ease, opacity 0.35s ease, margin-top 0.35s ease;
+  margin-top: 0;
+}
+
+.ctc-turnstile-wrap--visible {
+  max-height: 80px;
+  opacity: 1;
+  margin-top: 14px;
+}
+
 /* ── Contact toast notification ───────────────────────────── */
 .ctc-toast {
   position: fixed;
-  bottom: 2rem;
+  bottom: 5rem;
   right: 2rem;
   display: flex;
   align-items: center;
