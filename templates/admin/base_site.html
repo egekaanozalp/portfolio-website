@@ -1,0 +1,44 @@
+{% extends "admin/base.html" %}
+{% load i18n static %}
+
+{% block title %}{{ title }} | Admin{% endblock %}
+
+{% block dark-mode-vars %}{% endblock %}
+
+{% block extrastyle %}
+  {{ block.super }}
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="{% static 'css/admin_custom.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block branding %}
+  <span style="
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    width:30px; height:30px;
+    background: linear-gradient(135deg, rgba(124,58,237,0.35) 0%, rgba(99,102,241,0.22) 100%);
+    border: 1px solid rgba(124,58,237,0.4);
+    border-radius: 8px;
+    font-size:0.95rem;
+    margin-right:10px;
+    flex-shrink:0;
+  ">◈</span>
+  <h1 id="site-name">
+    <a href="{% url 'admin:index' %}">{% trans 'Admin Panel' %}</a>
+  </h1>
+{% endblock %}
+
+{% block userlinks %}
+  {% if site_url %}
+    <a href="{{ site_url }}">{% trans 'View site' %}</a> &nbsp;/&nbsp;
+  {% endif %}
+  {% if user.has_usable_password %}
+    <a href="{% url 'admin:password_change' %}">{% trans 'Change password' %}</a> &nbsp;/&nbsp;
+  {% endif %}
+  <form id="logout-form" method="post" action="{% url 'admin:logout' %}">
+    {% csrf_token %}
+    <button type="submit">{% trans 'Log out' %}</button>
+  </form>
+{% endblock %}

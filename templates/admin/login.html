@@ -1,0 +1,356 @@
+{% load i18n static %}
+<!DOCTYPE html>
+{% get_current_language as LANGUAGE_CODE %}
+<html lang="{{ LANGUAGE_CODE|default:'en-us' }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="NONE,NOARCHIVE">
+  <title>{% trans "Sign In" %} — Admin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  {{ form.media }}
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      height: 100%;
+      background: #08080f;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      color: rgba(255,255,255,0.87);
+      overflow: hidden;
+    }
+
+    /* ── Grid texture ── */
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image:
+        linear-gradient(rgba(124,58,237,0.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(124,58,237,0.045) 1px, transparent 1px);
+      background-size: 64px 64px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ── Ambient orbs ── */
+    .orb {
+      position: fixed;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 0;
+      will-change: transform;
+    }
+    .orb-1 {
+      width: 550px; height: 550px;
+      background: radial-gradient(circle, rgba(109,40,217,0.18) 0%, transparent 68%);
+      top: -140px; right: 8%;
+      animation: orb-a 22s ease-in-out infinite;
+    }
+    .orb-2 {
+      width: 420px; height: 420px;
+      background: radial-gradient(circle, rgba(37,99,235,0.12) 0%, transparent 70%);
+      bottom: -100px; left: 4%;
+      animation: orb-b 28s ease-in-out infinite;
+    }
+    .orb-3 {
+      width: 320px; height: 320px;
+      background: radial-gradient(circle, rgba(99,102,241,0.13) 0%, transparent 70%);
+      top: 40%; left: 40%;
+      animation: orb-c 19s ease-in-out infinite;
+    }
+    @keyframes orb-a {
+      0%,100% { transform: translate(0,0); }
+      33% { transform: translate(-32px, 44px); }
+      66% { transform: translate(26px,-22px); }
+    }
+    @keyframes orb-b {
+      0%,100% { transform: translate(0,0); }
+      40% { transform: translate(42px,-34px); }
+      70% { transform: translate(-22px, 28px); }
+    }
+    @keyframes orb-c {
+      0%,100% { transform: translate(0,0) scale(1); }
+      50% { transform: translate(-18px,-24px) scale(1.12); }
+    }
+
+    /* ── Page layout ── */
+    .page {
+      position: relative;
+      z-index: 1;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    /* ── Login card ── */
+    .card {
+      width: 100%;
+      max-width: 400px;
+      background: rgba(11,7,22,0.75);
+      backdrop-filter: blur(32px);
+      -webkit-backdrop-filter: blur(32px);
+      border: 1px solid rgba(124,58,237,0.26);
+      border-radius: 1.5rem;
+      padding: 42px 38px 36px;
+      box-shadow:
+        0 0 0 1px rgba(124,58,237,0.07),
+        0 8px 56px rgba(0,0,0,0.55),
+        0 0 90px rgba(124,58,237,0.07);
+      position: relative;
+      overflow: hidden;
+      animation: card-in 0.55s cubic-bezier(0.16,1,0.3,1) both;
+    }
+
+    @keyframes card-in {
+      from { opacity: 0; transform: translateY(20px) scale(0.97); }
+      to   { opacity: 1; transform: translateY(0)    scale(1); }
+    }
+
+    /* Top glow line */
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg,
+        transparent 0%,
+        rgba(124,58,237,0.9) 28%,
+        rgba(99,102,241,0.65) 62%,
+        transparent 100%);
+    }
+
+    /* ── Branding ── */
+    .logo {
+      width: 52px; height: 52px;
+      background: linear-gradient(135deg,
+        rgba(124,58,237,0.32) 0%,
+        rgba(99,102,241,0.18) 100%);
+      border: 1px solid rgba(124,58,237,0.42);
+      border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 20px;
+      font-size: 1.45rem;
+      box-shadow: 0 0 22px rgba(124,58,237,0.18);
+    }
+
+    .brand {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .brand h1 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.55rem;
+      font-weight: 700;
+      letter-spacing: -0.025em;
+      background: linear-gradient(135deg, #ddd6fe 0%, #a78bfa 45%, #7c3aed 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 7px;
+      line-height: 1.15;
+    }
+
+    .brand p {
+      color: rgba(167,139,250,0.55);
+      font-size: 0.82rem;
+    }
+
+    /* ── Error box ── */
+    .error-box {
+      background: rgba(239,68,68,0.1);
+      border: 1px solid rgba(239,68,68,0.3);
+      border-radius: 0.75rem;
+      color: #fca5a5;
+      padding: 11px 14px;
+      font-size: 0.82rem;
+      margin-bottom: 18px;
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+    }
+    .error-box::before { content: '⚠'; flex-shrink: 0; }
+
+    /* ── Form ── */
+    .field { margin-bottom: 16px; }
+
+    .field label {
+      display: block;
+      color: rgba(167,139,250,0.72);
+      font-size: 0.8rem;
+      font-weight: 500;
+      margin-bottom: 7px;
+      letter-spacing: 0.01em;
+    }
+
+    .field input {
+      display: block;
+      width: 100%;
+      background: rgba(124,58,237,0.07);
+      border: 1px solid rgba(124,58,237,0.28);
+      border-radius: 0.625rem;
+      color: rgba(255,255,255,0.9);
+      padding: 11px 14px;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.9rem;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+    }
+
+    .field input::placeholder { color: rgba(167,139,250,0.3); }
+
+    .field input:focus {
+      border-color: #7c3aed;
+      background: rgba(124,58,237,0.1);
+      box-shadow: 0 0 0 3px rgba(124,58,237,0.16);
+    }
+
+    .field-errors {
+      color: #f87171;
+      font-size: 0.75rem;
+      margin-top: 4px;
+    }
+
+    /* ── Submit ── */
+    .submit-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      padding: 12px;
+      margin-top: 22px;
+      background: linear-gradient(135deg, #7c3aed 0%, #6366f1 100%);
+      color: #fff;
+      border: none;
+      border-radius: 0.625rem;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 600;
+      letter-spacing: 0.01em;
+      cursor: pointer;
+      transition: opacity 0.18s, transform 0.15s, box-shadow 0.2s;
+      box-shadow: 0 4px 18px rgba(124,58,237,0.32);
+    }
+
+    .submit-btn:hover {
+      opacity: 0.9;
+      transform: translateY(-1px);
+      box-shadow: 0 6px 26px rgba(124,58,237,0.44);
+    }
+
+    .submit-btn:active { transform: translateY(0); }
+
+    /* Arrow icon on button */
+    .submit-btn::after {
+      content: '→';
+      font-size: 1rem;
+      transition: transform 0.18s;
+    }
+    .submit-btn:hover::after { transform: translateX(3px); }
+
+    /* ── Footer ── */
+    .card-footer {
+      text-align: center;
+      margin-top: 20px;
+      color: rgba(167,139,250,0.35);
+      font-size: 0.72rem;
+    }
+
+    .card-footer a {
+      color: rgba(167,139,250,0.55);
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+    .card-footer a:hover { color: #a78bfa; }
+
+    /* ── Bottom attribution ── */
+    .page-footer {
+      margin-top: 20px;
+      color: rgba(167,139,250,0.22);
+      font-size: 0.7rem;
+      letter-spacing: 0.03em;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
+
+  <div class="page">
+
+    <div class="card">
+
+      <!-- Branding -->
+      <div class="brand">
+        <div class="logo">◈</div>
+        <h1>Admin Portal</h1>
+        <p>Sign in to manage your portfolio</p>
+      </div>
+
+      <!-- Error messages -->
+      {% if form.errors %}
+        <div class="error-box">
+          {% if form.non_field_errors %}
+            {{ form.non_field_errors|join:" " }}
+          {% else %}
+            {% trans "Your username and password didn't match. Please try again." %}
+          {% endif %}
+        </div>
+      {% endif %}
+
+      {% if user.is_authenticated %}
+        <div class="error-box">
+          {% blocktranslate trimmed with username=user.get_username %}
+            You are authenticated as {{ username }}, but are not authorized to access this page.
+          {% endblocktranslate %}
+        </div>
+      {% endif %}
+
+      <!-- Login form -->
+      <form method="post" action="{{ app_path }}" id="login-form">
+        {% csrf_token %}
+        <input type="hidden" name="next" value="{{ next }}">
+
+        <div class="field">
+          {{ form.username.label_tag }}
+          {{ form.username }}
+          {% if form.username.errors %}
+            <div class="field-errors">{{ form.username.errors|join:" " }}</div>
+          {% endif %}
+        </div>
+
+        <div class="field">
+          {{ form.password.label_tag }}
+          {{ form.password }}
+          {% if form.password.errors %}
+            <div class="field-errors">{{ form.password.errors|join:" " }}</div>
+          {% endif %}
+        </div>
+
+        <button type="submit" class="submit-btn">{% trans "Sign In" %}</button>
+      </form>
+
+      <!-- Footer links -->
+      <div class="card-footer">
+        {% url 'admin_password_reset' as password_reset_url %}
+        {% if password_reset_url %}
+          <a href="{{ password_reset_url }}">{% trans "Forgot your credentials?" %}</a>
+        {% endif %}
+      </div>
+
+    </div><!-- /.card -->
+
+    <p class="page-footer">Portfolio Admin · Private Access</p>
+
+  </div><!-- /.page -->
+
+</body>
+</html>
