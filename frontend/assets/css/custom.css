@@ -1289,7 +1289,15 @@ body,
 @media (max-width: 991.98px) {
   #about-canvas { display: none; }
   .about .contact-links .contact-item { font-size: clamp(0.7rem, 3.5vw, 0.9rem); }
-  .about .stats-grid .stat-item:not(:last-child)::after { display: none; }
+  .about .stats-grid {
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 0.5rem !important;
+    padding: 0.9rem 0.75rem !important;
+    margin-bottom: 1.5rem !important;
+  }
+  .about .stats-grid .stat-item:not(:last-child)::after { display: block; }
+  .about .stats-grid .stat-item .stat-number { font-size: 1.35rem !important; }
+  .about .stats-grid .stat-item .stat-label { font-size: clamp(0.48rem, 2.2vw, 0.65rem) !important; }
   .hero.section { padding-bottom: 20px !important; }
   .about.section { padding-top: 20px !important; }
   .skills .skill-item .d-flex { align-items: center; }

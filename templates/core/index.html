@@ -9,7 +9,7 @@
   <meta name="description" content="">
   <meta name="keywords" content="">
 
-  <link href="{% static 'img/favicon.png' %}" rel="icon">
+  <link href="{% if general.favicon %}{{ general.favicon.url }}{% else %}{% static 'img/favicon.png' %}{% endif %}" rel="icon">
   <link href="{% static 'img/apple-touch-icon.png' %}" rel="apple-touch-icon">
 
   <link href="https://fonts.googleapis.com" rel="preconnect">
