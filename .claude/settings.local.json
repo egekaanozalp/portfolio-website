@@ -6,7 +6,9 @@
       "Bash(python -c \"import django; base = __import__\\('os'\\).path.join\\(__import__\\('os'\\).path.dirname\\(django.__file__\\), 'contrib', 'admin', 'templates', 'admin'\\); print\\(open\\(__import__\\('os'\\).path.join\\(base, 'base.html'\\)\\).read\\(\\)[:4000]\\)\")",
       "Bash(python -c \"import django, os; base = os.path.join\\(os.path.dirname\\(django.__file__\\), 'contrib', 'admin', 'templates', 'admin'\\); print\\(open\\(os.path.join\\(base, 'login.html'\\)\\).read\\(\\)\\)\")",
       "Bash(python manage.py check --deploy)",
-      "Bash(python manage.py check)"
+      "Bash(python manage.py check)",
+      "Bash(python manage.py makemigrations general)",
+      "Bash(python -c \"from django.contrib.admin.widgets import AdminFileWidget; print\\(AdminFileWidget.use_fieldset\\)\")"
     ]
   }
 }

@@ -7,6 +7,9 @@ from .models import GeneralSettings
 @admin.register(GeneralSettings)
 class GeneralSettingsAdmin(admin.ModelAdmin):
     fieldsets = [
+        ("Site Identity", {
+            "fields": ["site_name"],
+        }),
         ("Favicon", {
             "description": "The icon shown in the browser tab. A square .png (32×32 or 64×64) works best.",
             "fields": ["favicon"],

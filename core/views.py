@@ -66,4 +66,7 @@ def home(request):
 
 def portfolio_detail(request, slug):
     project = get_object_or_404(Project, slug=slug)
-    return render(request, "core/portfolio_detail.html", {"project": project})
+    return render(request, "core/portfolio_detail.html", {
+        "project": project,
+        "general": GeneralSettings.get(),
+    })

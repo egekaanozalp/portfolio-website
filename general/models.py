@@ -2,6 +2,11 @@ from django.db import models
 
 
 class GeneralSettings(models.Model):
+    site_name = models.CharField(
+        max_length=100,
+        default="Portfolio",
+        help_text="Name shown in the browser tab title and page headings.",
+    )
     favicon = models.ImageField(
         upload_to="general/",
         blank=True,
