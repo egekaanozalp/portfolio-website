@@ -462,7 +462,7 @@
                     <h4>{{ cert.name }}</h4>
                     <h5>{{ cert.date }}</h5>
                     <p class="company"><i class="bi bi-building"></i> {{ cert.issuer }}</p>
-                    {% if cert.credential_id %}<p class="resume-credential-id"><i class="bi bi-fingerprint"></i>Credential ID: {{ cert.credential_id }}</p>{% endif %}
+                    {% if cert.credential_id %}<p class="resume-credential-id"><i class="bi bi-fingerprint"></i><span>Credential ID: {{ cert.credential_id }}</span></p>{% endif %}
                   </div>
                 </div>
                 {% if cert.url %}

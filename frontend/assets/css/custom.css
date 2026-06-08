@@ -1292,6 +1292,9 @@ body,
   .about .stats-grid .stat-item:not(:last-child)::after { display: none; }
   .hero.section { padding-bottom: 20px !important; }
   .about.section { padding-top: 20px !important; }
+  .skills .skill-item .d-flex { align-items: center; }
+  .skills .skill-item h4 { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; margin-bottom: 0; font-size: clamp(0.68rem, 3.5vw, 0.9rem); }
+  .skills .skill-dots { flex-shrink: 0; }
 }
 
 /* ── Resume redesign ─────────────────────────────────────────── */
@@ -1418,6 +1421,12 @@ body,
   align-items: flex-start;
   gap: 0.875rem;
   margin-bottom: 0.5rem;
+  min-width: 0;
+}
+
+.resume-item-header > div {
+  min-width: 0;
+  flex: 1;
 }
 
 .resume-institution-logo {
@@ -1536,6 +1545,15 @@ body,
   font-size: 0.78rem;
   color: rgba(196, 181, 253, 0.55);
   letter-spacing: 0.02em;
+  min-width: 0;
+}
+
+.resume-credential-id span {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 /* Divider + column spacing */
