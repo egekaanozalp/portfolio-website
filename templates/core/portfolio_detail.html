@@ -6,6 +6,9 @@
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
   <title>{{ project.title }} – {{ general.site_name|default:"Portfolio" }}</title>
 
+  <link href="{% if general.favicon %}{{ general.favicon.url }}{% else %}{% static 'img/favicon.png' %}{% endif %}" rel="icon">
+  <link href="{% if general.favicon %}{{ general.favicon.url }}{% else %}{% static 'img/apple-touch-icon.png' %}{% endif %}" rel="apple-touch-icon">
+
   <link href="https://fonts.googleapis.com" rel="preconnect">
   <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Ubuntu:wght@300;400;500;700&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
