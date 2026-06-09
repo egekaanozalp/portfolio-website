@@ -25,7 +25,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name="project",
             name="slug",
-            field=models.SlugField(blank=True, max_length=220, default=""),
+            field=models.SlugField(blank=True, max_length=220, default="", db_index=False),
             preserve_default=False,
         ),
         migrations.RunPython(backfill_slugs, migrations.RunPython.noop),
