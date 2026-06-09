@@ -70,7 +70,7 @@ class AboutSectionAdmin(admin.ModelAdmin):
             ],
         }),
         ("Call to Action", {
-            "fields": ["resume_url"],
+            "fields": ["resume_file"],
         }),
     ]
 

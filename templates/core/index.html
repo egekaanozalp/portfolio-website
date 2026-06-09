@@ -315,8 +315,8 @@
               {% endif %}
 
               <div class="cta-section">
-                {% if about.resume_url %}
-                <a href="{{ about.resume_url }}" class="btn btn-primary">
+                {% if about.resume_file %}
+                <a href="{{ about.resume_file.url }}" class="btn btn-primary" target="_blank" rel="noopener">
                   <i class="bi bi-download"></i>
                   Download Resume
                 </a>

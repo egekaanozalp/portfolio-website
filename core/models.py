@@ -138,7 +138,7 @@ class AboutSection(models.Model):
         return [(l, v) for l, v in pairs if l and v]
 
     # Resume download
-    resume_url = models.CharField(max_length=200, blank=True, default="#", verbose_name="Resume URL", help_text="URL or path to downloadable resume file")
+    resume_file = models.FileField(upload_to="resume/", blank=True, verbose_name="Resume File", help_text="Upload a PDF. Replaces any previously uploaded file.")
 
     class Meta:
         verbose_name = "About Section"
