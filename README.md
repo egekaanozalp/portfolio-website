@@ -14,7 +14,7 @@ A full-stack personal portfolio built with Django and a glassmorphism dark UI. A
 - Single-page layout with animated section transitions
 - Contact form with Cloudflare Turnstile bot protection
 - Portfolio grid with live category filtering (Isotope)
-- Full Django admin with custom glassmorphic dark theme
+- Full Django admin with custom glassmorphic dark theme and brute-force lockout
 - Production-ready: PostgreSQL, WhiteNoise, Gunicorn
 
 ---
@@ -80,6 +80,17 @@ The Django admin is fully reskinned to match the main site: glassmorphic dark th
 - **CSRF protection** — Django's built-in middleware, enforced on all POST routes
 - **AJAX submission** — form data sent asynchronously; a toast notification delivers feedback without a page reload
 - Turnstile verification fails open (still delivers message) if Cloudflare is unreachable
+
+### Admin Brute-Force Protection
+**django-axes** locks out an IP after 5 consecutive failed login attempts for 1 hour. The lockout counter resets automatically on a successful login.
+
+| Setting | Value |
+|---|---|
+| Max attempts | 5 |
+| Lockout duration | 1 hour |
+| Lockout scope | IP address |
+
+All access attempts and lockout events are logged and visible in the Django admin under **Axes → Access Attempts**.
 
 ### Environment Variables
 All secrets are kept out of the codebase via `.env` (local) and platform environment variables (production):

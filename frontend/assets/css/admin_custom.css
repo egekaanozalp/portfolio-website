@@ -356,11 +356,11 @@ a:hover { color: var(--a-purple-pale) !important; }
   background: rgba(11,7,22,0.5) !important;
   border: 1px solid var(--a-border) !important;
   border-radius: var(--a-radius) !important;
-  padding: 12px 16px !important;
+  padding: 16px 20px !important;
   margin-bottom: 16px !important;
   display: flex !important;
   align-items: center !important;
-  gap: 8px !important;
+  gap: 12px !important;
 }
 
 #searchbar {
@@ -372,7 +372,9 @@ a:hover { color: var(--a-purple-pale) !important; }
   font-family: 'Inter', sans-serif !important;
   font-size: 0.85rem !important;
   outline: none !important;
-  flex: 1 !important;
+  flex: 1 1 auto !important;
+  width: auto !important;
+  min-width: 0 !important;
   transition: border-color 0.2s, box-shadow 0.2s !important;
 }
 #searchbar:focus {
@@ -380,6 +382,30 @@ a:hover { color: var(--a-purple-pale) !important; }
   box-shadow: 0 0 0 3px rgba(124,58,237,0.15) !important;
 }
 #searchbar::placeholder { color: rgba(167,139,250,0.35) !important; }
+
+#changelist-search button[type=submit] {
+  background: linear-gradient(135deg, #7c3aed 0%, #6366f1 100%) !important;
+  color: #fff !important;
+  border: none !important;
+  border-radius: 0.5rem !important;
+  padding: 8px 16px !important;
+  font-family: 'Inter', sans-serif !important;
+  font-size: 0.84rem !important;
+  font-weight: 500 !important;
+  cursor: pointer !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  flex-shrink: 0 !important;
+  transition: opacity 0.18s, transform 0.15s, box-shadow 0.2s !important;
+  box-shadow: 0 2px 14px rgba(124,58,237,0.28) !important;
+}
+
+#changelist-search button[type=submit]:hover {
+  opacity: 0.88 !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 4px 22px rgba(124,58,237,0.38) !important;
+}
 
 /* ── Filter sidebar ───────────────────────────────────────────── */
 #changelist-filter {
@@ -926,16 +952,17 @@ fieldset.module fieldset > legend {
   background: rgba(11,7,22,0.5) !important;
   border: 1px solid var(--a-border) !important;
   border-radius: 0.75rem !important;
-  padding: 10px 14px !important;
+  padding: 14px 20px !important;
   margin-bottom: 12px !important;
   display: flex !important;
   align-items: center !important;
-  gap: 8px !important;
+  gap: 12px !important;
   flex-wrap: wrap !important;
 }
 
 .actions label { color: var(--a-text-muted) !important; font-size: 0.82rem !important; margin: 0 !important; }
-.actions select { max-width: 260px !important; }
+.actions select { max-width: 260px !important; width: auto !important; }
+.actions span { color: var(--a-text-muted) !important; font-size: 0.82rem !important; white-space: nowrap !important; }
 
 /* ── Footer ───────────────────────────────────────────────────── */
 #footer {
