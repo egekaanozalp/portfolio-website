@@ -8,6 +8,5 @@ staticfiles/
 media/
 *.log
 .DS_Store
-frontend/assets/vendor/
 images_hidden/
 .claude/

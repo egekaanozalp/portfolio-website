@@ -819,6 +819,7 @@
 body,
 .index-page {
   background-color: #08080f !important;
+  overflow-x: hidden;
 }
 
 /* ── About section — ambient atmosphere ──────────────────────── */
