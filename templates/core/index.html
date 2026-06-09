@@ -233,7 +233,7 @@
                   {% if about.email %}
                   <div class="contact-item">
                     <i class="bi bi-envelope"></i>
-                    {{ about.email }}
+                    <span class="contact-text">{{ about.email }}</span>
                     <button class="copy-btn copy-trigger" data-copy="{{ about.email }}" aria-label="Copy email">
                       <i class="bi bi-clipboard"></i>
                     </button>
@@ -248,7 +248,7 @@
                   {% if about.location %}
                   <div class="contact-item">
                     <i class="bi bi-geo-alt"></i>
-                    {{ about.location }}
+                    <span class="contact-text">{{ about.location }}</span>
                     <button class="copy-btn copy-trigger" data-copy="{{ about.location }}" aria-label="Copy location">
                       <i class="bi bi-clipboard"></i>
                     </button>

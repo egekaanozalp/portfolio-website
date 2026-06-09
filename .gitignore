@@ -10,3 +10,4 @@ media/
 .DS_Store
 frontend/assets/vendor/
 images_hidden/
+.claude/
