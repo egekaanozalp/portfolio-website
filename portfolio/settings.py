@@ -98,7 +98,8 @@ if _R2_ACCOUNT_ID:
     AWS_S3_ENDPOINT_URL = f"https://{_R2_ACCOUNT_ID}.r2.cloudflarestorage.com"
     AWS_S3_REGION_NAME = "auto"
     AWS_S3_SIGNATURE_VERSION = "s3v4"
-    AWS_QUERYSTRING_AUTH = False  # files are public — no signed URLs needed
+    AWS_QUERYSTRING_AUTH = False
+    AWS_S3_CUSTOM_DOMAIN = os.environ.get("R2_PUBLIC_URL")
     MEDIA_URL = f"https://{os.environ.get('R2_PUBLIC_URL', '')}/"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
