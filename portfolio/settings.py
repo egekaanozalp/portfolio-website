@@ -23,6 +23,7 @@ INSTALLED_APPS = [
     "core",
     "general",
     "axes",
+    "storages",
 ]
 
 MIDDLEWARE = [
