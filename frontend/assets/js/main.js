@@ -42,9 +42,39 @@
    */
   const preloader = document.querySelector('#preloader');
   if (preloader) {
-    window.addEventListener('load', () => {
-      preloader.remove();
-    });
+    const quotes = [
+      'Negotiating with the database...',
+      'Consulting Stack Overflow...',
+      'Pretending to be busy...',
+      'Training the neural network on vibes...',
+      'Reticulating splines...',
+      'Teaching the AI to write my bio...',
+      'Asking ChatGPT for help...',
+      'Convincing Python to behave...',
+      'Debugging in production (shh)...',
+      'Almost done (probably)...',
+      'Blaming the intern...',
+      'Have you tried turning it off and on again?',
+    ];
+
+    const quoteEl = document.getElementById('preloader-quote');
+    let qi = Math.floor(Math.random() * quotes.length);
+
+    if (quoteEl) {
+      quoteEl.textContent = quotes[qi];
+      setInterval(() => {
+        quoteEl.classList.add('fade');
+        setTimeout(() => {
+          qi = (qi + 1) % quotes.length;
+          quoteEl.textContent = quotes[qi];
+          quoteEl.classList.remove('fade');
+        }, 350);
+      }, 2500);
+    }
+
+    const removePreloader = () => preloader.remove();
+    window.addEventListener('load', removePreloader);
+    setTimeout(removePreloader, 8000);
   }
 
   /**
