@@ -1312,6 +1312,7 @@ body,
   .skills .skill-item .d-flex { align-items: center; }
   .skills .skill-item h4 { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; margin-bottom: 0; font-size: clamp(0.68rem, 3.5vw, 0.9rem); }
   .skills .skill-dots { flex-shrink: 0; }
+  .recommendations.section::before { display: none; }
 }
 
 /* ── Resume redesign ─────────────────────────────────────────── */
