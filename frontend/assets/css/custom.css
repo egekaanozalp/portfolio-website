@@ -1321,6 +1321,11 @@ body,
   .ctc-ambient { display: none; }
 
   /* Cinematic glowing underline for section titles */
+  @keyframes title-underline-expand {
+    from { transform: translateX(-50%) scaleX(0); opacity: 0; }
+    to   { transform: translateX(-50%) scaleX(1); opacity: 1; }
+  }
+
   .section-title h2 {
     padding-bottom: 20px;
   }
@@ -1329,7 +1334,8 @@ body,
     display: block !important;
     position: absolute !important;
     left: 50% !important;
-    transform: translateX(-50%) !important;
+    transform: translateX(-50%) scaleX(0);
+    opacity: 0;
     margin: 0 !important;
   }
   .section-title h2::before {
@@ -1347,6 +1353,10 @@ body,
     height: 1px !important;
     background: linear-gradient(to right, transparent, rgba(139, 92, 246, 0.9) 25%, rgba(196, 181, 253, 1) 50%, rgba(139, 92, 246, 0.9) 75%, transparent) !important;
     box-shadow: 0 0 8px rgba(139, 92, 246, 0.8), 0 0 20px rgba(124, 58, 237, 0.35) !important;
+  }
+  .section-title.aos-animate h2::before,
+  .section-title.aos-animate h2::after {
+    animation: title-underline-expand 0.55s cubic-bezier(0.4, 0, 0.2, 1) 0.4s both;
   }
 }
 
