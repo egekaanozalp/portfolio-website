@@ -1312,6 +1312,15 @@ body,
   .skills .skill-item .d-flex { align-items: center; }
   .skills .skill-item h4 { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; margin-bottom: 0; font-size: clamp(0.68rem, 3.5vw, 0.9rem); }
   .skills .skill-dots { flex-shrink: 0; }
+
+  /* overflow: clip shorthand from main.css overrides overflow-y: visible on mobile Safari;
+     force it explicitly so the ambient orb blur can bleed above the section boundary */
+  .skills.section,
+  .resume.section,
+  .portfolio.section,
+  .recommendations.section {
+    overflow-y: visible !important;
+  }
 }
 
 /* ── Resume redesign ─────────────────────────────────────────── */
