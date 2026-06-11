@@ -667,13 +667,7 @@
 
 @media (max-width: 1199px) {
   .header {
-    left: 0 !important;
-    transform: translateX(-100%);
-    transition: transform 0.3s ease-in-out !important;
-    will-change: transform;
-  }
-  .header.header-show {
-    transform: translateX(0) !important;
+    transition: left 0.3s ease-in-out !important;
   }
 }
 
@@ -1357,10 +1351,10 @@ body,
     height: 1px !important;
     background: linear-gradient(to right, transparent, rgba(139, 92, 246, 0.9) 25%, rgba(196, 181, 253, 1) 50%, rgba(139, 92, 246, 0.9) 75%, transparent) !important;
     box-shadow:
-      0 0 8px 2px rgba(139, 92, 246, 1),
-      0 -12px 22px 3px rgba(124, 58, 237, 0.6),
-      0 -28px 45px 5px rgba(124, 58, 237, 0.3),
-      0 -52px 70px 8px rgba(124, 58, 237, 0.12) !important;
+      0 0 8px 2px rgba(139, 92, 246, 0.65),
+      0 -12px 22px 3px rgba(124, 58, 237, 0.38),
+      0 -28px 45px 5px rgba(124, 58, 237, 0.18),
+      0 -52px 70px 8px rgba(124, 58, 237, 0.08) !important;
   }
   .section-title.aos-animate h2::after {
     animation: title-underline-expand 0.55s cubic-bezier(0.4, 0, 0.2, 1) 0.4s both;
