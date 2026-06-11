@@ -32,6 +32,7 @@ INSTALLED_APPS = [
     "general",
     "axes",
     "storages",
+    "anymail",
 ]
 
 MIDDLEWARE = [
@@ -112,14 +113,15 @@ if _R2_ACCOUNT_ID:
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-# Email — defaults to console in dev; set EMAIL_BACKEND in .env to enable real sending
-EMAIL_BACKEND = os.environ.get("EMAIL_BACKEND", "django.core.mail.backends.console.EmailBackend")
-EMAIL_HOST = os.environ.get("EMAIL_HOST", "smtp.gmail.com")
-EMAIL_PORT = int(os.environ.get("EMAIL_PORT", "587"))
-EMAIL_USE_TLS = os.environ.get("EMAIL_USE_TLS", "True") == "True"
-EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER", "")
-EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD", "")
-DEFAULT_FROM_EMAIL = os.environ.get("DEFAULT_FROM_EMAIL", EMAIL_HOST_USER)
+# Email — uses Resend API (HTTPS, no SMTP ports needed).
+# In dev, leave RESEND_API_KEY unset to fall back to console backend.
+_RESEND_API_KEY = os.environ.get("RESEND_API_KEY", "")
+if _RESEND_API_KEY:
+    EMAIL_BACKEND = "anymail.backends.resend.EmailBackend"
+    ANYMAIL = {"RESEND_API_KEY": _RESEND_API_KEY}
+else:
+    EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+DEFAULT_FROM_EMAIL = os.environ.get("DEFAULT_FROM_EMAIL", "noreply@egekaanozalp.com")
 CONTACT_EMAIL = os.environ.get("CONTACT_EMAIL", "")
 
 TURNSTILE_SITE_KEY = os.environ.get("TURNSTILE_SITE_KEY", "")
