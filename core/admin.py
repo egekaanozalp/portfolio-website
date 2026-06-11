@@ -131,7 +131,7 @@ class ProjectAdmin(admin.ModelAdmin):
 
 class SkillInline(admin.TabularInline):
     model = Skill
-    extra = 1
+    extra = 0
     fields = ["name", "rating", "order"]
 
 
