@@ -13,6 +13,14 @@ DEBUG = os.environ.get("DEBUG", "True") == "True"
 
 ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS", "localhost,127.0.0.1").split(",")
 
+# Tell Django it's behind an HTTPS-terminating proxy (Render / Cloudflare).
+# Without this, request.scheme is always "http", which causes Django 4.0+
+# to reject POST requests whose Origin header says "https://...".
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+CSRF_TRUSTED_ORIGINS = [
+    f"https://{h}" for h in os.environ.get("ALLOWED_HOSTS", "").split(",") if h
+]
+
 INSTALLED_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
