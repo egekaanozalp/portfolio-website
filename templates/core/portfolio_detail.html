@@ -6,6 +6,15 @@
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
   <title>{{ project.title }} – {{ general.site_name|default:"Portfolio" }}</title>
 
+  <!-- Open Graph / social sharing -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="{{ project.title }} – {{ general.site_name|default:'Portfolio' }}">
+  <meta property="og:description" content="{{ project.short_description|default:'' }}">
+  <meta property="og:url" content="{{ request.build_absolute_uri }}">
+  {% if general.favicon %}<meta property="og:image" content="{{ general.favicon.url }}">
+  <meta name="twitter:image" content="{{ general.favicon.url }}">{% endif %}
+  <meta name="twitter:card" content="summary">
+
   <link href="{% if general.favicon %}{{ general.favicon.url }}{% else %}{% static 'img/favicon.png' %}{% endif %}" rel="icon">
   <link href="{% if general.favicon %}{{ general.favicon.url }}{% else %}{% static 'img/apple-touch-icon.png' %}{% endif %}" rel="apple-touch-icon">
 
