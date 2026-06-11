@@ -66,13 +66,22 @@ def home(request):
         email = request.POST.get("email", "")
         subject = request.POST.get("subject", "")
         message = request.POST.get("message", "")
-        EmailMessage(
-            subject=f"[Portfolio Contact] {subject}",
-            body=f"From: {name} <{email}>\n\n{message}",
-            from_email=settings.DEFAULT_FROM_EMAIL,
-            to=[settings.CONTACT_EMAIL] if hasattr(settings, "CONTACT_EMAIL") else [],
-            reply_to=[f"{name} <{email}>"],
-        ).send(fail_silently=True)
+        try:
+            EmailMessage(
+                subject=f"[Portfolio Contact] {subject}",
+                body=f"From: {name} <{email}>\n\n{message}",
+                from_email=settings.DEFAULT_FROM_EMAIL,
+                to=[settings.CONTACT_EMAIL] if hasattr(settings, "CONTACT_EMAIL") else [],
+                reply_to=[f"{name} <{email}>"],
+            ).send(fail_silently=False)
+        except Exception as exc:
+            import logging
+            logging.getLogger(__name__).error("Contact email failed: %s", exc)
+            msg = "Failed to send your message. Please try again later."
+            if is_ajax:
+                return JsonResponse({"ok": False, "msg": msg})
+            messages.error(request, msg)
+            return redirect("home")
         if is_ajax:
             return JsonResponse({"ok": True})
         messages.success(request, "Your message has been sent. Thank you!")
