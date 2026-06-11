@@ -31,7 +31,8 @@ INSTALLED_APPS = [
     "core",
     "general",
     "axes",
-    "storages",
+    "cloudinary_storage",
+    "cloudinary",
     "anymail",
 ]
 
@@ -94,22 +95,13 @@ STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
 
-# Cloudflare R2 media storage (active when env vars are set)
-_R2_ACCOUNT_ID = os.environ.get("R2_ACCOUNT_ID", "")
-if _R2_ACCOUNT_ID:
+# Cloudinary media storage (active when CLOUDINARY_URL env var is set)
+# Format: cloudinary://api_key:api_secret@cloud_name
+if os.environ.get("CLOUDINARY_URL", ""):
     STORAGES = {
-        "default": {"BACKEND": "storages.backends.s3boto3.S3Boto3Storage"},
+        "default": {"BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage"},
         "staticfiles": {"BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage"},
     }
-    AWS_ACCESS_KEY_ID = os.environ.get("R2_ACCESS_KEY_ID")
-    AWS_SECRET_ACCESS_KEY = os.environ.get("R2_SECRET_ACCESS_KEY")
-    AWS_STORAGE_BUCKET_NAME = os.environ.get("R2_BUCKET_NAME")
-    AWS_S3_ENDPOINT_URL = f"https://{_R2_ACCOUNT_ID}.r2.cloudflarestorage.com"
-    AWS_S3_REGION_NAME = "auto"
-    AWS_S3_SIGNATURE_VERSION = "s3v4"
-    AWS_QUERYSTRING_AUTH = False
-    AWS_S3_CUSTOM_DOMAIN = os.environ.get("R2_PUBLIC_URL")
-    MEDIA_URL = f"https://{os.environ.get('R2_PUBLIC_URL', '')}/"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
