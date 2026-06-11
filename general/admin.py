@@ -14,6 +14,10 @@ class GeneralSettingsAdmin(admin.ModelAdmin):
             "description": "The icon shown in the browser tab. A square .png (32×32 or 64×64) works best.",
             "fields": ["favicon"],
         }),
+        ("Social Preview", {
+            "description": "Shown when the site is shared on WhatsApp, Twitter, iMessage, etc. Recommended size: 1200×630 px. Falls back to the favicon if left blank.",
+            "fields": ["og_image"],
+        }),
     ]
 
     def has_add_permission(self, request):

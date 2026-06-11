@@ -12,6 +12,12 @@ class GeneralSettings(models.Model):
         blank=True,
         help_text="Browser tab icon. A square .png (32×32 or 64×64) works best.",
     )
+    og_image = models.ImageField(
+        upload_to="general/",
+        blank=True,
+        verbose_name="Social preview image (OG image)",
+        help_text="Image shown when sharing on WhatsApp, Twitter, etc. Recommended: 1200×630 px. Falls back to the favicon if left blank.",
+    )
 
     class Meta:
         verbose_name = "General Settings"

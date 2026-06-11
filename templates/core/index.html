@@ -14,8 +14,8 @@
   <meta property="og:title" content="{{ general.site_name|default:'Portfolio' }}">
   <meta property="og:description" content="{{ general.tagline|default:'' }}">
   <meta property="og:url" content="{{ request.build_absolute_uri }}">
-  {% if general.favicon %}<meta property="og:image" content="{{ general.favicon.url }}">
-  <meta name="twitter:image" content="{{ general.favicon.url }}">{% endif %}
+  {% with og_img=general.og_image.url|default:general.favicon.url %}{% if og_img %}<meta property="og:image" content="{{ og_img }}">
+  <meta name="twitter:image" content="{{ og_img }}">{% endif %}{% endwith %}
   <meta name="twitter:card" content="summary">
 
   <link href="{% if general.favicon %}{{ general.favicon.url }}{% else %}{% static 'img/favicon.png' %}{% endif %}" rel="icon">
