@@ -2211,6 +2211,7 @@ html:has(body.pd-page),
 body.pd-page {
   background-color: #08080f !important;
   min-height: 100vh;
+  min-height: 100dvh;
 }
 
 /* ── Ambient orbs — fixed backdrop ──────────────────────────── */
@@ -2220,11 +2221,16 @@ body.pd-page {
   pointer-events: none;
   z-index: 0;
   overflow: hidden;
+  /* Promote to its own GPU compositing layer so scroll never triggers a
+     repaint of this element (the main cause of the mobile scroll flash). */
+  will-change: transform;
+  transform: translateZ(0);
 }
 
 .pd-orb {
   position: absolute;
   border-radius: 50%;
+  will-change: transform;
 }
 
 .pd-orb-1 {
@@ -2255,6 +2261,20 @@ body.pd-page {
   right: 30%;
   filter: blur(55px);
   animation: orb-drift-c 20s ease-in-out infinite;
+}
+
+/* On mobile, heavy filter:blur + continuous animations on a fixed element
+   overwhelm the GPU and cause visible scroll repaints. Simplify. */
+@media (max-width: 767px) {
+  .pd-orb-1, .pd-orb-2, .pd-orb-3 {
+    filter: none;
+    animation: none;
+    opacity: 0.5;
+  }
+  .pd-info-card, .pd-content-card, .pd-badge {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
 }
 
 /* ── Hero section ────────────────────────────────────────────── */
