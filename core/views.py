@@ -53,31 +53,32 @@ def _total_experience_label(experiences):
 
 def home(request):
     if request.method == "POST" and request.POST.get("contact_form"):
+        import logging
+        log = logging.getLogger(__name__)
         is_ajax = request.headers.get("X-Requested-With") == "XMLHttpRequest"
-        token = request.POST.get("cf-turnstile-response", "")
-        if not _verify_turnstile(token, request.META.get("REMOTE_ADDR", "")):
-            msg = "Security check failed. Please try again."
-            if is_ajax:
-                return JsonResponse({"ok": False, "msg": msg})
-            messages.error(request, msg)
-            return redirect("home")
-
-        name = request.POST.get("name", "")
-        email = request.POST.get("email", "")
-        subject = request.POST.get("subject", "")
-        message = request.POST.get("message", "")
         try:
+            token = request.POST.get("cf-turnstile-response", "")
+            if not _verify_turnstile(token, request.META.get("REMOTE_ADDR", "")):
+                msg = "Security check failed. Please try again."
+                if is_ajax:
+                    return JsonResponse({"ok": False, "msg": msg})
+                messages.error(request, msg)
+                return redirect("home")
+
+            name = request.POST.get("name", "")
+            email = request.POST.get("email", "")
+            subject = request.POST.get("subject", "")
+            message = request.POST.get("message", "")
             EmailMessage(
                 subject=f"[Portfolio Contact] {subject}",
                 body=f"From: {name} <{email}>\n\n{message}",
                 from_email=settings.DEFAULT_FROM_EMAIL,
-                to=[settings.CONTACT_EMAIL] if hasattr(settings, "CONTACT_EMAIL") else [],
+                to=[settings.CONTACT_EMAIL] if settings.CONTACT_EMAIL else [],
                 reply_to=[f"{name} <{email}>"],
             ).send(fail_silently=False)
         except Exception as exc:
-            import logging
-            logging.getLogger(__name__).error("Contact email failed: %s", exc)
-            msg = "Failed to send your message. Please try again later."
+            log.error("Contact form error: %s", exc, exc_info=True)
+            msg = f"Error: {exc}"
             if is_ajax:
                 return JsonResponse({"ok": False, "msg": msg})
             messages.error(request, msg)
