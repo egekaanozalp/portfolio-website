@@ -40,7 +40,22 @@
   <script>
     if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
     if (window.location.hash) history.replaceState(null, '', window.location.pathname);
-    window.addEventListener('load', function () { window.scrollTo(0, 0); });
+
+    // pageshow fires on both fresh loads and bfcache restores (unlike load)
+    window.addEventListener('pageshow', function (e) {
+      var savedY = sessionStorage.getItem('portfolioReturnScrollY');
+      if (savedY !== null) {
+        sessionStorage.removeItem('portfolioReturnScrollY');
+        window.scrollTo(0, parseInt(savedY, 10));
+      } else if (!e.persisted) {
+        window.scrollTo(0, 0);
+      }
+    });
+
+    document.addEventListener('click', function (e) {
+      var link = e.target.closest('a[href*="/portfolio/"]');
+      if (link) sessionStorage.setItem('portfolioReturnScrollY', window.scrollY);
+    });
   </script>
 </head>
 
