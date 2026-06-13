@@ -668,6 +668,7 @@
 @media (max-width: 1199px) {
   .header {
     transition: left 0.3s ease-in-out !important;
+    width: fit-content !important;
   }
 }
 
