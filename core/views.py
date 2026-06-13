@@ -3,7 +3,8 @@ import json
 import urllib.parse
 import urllib.request
 from django.shortcuts import render, get_object_or_404
-from django.core.mail import EmailMessage
+from django.core.mail import EmailMultiAlternatives
+from django.template.loader import render_to_string
 from django.http import JsonResponse
 from django.conf import settings
 from django.db.models import F
@@ -89,13 +90,26 @@ def contact_submit(request):
         email   = request.POST.get("email", "")
         subject = request.POST.get("subject", "")
         message = request.POST.get("message", "")
-        EmailMessage(
+        general  = GeneralSettings.get()
+        logo_url = general.favicon.url if general.favicon else None
+        site_url = request.build_absolute_uri('/').rstrip('/')
+        html_body = render_to_string('email/contact_notification.html', {
+            'sender_name':  name,
+            'sender_email': email,
+            'subject':      subject,
+            'message':      message,
+            'logo_url':     logo_url,
+            'site_url':     site_url,
+        })
+        msg = EmailMultiAlternatives(
             subject=f"[Portfolio Contact] {subject}",
             body=f"From: {name} <{email}>\n\n{message}",
             from_email=settings.DEFAULT_FROM_EMAIL,
             to=[settings.CONTACT_EMAIL] if settings.CONTACT_EMAIL else [],
             reply_to=[f"{name} <{email}>"],
-        ).send(fail_silently=False)
+        )
+        msg.attach_alternative(html_body, "text/html")
+        msg.send(fail_silently=False)
     except Exception as exc:
         log.error("Contact form error: %s", exc, exc_info=True)
         return JsonResponse({"ok": False, "msg": f"Error: {exc}"})
