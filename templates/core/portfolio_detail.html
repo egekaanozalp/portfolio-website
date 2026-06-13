@@ -18,8 +18,8 @@
   <meta name="twitter:image" content="{{ general.favicon.url }}">{% endif %}
   <meta name="twitter:card" content="summary">
 
-  <link href="{% if general.favicon %}{{ general.favicon.url }}?cb={{ general.favicon.name|urlencode }}{% else %}{% static 'img/favicon.png' %}{% endif %}" rel="icon">
-  <link href="{% if general.favicon %}{{ general.favicon.url }}?cb={{ general.favicon.name|urlencode }}{% else %}{% static 'img/apple-touch-icon.png' %}{% endif %}" rel="apple-touch-icon">
+  <link href="{% if general.favicon %}{{ general.favicon.url }}{% else %}{% static 'img/favicon.png' %}{% endif %}" rel="icon" type="image/png">
+  <link href="{% if general.favicon %}{{ general.favicon.url }}{% else %}{% static 'img/apple-touch-icon.png' %}{% endif %}" rel="apple-touch-icon">
 
   <link href="https://fonts.googleapis.com" rel="preconnect">
   <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>

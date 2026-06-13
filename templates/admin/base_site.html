@@ -7,8 +7,8 @@
 
 {% block extrastyle %}
   {{ block.super }}
-  <link rel="icon" href="{% if general.favicon %}{{ general.favicon.url }}?cb={{ general.favicon.name|urlencode }}{% else %}{% static 'img/favicon.png' %}{% endif %}">
-  <link rel="apple-touch-icon" href="{% if general.favicon %}{{ general.favicon.url }}?cb={{ general.favicon.name|urlencode }}{% else %}{% static 'img/apple-touch-icon.png' %}{% endif %}">
+  <link rel="icon" type="image/png" href="{% if general.favicon %}{{ general.favicon.url }}{% else %}{% static 'img/favicon.png' %}{% endif %}">
+  <link rel="apple-touch-icon" href="{% if general.favicon %}{{ general.favicon.url }}{% else %}{% static 'img/apple-touch-icon.png' %}{% endif %}">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="{% static 'css/admin_custom.css' %}" rel="stylesheet">
