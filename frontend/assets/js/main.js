@@ -13,6 +13,11 @@
   }
   headerToggleBtn.addEventListener('click', headerToggle);
 
+  document.addEventListener('click', function(e) {
+    if (!document.querySelector('.header-show')) return;
+    if (!e.target.closest('#header')) headerToggle();
+  });
+
   /**
    * Hide mobile nav on same-page/hash links
    */
