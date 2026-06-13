@@ -41,20 +41,27 @@
     if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
     if (window.location.hash) history.replaceState(null, '', window.location.pathname);
 
+    // Save scroll on every navigation — covers div onclick cards and stopPropagation links
+    window.addEventListener('pagehide', function () {
+      sessionStorage.setItem('portfolioReturnScrollY', window.scrollY);
+    });
+
     // pageshow fires on both fresh loads and bfcache restores (unlike load)
     window.addEventListener('pageshow', function (e) {
       var savedY = sessionStorage.getItem('portfolioReturnScrollY');
-      if (savedY !== null) {
+      if (e.persisted) {
+        // bfcache restore — scrollRestoration:manual means we must scroll manually
+        if (savedY !== null) window.scrollTo(0, parseInt(savedY, 10));
+      } else {
+        // Fresh load: restore only when returning from a portfolio detail page
+        var fromPortfolio = document.referrer.indexOf('/portfolio/') !== -1;
+        if (fromPortfolio && savedY !== null) {
+          window.scrollTo(0, parseInt(savedY, 10));
+        } else {
+          window.scrollTo(0, 0);
+        }
         sessionStorage.removeItem('portfolioReturnScrollY');
-        window.scrollTo(0, parseInt(savedY, 10));
-      } else if (!e.persisted) {
-        window.scrollTo(0, 0);
       }
-    });
-
-    document.addEventListener('click', function (e) {
-      var link = e.target.closest('a[href*="/portfolio/"]');
-      if (link) sessionStorage.setItem('portfolioReturnScrollY', window.scrollY);
     });
   </script>
 </head>
