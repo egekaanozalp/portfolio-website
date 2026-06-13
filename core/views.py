@@ -93,6 +93,8 @@ def contact_submit(request):
         general  = GeneralSettings.get()
         logo_url = general.favicon.url if general.favicon else None
         site_url = request.build_absolute_uri('/').rstrip('/')
+        from django.contrib.staticfiles.storage import staticfiles_storage
+        bg_url = request.build_absolute_uri(staticfiles_storage.url('img/email-bg.png'))
         html_body = render_to_string('email/contact_notification.html', {
             'sender_name':  name,
             'sender_email': email,
@@ -100,6 +102,7 @@ def contact_submit(request):
             'message':      message,
             'logo_url':     logo_url,
             'site_url':     site_url,
+            'bg_url':       bg_url,
         })
         msg = EmailMultiAlternatives(
             subject=f"[Portfolio Contact] {subject}",
