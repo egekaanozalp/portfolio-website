@@ -6,13 +6,13 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
   <title>{{ general.site_name|default:"Portfolio" }}</title>
-  <meta name="description" content="">
+  <meta name="description" content="{{ general.meta_description }}">
   <meta name="keywords" content="">
 
   <!-- Open Graph / social sharing -->
   <meta property="og:type" content="website">
   <meta property="og:title" content="{{ general.site_name|default:'Portfolio' }}">
-  <meta property="og:description" content="{{ general.tagline|default:'' }}">
+  <meta property="og:description" content="{{ general.meta_description }}">
   <meta property="og:url" content="{{ request.build_absolute_uri }}">
   {% if general.og_image %}<meta property="og:image" content="{{ general.og_image.url }}">
   <meta name="twitter:image" content="{{ general.og_image.url }}">

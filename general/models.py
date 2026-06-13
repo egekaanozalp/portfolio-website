@@ -12,6 +12,12 @@ class GeneralSettings(models.Model):
         blank=True,
         help_text="Browser tab icon. A square .png (32×32 or 64×64) works best.",
     )
+    meta_description = models.CharField(
+        max_length=160,
+        blank=True,
+        verbose_name="Meta description",
+        help_text="One or two sentences shown in Google search results. Keep under 160 characters.",
+    )
     og_image = models.ImageField(
         upload_to="general/",
         blank=True,
