@@ -5,6 +5,7 @@ A full-stack personal portfolio built with Django and a glassmorphism dark UI. A
 ![Django](https://img.shields.io/badge/Django-6.0-0c4b33?style=flat-square&logo=django)
 ![Python](https://img.shields.io/badge/Python-3.12-3776ab?style=flat-square&logo=python)
 ![Bootstrap](https://img.shields.io/badge/Bootstrap-5-7952b3?style=flat-square&logo=bootstrap)
+![Cloudinary](https://img.shields.io/badge/Media-Cloudinary-3448c5?style=flat-square&logo=cloudinary)
 ![Render](https://img.shields.io/badge/Deploy-Render-46e3b7?style=flat-square)
 
 ---
@@ -12,10 +13,10 @@ A full-stack personal portfolio built with Django and a glassmorphism dark UI. A
 ## Features at a Glance
 
 - Single-page layout with animated section transitions
-- Contact form with Cloudflare Turnstile bot protection
+- Contact form with Cloudflare Turnstile bot protection and HTML email notifications
 - Portfolio grid with live category filtering (Isotope)
 - Full Django admin with custom glassmorphic dark theme and brute-force lockout
-- Production-ready: PostgreSQL, WhiteNoise, Gunicorn
+- Production-ready: PostgreSQL, Cloudinary media storage, Resend email, WhiteNoise, Gunicorn
 
 ---
 
@@ -50,7 +51,9 @@ All animations use `requestAnimationFrame` and `IntersectionObserver` — they p
 ### Stack
 - **Django 6.0.5** — routing, ORM, admin, email
 - **SQLite** (local dev) / **PostgreSQL** (production via `DATABASE_URL`)
-- **WhiteNoise** — compressed static file serving, no separate CDN needed
+- **Cloudinary** — media file storage in production (images, favicon, OG image)
+- **WhiteNoise** — compressed static file serving
+- **Resend** (via `django-anymail`) — transactional email over HTTPS API, no SMTP ports needed
 - **Gunicorn** — WSGI server for production
 
 ### Content Models
@@ -64,7 +67,7 @@ All animations use `requestAnimationFrame` and `IntersectionObserver` — they p
 | `Skill` / `SkillCategory` | Skills with 1–5 rating scale |
 | `Certificate` | Certificates with issuer and verification URL |
 | `Recommendation` | Testimonials with author info |
-| `GeneralSettings` | Site name and favicon |
+| `GeneralSettings` | Site name, favicon, and Open Graph image for social sharing |
 
 Singleton models (`HomeSection`, `AboutSection`, etc.) enforce a single instance — the admin redirects their list view directly to the edit form.
 
@@ -77,9 +80,10 @@ The Django admin is fully reskinned to match the main site: glassmorphic dark th
 
 ### Contact Form
 - **Cloudflare Turnstile** — bot protection rendered on form interaction, verified server-side before any email is sent
-- **CSRF protection** — Django's built-in middleware, enforced on all POST routes
+- The contact endpoint is **CSRF-exempt** — Turnstile token verification is the sole security layer (eliminates Safari ITP cookie-blocking issues on mobile)
 - **AJAX submission** — form data sent asynchronously; a toast notification delivers feedback without a page reload
-- Turnstile verification fails open (still delivers message) if Cloudflare is unreachable
+- Field values are captured before the Turnstile iframe renders to prevent iOS Safari autofill clearing
+- Turnstile verification fails open (still delivers the message) if Cloudflare is unreachable
 
 ### Admin Brute-Force Protection
 **django-axes** locks out an IP after 5 consecutive failed login attempts for 1 hour. The lockout counter resets automatically on a successful login.
@@ -97,10 +101,25 @@ All secrets are kept out of the codebase via `.env` (local) and platform environ
 
 ```
 SECRET_KEY, DEBUG, ALLOWED_HOSTS
-EMAIL_HOST_USER, EMAIL_HOST_PASSWORD, CONTACT_EMAIL
-TURNSTILE_SITE_KEY, TURNSTILE_SECRET_KEY
+
+# Database
 DATABASE_URL
+
+# Email (Resend)
+RESEND_API_KEY
+DEFAULT_FROM_EMAIL
+CONTACT_EMAIL
+
+# Cloudflare Turnstile
+TURNSTILE_SITE_KEY
+TURNSTILE_SECRET_KEY
+
+# Cloudinary media storage (production only)
+# Format: cloudinary://api_key:api_secret@cloud_name
+CLOUDINARY_URL
 ```
+
+When `CLOUDINARY_URL` is set, media files are stored and served via Cloudinary. When `RESEND_API_KEY` is set, email is sent via Resend. Both fall back to local behaviour (filesystem / console) in development.
 
 ---
 
@@ -114,11 +133,16 @@ Deployed on **Render** using the included `render.yaml` (web service + free Post
 pip install -r requirements.txt
 python manage.py collectstatic --no-input
 python manage.py migrate
+python manage.py createsuperuser --noinput || true
+python manage.py axes_reset
 ```
 
-After the first deploy, create your admin user via the Render shell:
-```bash
-python manage.py createsuperuser
+The following environment variables must be set manually in the Render dashboard (they are not in `render.yaml` to keep secrets out of source control):
+
+```
+RESEND_API_KEY, DEFAULT_FROM_EMAIL, CONTACT_EMAIL
+TURNSTILE_SITE_KEY, TURNSTILE_SECRET_KEY
+CLOUDINARY_URL
 ```
 
 ### Local development
@@ -131,6 +155,8 @@ python manage.py migrate
 python manage.py runserver
 ```
 
+In local dev, leave `CLOUDINARY_URL` and `RESEND_API_KEY` unset — media files are served from the local `media/` directory and emails are printed to the console.
+
 ---
 
 ## Project Structure
@@ -138,9 +164,10 @@ python manage.py runserver
 ```
 portfolio_website/
 ├── core/               # Main app — models, views, URLs, template tags
-├── general/            # Site-wide settings (name, favicon)
+├── general/            # Site-wide settings (name, favicon, OG image)
 ├── portfolio/          # Django project config — settings, wsgi, urls
 ├── templates/          # HTML templates + custom admin overrides
+│   └── email/          # HTML email templates
 ├── frontend/assets/    # CSS, JS, images, vendor libraries
 ├── render.yaml         # Render deployment config
 └── build.sh            # Render build script
