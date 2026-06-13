@@ -15,7 +15,7 @@
 
   document.addEventListener('click', function(e) {
     if (!document.querySelector('.header-show')) return;
-    if (!e.target.closest('#header')) headerToggle();
+    if (!e.target.closest('.header-container') && !e.target.closest('.header-toggle')) headerToggle();
   });
 
   /**
