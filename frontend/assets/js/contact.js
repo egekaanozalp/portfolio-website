@@ -52,7 +52,13 @@
       theme: 'dark',
 
       callback: function (token) {
-        var data = new FormData(form);
+        // Read .value directly — new FormData(form) misses iOS autofilled values
+        var data = new FormData();
+        data.set('contact_form', '1');
+        data.set('name',    form.querySelector('[name="name"]').value);
+        data.set('email',   form.querySelector('[name="email"]').value);
+        data.set('subject', form.querySelector('[name="subject"]').value);
+        data.set('message', form.querySelector('[name="message"]').value);
         data.set('cf-turnstile-response', token);
 
         var fetchDone   = false;
