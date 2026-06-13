@@ -2,12 +2,12 @@ import datetime
 import json
 import urllib.parse
 import urllib.request
-from django.shortcuts import render, get_object_or_404, redirect
-from django.contrib import messages
+from django.shortcuts import render, get_object_or_404
 from django.core.mail import EmailMessage
 from django.http import JsonResponse
 from django.conf import settings
 from django.db.models import F
+from django.views.decorators.csrf import csrf_exempt
 from .models import HomeSection, AboutSection, Project, ProjectCategory, Skill, SkillCategory, Service, Experience, Education, Certificate, Recommendation, ContactSection
 from general.models import GeneralSettings
 
@@ -52,42 +52,6 @@ def _total_experience_label(experiences):
 
 
 def home(request):
-    if request.method == "POST" and request.POST.get("contact_form"):
-        import logging
-        log = logging.getLogger(__name__)
-        is_ajax = request.headers.get("X-Requested-With") == "XMLHttpRequest"
-        try:
-            token = request.POST.get("cf-turnstile-response", "")
-            if not _verify_turnstile(token, request.META.get("REMOTE_ADDR", "")):
-                msg = "Security check failed. Please try again."
-                if is_ajax:
-                    return JsonResponse({"ok": False, "msg": msg})
-                messages.error(request, msg)
-                return redirect("home")
-
-            name = request.POST.get("name", "")
-            email = request.POST.get("email", "")
-            subject = request.POST.get("subject", "")
-            message = request.POST.get("message", "")
-            EmailMessage(
-                subject=f"[Portfolio Contact] {subject}",
-                body=f"From: {name} <{email}>\n\n{message}",
-                from_email=settings.DEFAULT_FROM_EMAIL,
-                to=[settings.CONTACT_EMAIL] if settings.CONTACT_EMAIL else [],
-                reply_to=[f"{name} <{email}>"],
-            ).send(fail_silently=False)
-        except Exception as exc:
-            log.error("Contact form error: %s", exc, exc_info=True)
-            msg = f"Error: {exc}"
-            if is_ajax:
-                return JsonResponse({"ok": False, "msg": msg})
-            messages.error(request, msg)
-            return redirect("home")
-        if is_ajax:
-            return JsonResponse({"ok": True})
-        messages.success(request, "Your message has been sent. Thank you!")
-        return redirect("home")
-
     home = HomeSection.get()
     context = {
         "home": home,
@@ -109,6 +73,33 @@ def home(request):
         "turnstile_site_key": settings.TURNSTILE_SITE_KEY,
     }
     return render(request, "core/index.html", context)
+
+
+@csrf_exempt
+def contact_submit(request):
+    import logging
+    log = logging.getLogger(__name__)
+    if request.method != "POST":
+        return JsonResponse({"ok": False, "msg": "Method not allowed."}, status=405)
+    try:
+        token = request.POST.get("cf-turnstile-response", "")
+        if not _verify_turnstile(token, request.META.get("REMOTE_ADDR", "")):
+            return JsonResponse({"ok": False, "msg": "Security check failed. Please try again."})
+        name    = request.POST.get("name", "")
+        email   = request.POST.get("email", "")
+        subject = request.POST.get("subject", "")
+        message = request.POST.get("message", "")
+        EmailMessage(
+            subject=f"[Portfolio Contact] {subject}",
+            body=f"From: {name} <{email}>\n\n{message}",
+            from_email=settings.DEFAULT_FROM_EMAIL,
+            to=[settings.CONTACT_EMAIL] if settings.CONTACT_EMAIL else [],
+            reply_to=[f"{name} <{email}>"],
+        ).send(fail_silently=False)
+    except Exception as exc:
+        log.error("Contact form error: %s", exc, exc_info=True)
+        return JsonResponse({"ok": False, "msg": f"Error: {exc}"})
+    return JsonResponse({"ok": True})
 
 
 def portfolio_detail(request, slug):

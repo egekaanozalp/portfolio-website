@@ -689,8 +689,7 @@
               {% endfor %}
               {% endif %}
 
-              <form action="{% url 'home' %}" method="post" class="ctc-form">
-                {% csrf_token %}
+              <form action="{% url 'contact_submit' %}" method="post" class="ctc-form">
                 <input type="hidden" name="contact_form" value="1">
                 <div class="row g-3">
                   <div class="col-sm-6">
