@@ -37,6 +37,13 @@
   }
 
   btn.addEventListener('click', function () {
+    // Capture values before Turnstile renders — iOS Safari clears autofill
+    // from inputs when an iframe is inserted into the same form
+    var nameVal    = form.querySelector('[name="name"]').value;
+    var emailVal   = form.querySelector('[name="email"]').value;
+    var subjectVal = form.querySelector('[name="subject"]').value;
+    var messageVal = form.querySelector('[name="message"]').value;
+
     if (!form.reportValidity()) return;
     if (!window.turnstile) {
       showToast('Security check unavailable. Please try again.', true);
@@ -52,13 +59,12 @@
       theme: 'dark',
 
       callback: function (token) {
-        // Read .value directly — new FormData(form) misses iOS autofilled values
         var data = new FormData();
         data.set('contact_form', '1');
-        data.set('name',    form.querySelector('[name="name"]').value);
-        data.set('email',   form.querySelector('[name="email"]').value);
-        data.set('subject', form.querySelector('[name="subject"]').value);
-        data.set('message', form.querySelector('[name="message"]').value);
+        data.set('name',    nameVal);
+        data.set('email',   emailVal);
+        data.set('subject', subjectVal);
+        data.set('message', messageVal);
         data.set('cf-turnstile-response', token);
 
         var fetchDone   = false;
