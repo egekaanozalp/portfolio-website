@@ -51,14 +51,14 @@
       var savedY = sessionStorage.getItem('portfolioReturnScrollY');
       if (e.persisted) {
         // bfcache restore — scrollRestoration:manual means we must scroll manually
-        if (savedY !== null) window.scrollTo(0, parseInt(savedY, 10));
+        if (savedY !== null) window.scrollTo({ top: parseInt(savedY, 10), behavior: 'instant' });
       } else {
         // Fresh load: restore only when returning from a portfolio detail page
         var fromPortfolio = document.referrer.indexOf('/portfolio/') !== -1;
         if (fromPortfolio && savedY !== null) {
-          window.scrollTo(0, parseInt(savedY, 10));
+          window.scrollTo({ top: parseInt(savedY, 10), behavior: 'instant' });
         } else {
-          window.scrollTo(0, 0);
+          window.scrollTo({ top: 0, behavior: 'instant' });
         }
         sessionStorage.removeItem('portfolioReturnScrollY');
       }
