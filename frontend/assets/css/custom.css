@@ -3571,7 +3571,7 @@ a.ctc-value:hover { color: #a78bfa; }
 
 @media (max-width: 480px) {
   .ctc-toast {
-    bottom: 1rem;
+    bottom: 4.5rem; /* sits above the back-to-top button (20px + 38px height + gap) */
     right: 1rem;
     left: 1rem;
     max-width: unset;
