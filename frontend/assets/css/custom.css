@@ -2761,6 +2761,7 @@ body.pd-page {
   .pd-img { max-height: 220px; }
   .pd-fallback-card { height: 200px !important; }
   .pd-fallback-icon { font-size: 2.2rem !important; }
+  .pd-fallback-title { font-size: 0.95rem !important; }
 }
 
 
