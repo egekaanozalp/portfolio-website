@@ -1,0 +1,19 @@
+name: Keep database alive
+
+on:
+  schedule:
+    - cron: "0 8 * * *"
+  workflow_dispatch:
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping homepage to keep Supabase database active
+        run: |
+          status=$(curl -s -o /dev/null -w "%{http_code}" https://egekaanozalp.com)
+          echo "Response status: $status"
+          if [ "$status" -ge 400 ]; then
+            echo "Site returned an error status"
+            exit 1
+          fi
