@@ -6,6 +6,7 @@ A full-stack personal portfolio built with Django and a glassmorphism dark UI. A
 ![Python](https://img.shields.io/badge/Python-3.12-3776ab?style=flat-square&logo=python)
 ![Bootstrap](https://img.shields.io/badge/Bootstrap-5-7952b3?style=flat-square&logo=bootstrap)
 ![Cloudinary](https://img.shields.io/badge/Media-Cloudinary-3448c5?style=flat-square&logo=cloudinary)
+![Supabase](https://img.shields.io/badge/Database-Supabase-3ecf8e?style=flat-square&logo=supabase)
 ![Render](https://img.shields.io/badge/Deploy-Render-46e3b7?style=flat-square)
 
 ---
@@ -16,7 +17,7 @@ A full-stack personal portfolio built with Django and a glassmorphism dark UI. A
 - Contact form with Cloudflare Turnstile bot protection and HTML email notifications
 - Portfolio grid with live category filtering (Isotope)
 - Full Django admin with custom glassmorphic dark theme and brute-force lockout
-- Production-ready: PostgreSQL, Cloudinary media storage, Resend email, WhiteNoise, Gunicorn
+- Production-ready: PostgreSQL (Supabase), Cloudinary media storage, Resend email, WhiteNoise, Gunicorn
 
 ---
 
@@ -50,7 +51,7 @@ All animations use `requestAnimationFrame` and `IntersectionObserver` — they p
 
 ### Stack
 - **Django 6.0.5** — routing, ORM, admin, email
-- **SQLite** (local dev) / **PostgreSQL** (production via `DATABASE_URL`)
+- **SQLite** (local dev) / **PostgreSQL via Supabase** (production via `DATABASE_URL`)
 - **Cloudinary** — media file storage in production (images, favicon, OG image)
 - **WhiteNoise** — compressed static file serving
 - **Resend** (via `django-anymail`) — transactional email over HTTPS API, no SMTP ports needed
@@ -125,7 +126,7 @@ When `CLOUDINARY_URL` is set, media files are stored and served via Cloudinary. 
 
 ## Deployment
 
-Deployed on **Render** using the included `render.yaml` (web service + free PostgreSQL).
+Deployed on **Render** using the included `render.yaml` (web service), with a **Supabase** PostgreSQL database.
 
 ### First-time setup
 ```bash
@@ -140,6 +141,7 @@ python manage.py axes_reset
 The following environment variables must be set manually in the Render dashboard (they are not in `render.yaml` to keep secrets out of source control):
 
 ```
+DATABASE_URL
 RESEND_API_KEY, DEFAULT_FROM_EMAIL, CONTACT_EMAIL
 TURNSTILE_SITE_KEY, TURNSTILE_SECRET_KEY
 CLOUDINARY_URL
